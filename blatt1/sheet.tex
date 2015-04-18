@@ -4,6 +4,7 @@
 
 % ===== Header ===============================================================
 \documentclass[11pt]{scrartcl}  % europäische Artikel Klasse
+\usepackage[top=3cm, bottom=4.5cm, left=3.25cm, right=3.25cm]{geometry}
 
 % Pakete für deutschen Text (Umlaute) + Font
 \usepackage[utf8]{inputenc}
@@ -42,7 +43,33 @@
   \item Informale Induktion: Mit zwei Knoten (also einer Kante) ist es offentsichtlich, dass beide Knoten den Grad $1$ haben. Wenn wir einen Knoten und eine Kante hinzufügen, erhöhen wir den Knotengrad von nur einem Knoten (nur ein Knoten mit Grad $1$ könnte verloren gehen). Allerdings fügen wir auch einen weiteren Knoten mit Grad $1$ hinzu, daher kann sich die Anzahl der Knoten mit Grad $1$ nie verringern. Ist halt ein Pfad \dots
 \subtend
 
-\newpage
+\section*{Aufgabe 2:}
+
+Der Sonderfall $n=1$, bei dem man nur eine Farbe braucht, wird im Folgenden nicht betrachtet.
+
+\begin{itemize}
+  \item $\chi (K_n) = n$ \\
+  In einem vollständigen Graphen sind alle Knoten miteinander verbunden, d.h. alle Knoten müssen eine andere Farbe haben.
+  \item $\chi (K_{m, n}) = 2$ \\
+  Jeder Knoten hat nur Nachbarn aus der anderen Partition. Wenn man jede Partition mit einer Farbe einfärbt, reicht das schon aus.
+  \item $\chi (P_n) = 2$ \\
+  Man kann alle Knoten entlang des Pfades in abwechselnder Farbe einfärben. So ist der Vorgänger und Nachfolger eines Knoten immer in einer anderen Farbe eingefärbt.
+  \item $\chi (C_n) =
+    \begin{cases}
+      2 & n \text{ gerade} \\
+      3 & n \text{ ungerade}
+    \end{cases}$ \\
+  Man färbt wie beim Pfad ein. Wenn $n$ allerdings ungerade ist, sind an einer Stelle zwei selbe Farben benachbart. Dort färbt man dann einen der beiden Knoten in einer dritten Farbe.
+  \item $\chi (\text{bipartiter Graph}) = 2$ \\
+  Wie beim vollständigen bipartiten Graphen. Falls der Graph nicht vollständig ist, gibt es ja nur weniger Kanten $\rightarrow$ weniger Nachbarn. Also wird das Problem nur erleichtert. Und solange es mindestens eine Kante gibt, braucht man 2 Farben.
+  \item $\chi '(C_n) =
+    \begin{cases}
+      2 & n \text{ gerade} \\
+      3 & n \text{ ungerade}
+    \end{cases}$ \\
+    Selbe Begründung wie bei $\chi (C_n)$.
+\end{itemize}
+
 
 \section*{Aufgabe 3:}
 
