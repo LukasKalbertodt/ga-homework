@@ -1,0 +1,42 @@
+% Graphenalgorithmen
+% Lukas Kalbertodt
+%
+
+% ===== Header ===============================================================
+\documentclass[11pt]{scrartcl}  % europäische Artikel Klasse
+
+% Pakete für deutschen Text (Umlaute) + Font
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{ngerman}
+\usepackage[ngerman]{babel} % Deutsche Anführungszeichen
+\usepackage{amsmath}
+\usepackage{amsfonts}   % \mathbb
+\usepackage{relsize}
+\usepackage{csquotes}   % \enquote
+\usepackage{paralist}   % Beliebige Aufzählungszeichen
+
+\newcommand{\func}[1]{\mbox{\emph{#1}}}
+
+% commands for sub task (a) ...
+\newcommand{\subtbegin}{\begin{compactenum}[(a)]}
+\newcommand{\subtend}{\end{compactenum}}
+
+% Dokument-Metadaten
+\title{Graphenalgorithmen: Blatt 1}
+\author{Lukas Kalbertodt}
+
+% ===== Body =================================================================
+\begin{document}
+\maketitle
+
+
+\section*{Aufgabe 1:}
+
+\subtbegin
+  \item Bei dem Graphen mit $n$ Knoten, kann ein gewählter Knoten nur folgende Knotengrade besitzen: $0, 1, \dots (n-1)$. Dies gilt zwar für jeden Knoten, allerdings gilt folgende Einschränkung: Wenn ein Knoten den Knotengrad $n-1$ besitzt, kann es keinen Knoten mehr mit dem Knotengrad $0$ geben. Insgesamt können also nur $n-1$ Knotengrade in dem Graphen existieren. Bei $n$ Knoten heißt das, dass mindestens zwei Knoten einen doppelten Grad haben.
+  \item Informale Induktion: Mit zwei Knoten (also einer Kante) ist es offentsichtlich, dass beide Knoten den Grad $1$ haben. Wenn wir einen Knoten und eine Kante hinzufügen, erhöhen wir den Knotengrad von nur einem Knoten (nur ein Knoten mit Grad $1$ könnte verloren gehen). Allerdings fügen wir auch einen weiteren Knoten mit Grad $1$ hinzu, daher kann sich die Anzahl der Knoten mit Grad $1$ nie verringern. Ist halt ein Pfad \dots
+\subtend
+
+\end{document}
