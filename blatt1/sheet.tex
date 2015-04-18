@@ -17,6 +17,9 @@
 \usepackage{csquotes}   % \enquote
 \usepackage{paralist}   % Beliebige Aufzählungszeichen
 
+\usepackage{tikz} % Graphen zeichnen
+\usetikzlibrary{arrows}
+
 \newcommand{\func}[1]{\mbox{\emph{#1}}}
 
 % commands for sub task (a) ...
@@ -37,6 +40,54 @@
 \subtbegin
   \item Bei dem Graphen mit $n$ Knoten, kann ein gewählter Knoten nur folgende Knotengrade besitzen: $0, 1, \dots (n-1)$. Dies gilt zwar für jeden Knoten, allerdings gilt folgende Einschränkung: Wenn ein Knoten den Knotengrad $n-1$ besitzt, kann es keinen Knoten mehr mit dem Knotengrad $0$ geben. Insgesamt können also nur $n-1$ Knotengrade in dem Graphen existieren. Bei $n$ Knoten heißt das, dass mindestens zwei Knoten einen doppelten Grad haben.
   \item Informale Induktion: Mit zwei Knoten (also einer Kante) ist es offentsichtlich, dass beide Knoten den Grad $1$ haben. Wenn wir einen Knoten und eine Kante hinzufügen, erhöhen wir den Knotengrad von nur einem Knoten (nur ein Knoten mit Grad $1$ könnte verloren gehen). Allerdings fügen wir auch einen weiteren Knoten mit Grad $1$ hinzu, daher kann sich die Anzahl der Knoten mit Grad $1$ nie verringern. Ist halt ein Pfad \dots
+\subtend
+
+\newpage
+
+\section*{Aufgabe 3:}
+
+\subtbegin
+\item Jeder Knoten enthällt folgende Daten: $(\text{Nächster Spieler}, \text{Steine auf dem Tisch})$. Dabei steht $A$ für den Startspieler und $B$ für den Spieler, der als zweites dran ist.\\
+
+\begin{center}
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3.5cm,
+  thick,main node/.style={circle,draw,font=\large}]
+
+  \node[main node, double=black] (A5) {($A, 5$)};
+
+  \node[main node] (B4) [left of=A5] {($B, 4$)};
+  \node[main node] (A2) [below of=A5] {($A, 2$)};
+  \node[main node] (B3) [right of=A2] {($B, 3$)};
+  \node[main node] (A1) [below of=B3] {($A, 1$)};
+  \node[main node] (B1) [below of=B4] {($B, 1$)};
+  \node[main node] (A3) [left of=B1] {($A, 3$)};
+  \node[main node] (B2) [below of=A3] {($B, 2$)};
+  \node[main node, black!60!green!80] (B0) [below of=A2] {($B, 0$)};
+  \node[main node, black!60!green!80] (A0) [below of=B1] {($A, 0$)};
+
+  \path[every node/.style={font=\sffamily\tiny}]
+    (A5) edge [] node[] {A nimmt 1} (B4)
+         edge [] node[] {A nimmt 2} (B3)
+    (A3) edge [] node[] {A nimmt 1} (B2)
+         edge [] node[] {A nimmt 2} (B1)
+    (A2) edge [] node[] {A nimmt 2} (B0)
+         edge [] node[] {A nimmt 1} (B1)
+    (A1) edge [] node[] {A nimmt 1} (B0)
+
+    (B4) edge [] node[] {B nimmt 1} (A3)
+         edge [] node[] {B nimmt 2} (A2)
+    (B3) edge [] node[] {B nimmt 1} (A2)
+         edge [] node[] {B nimmt 2} (A1)
+    (B2) edge [bend right] node[] {B nimmt 1} (A1)
+         edge [] node[] {B nimmt 2} (A0)
+    (B1) edge [] node[] {B nimmt 1} (A0);
+\end{tikzpicture}
+\end{center}
+
+\item Es gibt sieben unterschiedliche Spielverläufe, bei drei davon gewinnt $A$, bei vier davon gewinnt $B$.\\
+\item Spieler $A$ kann immer gewinnen, indem er im ersten Zug nur einen Stein nimmt [$\rightarrow (B, 4)$]. Danach muss er abhängig von $B$'s Zug so viel Steine nehmen, dass das Spiel auf $(B, 1)$ landet.\\[0.15cm]
+Spieler $B$ kann entsprechend nicht immer gewinnen.
+
 \subtend
 
 \end{document}
