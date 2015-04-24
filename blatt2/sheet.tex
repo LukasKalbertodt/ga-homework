@@ -105,8 +105,11 @@
     \end{subfigure}
   \end{figure}
 
-\item Blaaa
+\item In der $n\times n$ Matrix $B$ mit  ist $b_{ii} = \sum_{j=1}^{n} A_{ij} \cdot A_{ji}$. Da $A$ ungerichtet ist, ist $A_{ij} = A_{ji}$. Der Eintrag $A_{ij}$ hat genau dann eine $1$, wenn eine Kante von $i$ nach $j$ existiert. Weil $1^2 = 1$ und $0^2 = 0$, sind alle Summanden entweder $0$ oder $1$. Die Einsen (d.h. die Kanten von Knoten $i$) werden aufaddiert, also gezählt, und somit ergibt der Eintrag $b_{ii}$den Knotengrad von $i$.
 
+\item Wenn sich zwei Knoten $e_1$ und $e_2$ in der selben starken Zusammenhangskomponente befindet, gibt es einen gerichteten Weg von $e_1$ zu $e_2$ und umgekehrt. Das heißt, dass in dem transitiven Abschluss des Graphen, eine direkte Kante von $e_1$ nach $e_2$ und von $e_2$ nach $e_1$ existiert.
+
+Die Formel zur Berrechnung von $b_{ii}$ aus (b) lautet: $b_{ii} = \sum_{j=1}^{n} A_{ij} \cdot A_{ji}$. Allerdings ist der transitive Abschluss gerichtet, d.h. $A_{ij}$ und $A_{ji}$ müssen nicht gleich sein. Ein Summand ist nur genau dann $1$, wenn es eine Kante von $i$ nach $j$ und umgekehrt gibt. Wie oben bereits gesagt ist das genau dann der Fall, wenn $i$ und $j$ im Ursprungsgraphen in der selben starken Zusammenhangskomponente waren. Mit der Summe zählen wir die Einsen, also die Anzahl der Knoten in der selben starken Zusammenhangskomponente.
 \end{compactenum}
 
 \end{document}
