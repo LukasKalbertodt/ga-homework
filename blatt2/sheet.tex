@@ -5,6 +5,7 @@
 
 % ===== Header ===============================================================
 \documentclass[11pt]{scrartcl}  % europäische Artikel Klasse
+\usepackage[top=3cm, bottom=4.5cm, left=3.25cm, right=3.25cm]{geometry}
 
 % Pakete für deutschen Text (Umlaute) + Font
 \usepackage[utf8]{inputenc}
@@ -16,8 +17,19 @@
 \usepackage{amsfonts}   % \mathbb
 \usepackage{relsize}
 \usepackage{csquotes}   % \enquote
+\usepackage{paralist}   % Beliebige Aufzählungszeichen
+\usepackage{tabularx}   % Tolle Tabellen
+\usepackage{caption}
+\usepackage[labelformat=empty]{subcaption}
+
+\usepackage{tikz} % Graphen zeichnen
+\usetikzlibrary{arrows}
 
 \newcommand{\func}[1]{\mbox{\emph{#1}}}
+
+% commands for sub task (a) ...
+\newcommand{\subtbegin}{\begin{compactenum}[(a)]}
+\newcommand{\subtend}{\end{compactenum}}
 
 % Dokument-Metadaten
 \title{Graphenalgorithmen: Blatt 2}
@@ -28,6 +40,73 @@
 \maketitle
 
 
-\section*{Aufgabe 1:}
+\section*{Aufgabe 4:}
+
+\begin{compactenum}[(a)]
+\item
+  \begin{compactenum}[(i)]
+    \item Ist zyklisch (\texttt{A -> C -> B}) und stark zusammenhängend.
+    \item Ist \emph{weder} zyklisch \emph{noch} stark zusammenhängend, aber zusammenhängend.
+    \item Hä?
+  \end{compactenum}
+  \vspace{0.4cm}
+
+  \begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.3\textwidth}
+      \centering
+      \begin{tikzpicture}[->,>=stealth',auto,node distance=2cm, thick,main node/.style={circle,draw}]
+        \node[main node] (A) {A};
+        \node[main node] (B) [below of=A] {B};
+        \node[main node] (C) [right of=A] {C};
+        \node[main node] (D) [right of=B] {D};
+        \path[]
+          (A) edge node {} (B)
+              edge node {} (C)
+          (B) edge node {} (A)
+          (C) edge node {} (B)
+              edge node {} (D)
+          (D) edge node {} (B);
+      \end{tikzpicture}
+
+      \caption{(i)}
+    \end{subfigure}
+    \begin{subfigure}{0.3\textwidth}
+      \centering
+      \begin{tikzpicture}[->,>=stealth',auto,node distance=2cm, thick,main node/.style={circle,draw}]
+        \node[main node] (A) {A};
+        \node[main node] (B) [below of=A] {B};
+        \node[main node] (C) [right of=A] {C};
+        \node[main node] (D) [right of=B] {D};
+        \path[]
+          (A) edge node {} (B)
+          (B) edge node {} (C)
+              edge node {} (D)
+          (C) edge node {} (D);
+      \end{tikzpicture}
+
+      \caption{(ii)}
+    \end{subfigure}
+    \begin{subfigure}{0.3\textwidth}
+      \centering
+      \begin{tikzpicture}[->,>=stealth',auto,node distance=2cm, thick,main node/.style={circle,draw}]
+        \node[main node] (A) {A};
+        \node[main node] (B) [below of=A] {B};
+        \node[main node] (C) [right of=A] {C};
+        \node[main node] (D) [right of=B] {D};
+        \path[]
+          (A) edge node {} (B)
+          (B) edge node {} (C)
+              edge node {} (D)
+          (C) edge node {} (D);
+      \end{tikzpicture}
+
+      \caption{(iii)}
+    \end{subfigure}
+  \end{figure}
+
+\item Blaaa
+
+\end{compactenum}
 
 \end{document}
