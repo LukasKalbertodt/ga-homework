@@ -112,4 +112,18 @@
 Die Formel zur Berrechnung von $b_{ii}$ aus (b) lautet: $b_{ii} = \sum_{j=1}^{n} A_{ij} \cdot A_{ji}$. Allerdings ist der transitive Abschluss gerichtet, d.h. $A_{ij}$ und $A_{ji}$ müssen nicht gleich sein. Ein Summand ist nur genau dann $1$, wenn es eine Kante von $i$ nach $j$ und umgekehrt gibt. Wie oben bereits gesagt ist das genau dann der Fall, wenn $i$ und $j$ im Ursprungsgraphen in der selben starken Zusammenhangskomponente waren. Mit der Summe zählen wir die Einsen, also die Anzahl der Knoten in der selben starken Zusammenhangskomponente.
 \end{compactenum}
 
+
+\newpage
+\section*{Aufgabe 5:}
+\begin{compactenum}[(a)]
+
+\item
+  \emph{Adjazenzmatrix}: Es muss ein Element der Matrix überprüft werden. $\rightarrow \mathcal O(1)$\\[0.1cm]
+  \emph{Adjazentlisten}: Es wird bei dem kleineren Knoten seine Adjazentliste nach dem größeren Knoten durchsucht. Im Worstcase könnte die Liste $n$ Einträge halten, die man alle nach dem größeren Knoten durchsuchen muss. $\rightarrow \mathcal O(n)$\\
+\item
+  Da jeder Knoten $n$ Nachbarn haben könnte, dauert es also mindestens $\Omega(n)$.\\[0.2cm]
+  \emph{Adjazenzmatrix}: Es muss eine komplette Spalte oder Zeile (in $\mathcal O$ Notation gleichwertig) durchgegangen werden. Auch wenn der Knoten nur wenige oder keine Nachbarn hat, muss man trotzdem immer alle $n$ Einträge durchsuchen. $\rightarrow \mathcal O(n)$\\[0.1cm]
+  \emph{Adjazentlisten}: Man fügt zuerst alle Einträge in der Adjazentliste des betreffenden Knoten zu seiner Ergebnismenge hinzu. Danach muss in den Listen aller kleinerer Knoten ($\mathcal O(n)$) nach dem betreffenden Knoten gesucht werden ($O(n)$). $\rightarrow \mathcal O(n^2)$
+\end{compactenum}
+
 \end{document}
