@@ -1,0 +1,53 @@
+--------------------------------------------------------------------------------
+--       Dateiformat fuer einzulesende Graphen mit Dateiendung ".gra"         --
+--------------------------------------------------------------------------------
+
+1.) Die Datei beginnt mit der Anzahl der Knoten des darin enthaltenen Graphen. 
+    Die Angabe wird durch ein "n" mit nachfolgendem Leerzeichen eingeleitet.
+    
+    n <Anzahl Knoten>
+    
+    Bsp. für einen Graphen mit 20 Knoten: 
+    n 20
+    
+2.) Danach folgt die Angabe der Kanten des Graphen in Form einer Adjazenzmatrix. 
+    Jede Zeile besteht aus dem Namen des Knoten, gefolgt von einem Leerzeichen, 
+    einem Doppelpunkt und einem weiteren Leerzeichen. Danach folgt eine durch
+    Leerzeichen getrennte Liste der Matrixeinträge.
+    
+    Beispiel-Zeile für einen Graphen mit 6 Knoten: 
+    4 : 0 0 1 1 0 1
+    
+    (Es können evtl. Leerzeichen vor dem Namen des Knoten stehen)
+    
+3.) In jeder Zeile der Datei darf ein durch '#' eingeleiteter Kommentar stehen, 
+    der die komplette Zeile umfassen muss. Dies bedeutet, dass '#' immer das 
+    erste Zeichen einer Kommentarzeile sein muss.
+    
+    Ein vollständiges Beispiel für eine Eingabedatei:
+
+    # Number of Nodes:
+    n 6
+    # Adjacency matrix:
+    1 : 0 1 1 0 0 0 
+    2 : 0 0 0 1 1 0 
+    3 : 0 1 0 1 0 1 
+    4 : 0 0 0 0 1 1 
+    5 : 0 0 0 0 0 1 
+    6 : 0 0 0 0 0 0 
+
+4.) Erweiterung für gewichtete Graphen: Falls ein (kanten-) gewichteter Graph
+    vorliegt, so werden seine Kanten in der Adjazenzmatrix durch deren 
+    (von Null verschiedene) Kosten repräsentiert.
+    
+    Beispiel für einen (ungerichteten) gewichteten Graphen:
+    
+    # Number of nodes:
+    n 6
+    # Adjacency matrix including weights:
+    1 : 0 4 2 0 0 0 
+    2 : 4 0 5 9 6 0
+    3 : 2 5 0 8 0 7 
+    4 : 0 9 8 0 3 9 
+    5 : 0 6 0 3 0 9 
+    6 : 0 0 7 9 9 0 
