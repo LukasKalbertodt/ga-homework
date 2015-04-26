@@ -24,6 +24,7 @@
 
 \usepackage{tikz} % Graphen zeichnen
 \usetikzlibrary{arrows}
+\usetikzlibrary{positioning}
 
 \newcommand{\func}[1]{\mbox{\emph{#1}}}
 
@@ -47,7 +48,7 @@
   \begin{compactenum}[(i)]
     \item Ist zyklisch (\texttt{A -> C -> B}) und stark zusammenhängend.
     \item Ist \emph{weder} zyklisch \emph{noch} stark zusammenhängend, aber zusammenhängend.
-    \item Hä?
+    \item Ist zyklisch (\texttt{A -> C -> B}), aber nicht zusammenhängend (also auch nicht stark zusammenhängend).
   \end{compactenum}
   \vspace{0.4cm}
 
@@ -89,16 +90,17 @@
     \end{subfigure}
     \begin{subfigure}{0.3\textwidth}
       \centering
-      \begin{tikzpicture}[->,>=stealth',auto,node distance=2cm, thick,main node/.style={circle,draw}]
+      \begin{tikzpicture}[->,>=stealth',auto,node distance=1.5cm, thick,main node/.style={circle,draw}]
         \node[main node] (A) {A};
-        \node[main node] (B) [below of=A] {B};
-        \node[main node] (C) [right of=A] {C};
-        \node[main node] (D) [right of=B] {D};
+        \node[main node] (B) [below left of=A] {B};
+        \node[main node] (C) [below right of=A] {C};
+        \node[main node] (D) [below=0.2cm of B] {D};
+        \node[main node] (E) [below=0.2cm of C] {E};
         \path[]
-          (A) edge node {} (B)
-          (B) edge node {} (C)
-              edge node {} (D)
-          (C) edge node {} (D);
+          (A) edge node {} (C)
+          (B) edge node {} (A)
+          (C) edge node {} (B)
+          (D) edge node {} (E);
       \end{tikzpicture}
 
       \caption{(iii)}
