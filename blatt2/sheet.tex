@@ -2,11 +2,9 @@
 % Lukas Kalbertodt
 % Mirco Wagner
 % Elena Resch
-
 % ===== Header ===============================================================
-\documentclass[11pt]{scrartcl}  % europäische Artikel Klasse
+\documentclass[11pt]{scrartcl} % europäische Artikel Klasse
 \usepackage[top=3cm, bottom=4.5cm, left=3.25cm, right=3.25cm]{geometry}
-
 % Pakete für deutschen Text (Umlaute) + Font
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -14,118 +12,99 @@
 \usepackage{ngerman}
 \usepackage[ngerman]{babel} % Deutsche Anführungszeichen
 \usepackage{amsmath}
-\usepackage{amsfonts}   % \mathbb
+\usepackage{amsfonts} % \mathbb
 \usepackage{relsize}
-\usepackage{csquotes}   % \enquote
-\usepackage{paralist}   % Beliebige Aufzählungszeichen
-\usepackage{tabularx}   % Tolle Tabellen
+\usepackage{csquotes} % \enquote
+\usepackage{paralist} % Beliebige Aufzählungszeichen
+\usepackage{tabularx} % Tolle Tabellen
 \usepackage{caption}
 \usepackage[labelformat=empty]{subcaption}
-
 \usepackage{tikz} % Graphen zeichnen
 \usetikzlibrary{arrows}
 \usetikzlibrary{positioning}
-
 \newcommand{\func}[1]{\mbox{\emph{#1}}}
-
 % commands for sub task (a) ...
 \newcommand{\subtbegin}{\begin{compactenum}[(a)]}
 \newcommand{\subtend}{\end{compactenum}}
-
 % Dokument-Metadaten
 \title{Graphenalgorithmen: Blatt 2}
 \author{Lukas Kalbertodt, Elena Resch, Mirco Wagner}
-
 % ===== Body =================================================================
 \begin{document}
 \maketitle
-
-
 \section*{Aufgabe 4:}
-
 \begin{compactenum}[(a)]
 \item
-  \begin{compactenum}[(i)]
-    \item Ist zyklisch (\texttt{A -> C -> B}) und stark zusammenhängend.
-    \item Ist \emph{weder} zyklisch \emph{noch} stark zusammenhängend, aber zusammenhängend.
-    \item Ist zyklisch (\texttt{A -> C -> B}), aber nicht zusammenhängend (also auch nicht stark zusammenhängend).
-  \end{compactenum}
-  \vspace{0.4cm}
-
-  \begin{figure}[h]
-    \centering
-    \begin{subfigure}{0.3\textwidth}
-      \centering
-      \begin{tikzpicture}[->,>=stealth',auto,node distance=2cm, thick,main node/.style={circle,draw}]
-        \node[main node] (A) {A};
-        \node[main node] (B) [below of=A] {B};
-        \node[main node] (C) [right of=A] {C};
-        \node[main node] (D) [right of=B] {D};
-        \path[]
-          (A) edge node {} (B)
-              edge node {} (C)
-          (B) edge node {} (A)
-          (C) edge node {} (B)
-              edge node {} (D)
-          (D) edge node {} (B);
-      \end{tikzpicture}
-
-      \caption{(i)}
-    \end{subfigure}
-    \begin{subfigure}{0.3\textwidth}
-      \centering
-      \begin{tikzpicture}[->,>=stealth',auto,node distance=2cm, thick,main node/.style={circle,draw}]
-        \node[main node] (A) {A};
-        \node[main node] (B) [below of=A] {B};
-        \node[main node] (C) [right of=A] {C};
-        \node[main node] (D) [right of=B] {D};
-        \path[]
-          (A) edge node {} (B)
-          (B) edge node {} (C)
-              edge node {} (D)
-          (C) edge node {} (D);
-      \end{tikzpicture}
-
-      \caption{(ii)}
-    \end{subfigure}
-    \begin{subfigure}{0.3\textwidth}
-      \centering
-      \begin{tikzpicture}[->,>=stealth',auto,node distance=1.5cm, thick,main node/.style={circle,draw}]
-        \node[main node] (A) {A};
-        \node[main node] (B) [below left of=A] {B};
-        \node[main node] (C) [below right of=A] {C};
-        \node[main node] (D) [below=0.2cm of B] {D};
-        \node[main node] (E) [below=0.2cm of C] {E};
-        \path[]
-          (A) edge node {} (C)
-          (B) edge node {} (A)
-          (C) edge node {} (B)
-          (D) edge node {} (E);
-      \end{tikzpicture}
-
-      \caption{(iii)}
-    \end{subfigure}
-  \end{figure}
-
-\item In der $n\times n$ Matrix $B$ mit  ist $b_{ii} = \sum_{j=1}^{n} A_{ij} \cdot A_{ji}$. Da $A$ ungerichtet ist, ist $A_{ij} = A_{ji}$. Der Eintrag $A_{ij}$ hat genau dann eine $1$, wenn eine Kante von $i$ nach $j$ existiert. Weil $1^2 = 1$ und $0^2 = 0$, sind alle Summanden entweder $0$ oder $1$. Die Einsen (d.h. die Kanten von Knoten $i$) werden aufaddiert, also gezählt, und somit ergibt der Eintrag $b_{ii}$den Knotengrad von $i$.
-
+\begin{compactenum}[(i)]
+\item Ist zyklisch (\texttt{A -> C -> B}) und stark zusammenhängend.
+\item Ist \emph{weder} zyklisch \emph{noch} stark zusammenhängend, aber zusammenhängend.
+\item Ist zyklisch (\texttt{A -> C -> B}), aber nicht zusammenhängend (also auch nicht stark zusammenhängend).
+\end{compactenum}
+\vspace{0.4cm}
+\begin{figure}[h]
+\centering
+\begin{subfigure}{0.3\textwidth}
+\centering
+\begin{tikzpicture}[->,>=stealth',auto,node distance=2cm, thick,main node/.style={circle,draw}]
+\node[main node] (A) {A};
+\node[main node] (B) [below of=A] {B};
+\node[main node] (C) [right of=A] {C};
+\node[main node] (D) [right of=B] {D};
+\path[]
+(A) edge node {} (B)
+edge node {} (C)
+(B) edge node {} (A)
+(C) edge node {} (B)
+edge node {} (D)
+(D) edge node {} (B);
+\end{tikzpicture}
+\caption{(i)}
+\end{subfigure}
+\begin{subfigure}{0.3\textwidth}
+\centering
+\begin{tikzpicture}[->,>=stealth',auto,node distance=2cm, thick,main node/.style={circle,draw}]
+\node[main node] (A) {A};
+\node[main node] (B) [below of=A] {B};
+\node[main node] (C) [right of=A] {C};
+\node[main node] (D) [right of=B] {D};
+\path[]
+(A) edge node {} (B)
+(B) edge node {} (C)
+edge node {} (D)
+(C) edge node {} (D);
+\end{tikzpicture}
+\caption{(ii)}
+\end{subfigure}
+\begin{subfigure}{0.3\textwidth}
+\centering
+\begin{tikzpicture}[->,>=stealth',auto,node distance=1.5cm, thick,main node/.style={circle,draw}]
+\node[main node] (A) {A};
+\node[main node] (B) [below left of=A] {B};
+\node[main node] (C) [below right of=A] {C};
+\node[main node] (D) [below=0.2cm of B] {D};
+\node[main node] (E) [below=0.2cm of C] {E};
+\path[]
+(A) edge node {} (C)
+(B) edge node {} (A)
+(C) edge node {} (B)
+(D) edge node {} (E);
+\end{tikzpicture}
+\caption{(iii)}
+\end{subfigure}
+\end{figure}
+\item In der $n\times n$ Matrix $B$ mit ist $b_{ii} = \sum_{j=1}^{n} A_{ij} \cdot A_{ji}$. Da $A$ ungerichtet ist, ist $A_{ij} = A_{ji}$. Der Eintrag $A_{ij}$ hat genau dann eine $1$, wenn eine Kante von $i$ nach $j$ existiert. Weil $1^2 = 1$ und $0^2 = 0$, sind alle Summanden entweder $0$ oder $1$. Die Einsen (d.h. die Kanten von Knoten $i$) werden aufaddiert, also gezählt, und somit ergibt der Eintrag $b_{ii}$den Knotengrad von $i$.
 \item Wenn sich zwei Knoten $e_1$ und $e_2$ in der selben starken Zusammenhangskomponente befindet, gibt es einen gerichteten Weg von $e_1$ zu $e_2$ und umgekehrt. Das heißt, dass in dem transitiven Abschluss des Graphen, eine direkte Kante von $e_1$ nach $e_2$ und von $e_2$ nach $e_1$ existiert.
-
 Die Formel zur Berrechnung von $b_{ii}$ aus (b) lautet: $b_{ii} = \sum_{j=1}^{n} A_{ij} \cdot A_{ji}$. Allerdings ist der transitive Abschluss gerichtet, d.h. $A_{ij}$ und $A_{ji}$ müssen nicht gleich sein. Ein Summand ist nur genau dann $1$, wenn es eine Kante von $i$ nach $j$ und umgekehrt gibt. Wie oben bereits gesagt ist das genau dann der Fall, wenn $i$ und $j$ im Ursprungsgraphen in der selben starken Zusammenhangskomponente waren. Mit der Summe zählen wir die Einsen, also die Anzahl der Knoten in der selben starken Zusammenhangskomponente.
 \end{compactenum}
-
-
 \newpage
 \section*{Aufgabe 5:}
 \begin{compactenum}[(a)]
-
 \item
-  \emph{Adjazenzmatrix}: Es muss ein Element der Matrix überprüft werden. $\rightarrow \mathcal O(1)$\\[0.1cm]
-  \emph{Adjazentlisten}: Es wird bei dem kleineren Knoten seine Adjazentliste nach dem größeren Knoten durchsucht. Im Worstcase könnte die Liste $n$ Einträge halten, die man alle nach dem größeren Knoten durchsuchen muss. $\rightarrow \mathcal O(n)$\\
+\emph{Adjazenzmatrix}: Es muss ein Element der Matrix überprüft werden. $\rightarrow \mathcal O(1)$\\[0.1cm]
+\emph{Adjazentlisten}: Es wird bei dem kleineren Knoten seine Adjazentliste nach dem größeren Knoten durchsucht. Im Worstcase könnte die Liste $n$ Einträge halten, die man alle nach dem größeren Knoten durchsuchen muss. $\rightarrow \mathcal O(|E|)$\\
 \item
-  Da jeder Knoten $n$ Nachbarn haben könnte, dauert es also mindestens $\Omega(n)$.\\[0.2cm]
-  \emph{Adjazenzmatrix}: Es muss eine komplette Spalte oder Zeile (in $\mathcal O$ Notation gleichwertig) durchgegangen werden. Auch wenn der Knoten nur wenige oder keine Nachbarn hat, muss man trotzdem immer alle $n$ Einträge durchsuchen. $\rightarrow \mathcal O(n)$\\[0.1cm]
-  \emph{Adjazentlisten}: Man fügt zuerst alle Einträge in der Adjazentliste des betreffenden Knoten zu seiner Ergebnismenge hinzu. Danach muss in den Listen aller kleinerer Knoten ($\mathcal O(n)$) nach dem betreffenden Knoten gesucht werden ($O(n)$). $\rightarrow \mathcal O(n^2)$
+Da jeder Knoten $n$ Nachbarn haben könnte, dauert es also mindestens $\Omega(|E|)$.\\[0.2cm]
+\emph{Adjazenzmatrix}: Es muss eine komplette Spalte oder Zeile (in $\mathcal O$ Notation gleichwertig) durchgegangen werden. Auch wenn der Knoten nur wenige oder keine Nachbarn hat, muss man trotzdem immer alle $n$ Einträge durchsuchen. $\rightarrow \mathcal O(|E|)$\\[0.1cm]
+\emph{Adjazentlisten}: Man fügt zuerst alle Einträge in der Adjazentliste des betreffenden Knoten zu seiner Ergebnismenge hinzu. Danach muss in den Listen aller kleinerer Knoten ($\mathcal O(|V|)$) nach dem betreffenden Knoten gesucht werden ($O(|E|)$). $\rightarrow \mathcal O(|E| \cdot |V|)$
 \end{compactenum}
-
 \end{document}
