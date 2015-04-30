@@ -98,7 +98,6 @@ public class RenderGraph {
 		for (int i = 0; i < graph.getNodeCount(); i++) {
 
 			Vec2D pos = nodes[i];
-
 			for (int j = graph.isDirected() ? 0 : i + 1; j < graph
 					.getNodeCount(); j++) {
 				double weight = Double.POSITIVE_INFINITY;
@@ -157,6 +156,7 @@ public class RenderGraph {
 	}
 
 	private static BufferedImage renderGraph(RenderableGraph graph) {
+		
 		double radius = (graph.getNodeCount() * 200.0) / (2 * Math.PI);
 		int width = (int) (2.0 * radius) + 50;
 
