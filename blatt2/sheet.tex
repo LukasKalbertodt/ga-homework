@@ -1,6 +1,6 @@
 % Graphenalgorithmen
 % Lukas Kalbertodt
-% Mirco Wagner
+% Mirko Wagner
 % Elena Resch
 % ===== Header ===============================================================
 \documentclass[11pt]{scrartcl} % europäische Artikel Klasse
@@ -28,7 +28,7 @@
 \newcommand{\subtend}{\end{compactenum}}
 % Dokument-Metadaten
 \title{Graphenalgorithmen: Blatt 2}
-\author{Lukas Kalbertodt, Elena Resch, Mirco Wagner}
+\author{Lukas Kalbertodt, Elena Resch, Mirko Wagner}
 % ===== Body =================================================================
 \begin{document}
 \maketitle
@@ -101,10 +101,11 @@ Die Formel zur Berrechnung von $b_{ii}$ aus (b) lautet: $b_{ii} = \sum_{j=1}^{n}
 \begin{compactenum}[(a)]
 \item
 \emph{Adjazenzmatrix}: Es muss ein Element der Matrix überprüft werden. $\rightarrow \mathcal O(1)$\\[0.1cm]
-\emph{Adjazentlisten}: Es wird bei dem kleineren Knoten seine Adjazentliste nach dem größeren Knoten durchsucht. Im Worstcase könnte die Liste $|E|$ Einträge halten, die man alle nach dem größeren Knoten durchsuchen muss. $\rightarrow \mathcal O(|E|)$\\
+\emph{Adjazentlisten}: Es wird bei dem kleineren Knoten seine Adjazentliste nach dem größeren Knoten durchsucht. Im Worstcase könnte die Liste $|V|$ Einträge halten, die man alle nach dem größeren Knoten durchsuchen muss. $\rightarrow \mathcal O(|V|)$\\
 \item
-Da jeder Knoten $n$ Nachbarn haben könnte, dauert es also mindestens $\Omega(|E|)$.\\[0.2cm]
-\emph{Adjazenzmatrix}: Es muss eine komplette Spalte oder Zeile (in $\mathcal O$ Notation gleichwertig) durchgegangen werden. Auch wenn der Knoten nur wenige oder keine Nachbarn hat, muss man trotzdem immer alle $|E|$ Einträge durchsuchen. $\rightarrow \mathcal O(|E|)$\\[0.1cm]
-\emph{Adjazentlisten}: Man fügt zuerst alle Einträge in der Adjazentliste des betreffenden Knoten zu seiner Ergebnismenge hinzu. Danach muss in den Listen aller kleinerer Knoten ($\mathcal O(|V|)$) nach dem betreffenden Knoten gesucht werden ($O(|E|)$). $\rightarrow \mathcal O(|E| \cdot |V|)$
+Da jeder Knoten $n$ Nachbarn haben könnte, dauert es also mindestens $\Omega(|V|)$.\\[0.2cm]
+\emph{Adjazenzmatrix}: Es muss eine komplette Spalte oder Zeile (in $\mathcal O$ Notation gleichwertig) durchgegangen werden. Auch wenn der Knoten nur wenige oder keine Nachbarn hat, muss man trotzdem immer alle $\mathcal O(|V|)$ Einträge durchsuchen. $\rightarrow \mathcal O(|V|)$\\[0.1cm]
+\emph{Adjazentlisten}: Man fügt zuerst alle Einträge in der Adjazentliste des betreffenden Knoten zu seiner Ergebnismenge hinzu. Danach muss in den Listen aller kleinerer Knoten ($\mathcal O(|V|)$) nach dem betreffenden Knoten gesucht werden ($O(|V|)$). $\rightarrow \mathcal O(|V| ^2)$
 \end{compactenum}
 \end{document}
+
