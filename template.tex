@@ -2,10 +2,9 @@
 % Lukas Kalbertodt
 % Mirco Wagner
 % Elena Resch
-
 % ===== Header ===============================================================
-\documentclass[11pt]{scrartcl}  % europäische Artikel Klasse
-
+\documentclass[11pt]{scrartcl} % europäische Artikel Klasse
+\usepackage[top=3cm, bottom=4.5cm, left=3.25cm, right=3.25cm]{geometry}
 % Pakete für deutschen Text (Umlaute) + Font
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -13,10 +12,17 @@
 \usepackage{ngerman}
 \usepackage[ngerman]{babel} % Deutsche Anführungszeichen
 \usepackage{amsmath}
-\usepackage{amsfonts}   % \mathbb
+\usepackage{amsfonts} % \mathbb
 \usepackage{relsize}
-\usepackage{csquotes}   % \enquote
+\usepackage{csquotes} % \enquote
+\usepackage{paralist} % Beliebige Aufzählungszeichen
+\usepackage{tabularx} % Tolle Tabellen
+\usepackage{caption}
+\usepackage[labelformat=empty]{subcaption}
 
+\usepackage{tikz} % Graphen zeichnen
+\usetikzlibrary{arrows}
+\usetikzlibrary{positioning}
 \newcommand{\func}[1]{\mbox{\emph{#1}}}
 
 % Dokument-Metadaten
