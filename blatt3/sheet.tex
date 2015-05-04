@@ -1,0 +1,104 @@
+% Graphenalgorithmen
+% Lukas Kalbertodt
+% Mirco Wagner
+% Elena Resch
+% ===== Header ===============================================================
+\documentclass[11pt]{scrartcl} % europäische Artikel Klasse
+\usepackage[top=3cm, bottom=4.5cm, left=3.25cm, right=3.25cm]{geometry}
+% Pakete für deutschen Text (Umlaute) + Font
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{ngerman}
+\usepackage[ngerman]{babel} % Deutsche Anführungszeichen
+\usepackage{amsmath}
+\usepackage{amsfonts} % \mathbb
+\usepackage{relsize}
+\usepackage{csquotes} % \enquote
+\usepackage{paralist} % Beliebige Aufzählungszeichen
+\usepackage{tabularx} % Tolle Tabellen
+\usepackage{caption}
+\usepackage[labelformat=empty]{subcaption}
+
+% Deutsche Absätze: Kein Einrücken, aber Abstand
+\parskip=10pt
+\parindent=0pt
+
+\usepackage{tikz} % Graphen zeichnen
+\usetikzlibrary{arrows}
+\usetikzlibrary{positioning}
+\newcommand{\func}[1]{\mbox{\texttt{#1}}}
+
+% Dokument-Metadaten
+\title{Graphenalgorithmen: Blatt 3}
+\author{Lukas Kalbertodt, Elena Resch, Mirco Wagner}
+
+% ===== Body =================================================================
+\begin{document}
+\maketitle
+
+\section*{Aufgabe 6:}
+
+\begin{compactenum}[(a)]
+    \item Das Problem entspricht dem Euler-Pfad auf vollständigen Graphen. Die Knoten des Graphen repräsentieren die Zahl, die gerade am Ende der Kette liegt. Eine Kante verbindet immer zwei Zahlen und stellt somit einen Stein dar. Jeder Knoten hat eine Schleife, die aber irrelevant für das Euler-Pfad Problem ist. Der Graph ist vollständig weil es für jede Kombination von zwei Zahlen $\le k$ genau einen Spielstein gibt. Daher muss man auch jede Kante exakt einmal besuchen.
+    \item Das Problem mit $k=2,3$ ist lösbar, für $k=4$ nicht. $k=2$ ist dabei ein Sonderfall und eine Ausnahme für die in (c) genannte Regel.
+    \item Vollständige Graphen sind immer genau dann eulerisch, wenn sie eine ungerade Anzahl von Knoten $k$ haben, weil jeder Knoten $k-1$ Kanten besitzt und für den Eulerpfad fast alle Knoten einen geraden Knotengrad haben müssen.
+    \item Da in dem vollständigen Graphen \emph{alle} Knoten den selben Grad $k-1$ haben, ist ein Eulerkreis immer dann möglich, wenn auch ein Eulerpfad möglich ist (Ausnahme wieder $k=2$).
+\end{compactenum}
+
+\section*{Aufgabe 7:}
+Ein \enquote{Heap} ist eine Datenstruktur, die als PriorityQueue genutzt werden kann. Eine PriorityQueue verwaltet eine Menge von Items bestehend aus \func{key} und \func{data}. Die PriorityQueue soll jetzt in der Lage sein, möglichst schnell das Objekt mit der höchsten Priorität (niedrigstem Key) zu finden, zurückzugeben und aus der PriorityQueue zu löschen. Die gewünschten Funktionen des ADTs PriorityQueue:
+\begin{itemize}
+    \item \func{min() -> item*}: Gibt eine Referenz auf das Item mit dem kleinsten Key zurück
+    \item \func{deleteMin() -> item}: Findet und extrahiert das Item mit dem kleinsten Key
+    \item \func{insert(item)}: Fügt ein Item ein
+    \item \func{decreaseKey(item*, newValue)}: Verringert den Key eines bestimmten Items
+    \item \func{delete(item*)}: Löscht ein Item
+\end{itemize}
+
+\enquote{Heap} ist jetzt der Überbegriff für mehrere Datenstrukturen, die die oben genannten Funktionen schnell ausführen können.
+
+Der einfachste und bekannteste Heap ist der BinaryHeap, der alle Items in einem binären Baum organisiert. Innerhalb des Baumes gilt die Invarianz, dass der Key in den beiden Söhnen eines Knoten $j$ größer ist, als der Key in $j$. Somit ist das Element mit dem kleinsten Key in der Wurzel des Baums. Diese Variante des Heaps ist bereits recht effizient in der Praxis. Eine Abwandlung sind die sog. \enquote{$d$-ary Heaps}, die die selbe asymptotischen Laufzeiten haben ($d$ konstant), aber in der Praxis besser sein können. Hier werden die Items nicht in einem binären Baum, sondern in einem $d$-ären Baum gespeichert.
+
+Darüber hinaus gibt es aber weitere und sehr exotische Varianten, mit teilweise deutlich besseren asymptotischen Laufzeiten. Zu erwähnen wäre beispielsweise der PairingHeap, der \func{insert} in $\mathcal O(1)$ und \func{decreaseKey} in armotisiert $o(log\;n)$ schafft und dabei noch praxistauglich ist. Der BrodalHeap schafft sogar zusätzlich \func{decreaseKey} in konstanter Zeit, ist aber in der Praxis absolut untauglich.
+
+Was die Laufzeiten angeht, so kann man eine sinnvolle untere Schranke ableiten: Das Sortierverfahren HeapSort nutzt einen Heap, um per Vergleich zu sortieren. Für vergleichbasierte Sortierverfahren ist ja bereits die untere Schranke $\Omega(n \cdot \text{log}\;n)$ bekannt. Heapsort ruft je $n$ mal die Funktionen \func{insert} und \func{deleteMin} auf. Somit muss entweder \func{insert} oder \func{deleteMin} mindestens die Laufzeit $\mathcal O(\text{log}\;n)$ haben. Die restlichen Laufzeiten im Überblick ($*$ armortisiert):
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{l || c | c | c | c}
+Funktion & Binary & $d$-ary & Pairing & Brodal \\
+\hline\hline
+\func{min}
+    & $\mathcal O(1)$
+    & $\mathcal O(1)$
+    & $\mathcal O(1)$
+    & $\mathcal O(1)$ \\
+\hline
+\func{insert}
+    & $\mathcal O(\text{log}\;n)$
+    & $\mathcal O(\text{log}_d\;n)$
+    & $\mathcal O(1)$
+    & $\mathcal O(1)$ \\\hline
+\func{decreaseKey}
+    & $\mathcal O(\text{log}\;n)$
+    & $\mathcal O(\text{log}_d\;n)$
+    & $o(\text{log}\;n)*$
+    & $\mathcal O(1)$ \\\hline
+\func{deleteMin}
+    & $\mathcal O(\text{log}\;n)$
+    & $\mathcal O(d \cdot \text{log}_d\;n)$
+    & $\mathcal O(\text{log}\;n)*$
+    & $\mathcal O(\text{log}\;n)$ \\\hline
+\func{delete}
+    & $\mathcal O(\text{log}\;n)$
+    & $\mathcal O(d \cdot \text{log}_d\;n)$
+    & $\mathcal O(\text{log}\;n)*$
+    & $\mathcal O(\text{log}\;n)$ \\
+\end{tabular}
+\end{table}
+
+
+
+
+\end{document}
