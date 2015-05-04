@@ -8,6 +8,14 @@ import java.io.IOException;
 
 import renderGraph.RenderGraph;
 
+/**
+ * Testclass for GraphImpl and reader for .gra-files
+ * 
+ * @author Elena Resch
+ * @author Lukas Kalbertodt
+ * @author Mirco Wagner
+ * 
+ */
 public class GraphTest {
 
 	public static void main(String[] args) {
@@ -35,9 +43,12 @@ public class GraphTest {
 	}
 
 	/**
+	 * checks if the given filename is a .gra-file and reads its content while
+	 * checking for correct .gra-file format
 	 * 
 	 * @param filename
-	 * @return
+	 *            *.gra-file
+	 * @return graph if file could be read, null on error
 	 */
 	private static GraphImpl readGraFile(String filename) {
 		// check if filename is a .gra-file
@@ -136,7 +147,7 @@ public class GraphTest {
 		}
 
 		if (matrix != null) {
-			//printMatrix(matrix);
+			// printMatrix(matrix);
 			// matrix read, instantiate the graph
 			try {
 				graph = new GraphImpl(directed, weighted, matrix);
@@ -186,18 +197,28 @@ public class GraphTest {
 
 	}
 
+	
+	/**
+	 * replaces the .gra suffix with .png
+	 * @param grafile string = "*.gra"
+	 * @return *.png filename
+	 */
 	private static String graToPngString(String grafile) {
 		char[] filename = grafile.toCharArray();
 		int i = 0;
-		filename[filename.length -1 - i++] = 'g';
-		filename[filename.length -1 - i++] = 'n';
-		filename[filename.length -1 - i++] = 'p';
-		//grafile.replace(".gra", ".png");
+		filename[filename.length - 1 - i++] = 'g';
+		filename[filename.length - 1 - i++] = 'n';
+		filename[filename.length - 1 - i++] = 'p';
+		// grafile.replace(".gra", ".png");
 		StringBuffer name = new StringBuffer();
 		name.append(filename);
 		return name.toString();
 	}
 
+	/**
+	 * helper function to print the 2d-double-array
+	 * @param matrix 2d-double-array
+	 */
 	private static void printMatrix(double[][] matrix) {
 		if (matrix != null) {
 			for (int i = 0; i < matrix.length; i++) {

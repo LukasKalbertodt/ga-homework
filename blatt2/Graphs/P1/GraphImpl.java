@@ -396,7 +396,7 @@ public class GraphImpl implements Graph, RenderableGraph {
 	 */
 	private void graphFromMatrix(double[][] matrix) {
 
-		for(int i = 0; i < matrix.length; i++) {
+		for (int i = 0; i < matrix.length; i++) {
 			this.addVertex();
 		}
 		for (int i = 0; i < matrix.length; i++) {
@@ -461,4 +461,26 @@ public class GraphImpl implements Graph, RenderableGraph {
 			System.out.println();
 		}
 	}
+
+	/**
+	 * prints the adjacency list with (key, value)-pairs if graph is weighted,
+	 * else only key
+	 */
+	public void printList() {
+		for (int i = 0; i < this.m_adjacencylist.size(); i++) {
+			Map<Integer, Double> entries = this.m_adjacencylist.get(i);
+			System.out.print("list(" + i + ") = {");
+			for (Map.Entry<Integer, Double> entry : entries.entrySet()) {
+				if (this.m_weighted) {
+					System.out.print("(" + entry.getKey() + ", "
+							+ entry.getValue() + ")");
+				} else {
+					System.out.print(entry.getKey() + " ");
+				}
+
+			}
+			System.out.println("}");
+		}
+	}
+
 }
