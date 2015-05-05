@@ -22,7 +22,7 @@ public class GraphTest {
 
 		// testGraphs();
 		if (args.length == 0) {
-			System.out.println("java GraphTest <filename> [<filename>]...");
+			System.out.println("java -jar GraphTest.jar <filename> [<filename>]...");
 			return;
 		}
 		for (int i = 0; i < args.length; i++) {
