@@ -34,9 +34,10 @@
 \maketitle
 \section*{Aufgabe 6:}
 \begin{compactenum}[(a)]
-\item Das Problem entspricht dem Euler-Pfad auf vollständigen Graphen. Die Knoten des Graphen repräsentieren die Zahl, die gerade am Ende der Kette liegt. Eine Kante verbindet immer zwei Zahlen und stellt somit einen Stein dar. Jeder Knoten hat eine Schleife, die aber irrelevant für das Euler-Pfad Problem ist. Der Graph ist vollständig weil es für jede Kombination von zwei Zahlen $\le k$ genau einen Spielstein gibt. Daher muss man auch jede Kante exakt einmal besuchen.
+\item Es handelt sich um einen vollständigen Graphen mit Selfloops mit $V = \lbrace {1,...,k} \rbrace $ als Knoten- und $E:= \lbrace (i,j): i \le j, i,j \in V \rbrace$ als Kantenmenge. Das Problem entspricht dem Euler-Pfad auf vollständigen Graphen. 
+Die Knoten des Graphen repräsentieren die Zahl, die gerade am Ende der Kette liegt. Eine Kante verbindet immer zwei Zahlen und stellt somit einen Stein dar. Jeder Knoten hat eine Schleife, die aber irrelevant für das Euler-Pfad Problem ist. Der Graph ist vollständig, weil es für jede Kombination von zwei Zahlen $\le k$ genau einen Spielstein gibt. Daher muss man auch jede Kante exakt einmal besuchen.
 \item Das Problem mit $k=2,3$ ist lösbar, für $k=4$ nicht. $k=2$ ist dabei ein Sonderfall und eine Ausnahme für die in (c) genannte Regel.
-\item Vollständige Graphen sind immer genau dann eulersch, wenn sie eine ungerade Anzahl von Knoten $k$ haben, weil jeder Knoten $k-1$ Kanten besitzt und für den Eulerpfad fast alle Knoten einen geraden Knotengrad haben müssen.
+\item Vollständige Graphen sind immer genau dann eulersch, wenn sie eine ungerade Anzahl von Knoten $k$ haben, weil jeder Knoten $k-1$ Kanten besitzt und für den Eulerpfad 0 oder 2 Knoten ungeraden Knotengrad haben müssen (Skript Satz 1.3).
 \item Da in dem vollständigen Graphen \emph{alle} Knoten den selben Grad $k-1$ haben, ist ein Eulerkreis immer dann möglich, wenn auch ein Eulerpfad möglich ist (Ausnahme wieder $k=2$).
 \end{compactenum}
 \section*{Aufgabe 7:}
