@@ -34,7 +34,7 @@
 \maketitle
 \section*{Aufgabe 6:}
 \begin{compactenum}[(a)]
-\item Es handelt sich um einen vollständigen Graphen mit Schlingen mit $V = \lbrace {1,...,k} \rbrace $ als Knoten- und $E:= \lbrace (i,j): i \le j, i,j \in V \rbrace$ als Kantenmenge. Das Problem entspricht dem Euler-Pfad auf vollständigen Graphen. 
+\item Es handelt sich um einen vollständigen Graphen mit Schlingen mit $V = \lbrace {1, \dots ,k} \rbrace $ als Knoten- und $E:= \lbrace (i,j): i \le j, \quad i,j \in V \rbrace$ als Kantenmenge. Das Problem entspricht dem Euler-Pfad auf vollständigen Graphen.
 Die Knoten des Graphen repräsentieren die Zahl, die gerade am Ende der Kette liegt. Eine Kante verbindet immer zwei Zahlen und stellt somit einen Stein dar. Jeder Knoten hat eine Schleife, die aber irrelevant für das Euler-Pfad Problem ist. Der Graph ist vollständig, weil es für jede Kombination von zwei Zahlen $\le k$ genau einen Spielstein gibt. Daher muss man auch jede Kante exakt einmal besuchen.
 \item Das Problem mit $k=2,3$ ist lösbar, für $k=4$ nicht. $k=2$ ist dabei ein Sonderfall und eine Ausnahme für die in (c) genannte Regel.
 \item Vollständige Graphen besitzen immer genau dann einen Eulerweg, wenn sie eine ungerade Anzahl von Knoten $k$ haben, weil jeder Knoten $k-1$ Kanten besitzt und für den Eulerpfad 0 oder 2 Knoten ungeraden Knotengrad haben müssen (Skript Satz 1.3). Der Graph mit $k=2$ bildet dabei eine Ausnahme, denn seine zwei Knoten besitzen alle Knotengrad $3$, da Schlingen doppelt gezählt werden, während für $k > 2$, $k$  gerade gilt, dass alle $k$ Knoten $deg(i) = k-1, i \in V$ ungerade ist.
@@ -48,11 +48,13 @@ Ein \enquote{Heap} ist eine Datenstruktur, die als PriorityQueue genutzt werden 
 \item \func{insert(item)}: Fügt ein Item ein
 \item \func{decreaseKey(item*, newValue)}: Verringert den Key eines bestimmten Items
 \item \func{delete(item*)}: Löscht ein Item
-\item \func{merge(Heap)}: vereint den Heap mit einem anderen (wird nur z.t. gefordert) 
+\item \func{merge(Heap)}: vereint den Heap mit einem anderen (wird nur z.t. gefordert)
 \end{itemize}
 \enquote{Heap} ist jetzt der Überbegriff für mehrere Datenstrukturen, die die oben genannten Funktionen schnell ausführen können.
 Der einfachste und bekannteste Heap ist der BinaryHeap, der alle Items in einem binären Baum organisiert. Innerhalb des Baumes gilt die Invarianz, dass der Key in den beiden Söhnen eines Knoten $j$ größer ist, als der Key in $j$. Somit ist das Element mit dem kleinsten Key in der Wurzel des Baums. Diese Variante des Heaps ist bereits recht effizient in der Praxis. Eine Abwandlung sind die sog. \enquote{$d$-ary Heaps}, die die selbe asymptotischen Laufzeiten haben ($d$ konstant), aber in der Praxis besser sein können. Hier werden die Items nicht in einem binären Baum, sondern in einem $d$-ären Baum gespeichert.
+
 Darüber hinaus gibt es aber weitere und sehr exotische Varianten, mit teilweise deutlich besseren asymptotischen Laufzeiten. Zu erwähnen wäre beispielsweise der PairingHeap, der \func{insert} in $\mathcal O(1)$ und \func{decreaseKey} in armotisiert $o(log\;n)$ schafft und dabei noch praxistauglich ist. Der FibonacciHeap schafft \func{decreaseKey} zwar in amortisiert $\mathcal O(1)$, dies zahlt sich jedoch erst bei sehr großen Probleminstanzen gegenüber dem PairingHeap aus. Der BrodalHeap schafft sogar zusätzlich \func{decreaseKey} in konstanter Zeit, ist aber in der Praxis absolut untauglich.
+
 Was die Laufzeiten angeht, so kann man eine sinnvolle untere Schranke ableiten: Das Sortierverfahren HeapSort nutzt einen Heap, um per Vergleich zu sortieren. Für vergleichbasierte Sortierverfahren ist ja bereits die untere Schranke $\Omega(n \cdot \text{log}\;n)$ bekannt. Heapsort ruft je $n$ mal die Funktionen \func{insert} und \func{deleteMin} auf. Somit muss entweder \func{insert} oder \func{deleteMin} mindestens die Laufzeit $\mathcal O(\text{log}\;n)$ haben. Die restlichen Laufzeiten im Überblick ($*$ armortisiert):
 \begin{table}[h!]
 \centering
