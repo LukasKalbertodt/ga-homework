@@ -11,7 +11,7 @@ import renderGraph.RenderableGraph;
 /**
  * Representation of a directed and undirected graph. If graph is not weighted,
  * all weights are set to 0.0. Vertex names begin from 0. Internally the graph
- * is structured as a directed weighted graph through an adjancency list which
+ * is structured as a directed weighted graph through an adjacency list which
  * gives the opportunity to the graph to grow dynamically.
  * 
  * @author Elena Resch
@@ -191,7 +191,6 @@ public class GraphImpl implements Graph, RenderableGraph {
 		} else {
 			return successors;
 		}
-
 	}
 
 	/**
@@ -205,7 +204,6 @@ public class GraphImpl implements Graph, RenderableGraph {
 	 *         has no predecessors an empty list is returned
 	 * @throws IllegalArgumentException
 	 *             if v is not in the graph
-	 * 
 	 */
 	@Override
 	public List<Integer> getPredecessors(int v) {
@@ -214,7 +212,6 @@ public class GraphImpl implements Graph, RenderableGraph {
 		}
 		if (this.m_directed) { // predecessors != successors
 			List<Integer> predecessors = new ArrayList<Integer>();
-
 			// run throw the list and check if the key is in the hashmap, if so
 			// add the actual index to the list of predecessors
 			for (int i = 0; i < this.m_adjacencylist.size(); i++) {
@@ -349,7 +346,6 @@ public class GraphImpl implements Graph, RenderableGraph {
 		if (!this.m_adjacencylist.isEmpty()) {
 			this.m_adjacencylist.remove(--this.m_vertexCount);
 		}
-
 	}
 
 	/**
@@ -372,7 +368,6 @@ public class GraphImpl implements Graph, RenderableGraph {
 					} else {
 						matrix[i][j] = 1.0;
 					}
-
 				} else {
 					matrix[i][j] = Double.POSITIVE_INFINITY;
 				}
@@ -477,10 +472,8 @@ public class GraphImpl implements Graph, RenderableGraph {
 				} else {
 					System.out.print(entry.getKey() + " ");
 				}
-
 			}
 			System.out.println("}");
 		}
 	}
-
 }
