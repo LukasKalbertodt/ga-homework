@@ -138,7 +138,6 @@ public class GraphTest {
 				}
 				line = rd.readLine();
 			}
-
 		} catch (FileNotFoundException e) {
 			System.out.println(filename + " not found.");
 			return null;
@@ -159,7 +158,6 @@ public class GraphTest {
 				return null;
 			}
 			return graph;
-
 		}
 		return null;
 	}
@@ -196,7 +194,6 @@ public class GraphTest {
 		return values;
 
 	}
-
 	
 	/**
 	 * replaces the .gra suffix with .png
@@ -230,70 +227,5 @@ public class GraphTest {
 		} else {
 			System.out.println("matrix == null");
 		}
-	}
-
-	/**
-	 * helper function to test the class GraphImpl
-	 */
-	private static void testGraphs() {
-		GraphImpl graph1 = new GraphImpl(true, false);
-		GraphImpl graph2 = new GraphImpl(false, true);
-		for (int i = 0; i < 4; i++) {
-			graph1.addVertex();
-			graph2.addVertex();
-		}
-		try {
-			graph1.addEdge(0, 2);
-			graph1.addEdge(0, 1);
-			graph1.addEdge(2, 1);
-			graph1.addEdge(3, 1);
-
-			System.out.println("nodes: " + graph1.getNodeCount());
-			graph1.printMatrix();
-			System.out.println();
-
-			graph2.addEdge(0, 2, 0.7);
-			graph2.addEdge(0, 1, 4.2);
-			graph2.addEdge(2, 1, 3.2);
-			graph2.addEdge(3, 1, 0.8);
-			System.out.println("nodes: " + graph2.getNodeCount());
-			graph2.printMatrix();
-
-			try {
-				RenderGraph.renderGraph(graph1, "graph1a.png");
-				RenderGraph.renderGraph(graph2, "graph2a.png");
-			} catch (IOException io) {
-				System.out.println("render graph error");
-			}
-			graph1.removeEdge(3, 1);
-			graph1.addVertex();
-			graph2.removeVertex();
-
-			System.out.println("nodes: " + graph1.getNodeCount());
-			graph1.printMatrix();
-			System.out.println();
-
-			try {
-				RenderGraph.renderGraph(graph1, "graph1b.png");
-
-				RenderGraph.renderGraph(graph2, "graph2b.png");
-			} catch (IOException io) {
-				System.out.println("render graph error");
-			}
-
-			graph2.addEdge(0, 2);
-			graph1.addEdge(1, 3);
-			graph1.addEdge(3, 1);
-			try {
-				RenderGraph.renderGraph(graph1, "graph1c.png");
-				RenderGraph.renderGraph(graph2, "graph2c.png");
-			} catch (IOException io) {
-				System.out.println("render graph error");
-			}
-		} catch (IllegalArgumentException e) {
-			System.out.println("illegal argument error");
-			e.printStackTrace();
-		}
-
 	}
 }
