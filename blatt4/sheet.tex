@@ -1,0 +1,50 @@
+% Graphenalgorithmen
+% Lukas Kalbertodt
+% Mirko Wagner
+% Elena Resch
+% ===== Header ===============================================================
+\documentclass[11pt]{scrartcl} % europäische Artikel Klasse
+\usepackage[top=3cm, bottom=4.5cm, left=3.25cm, right=3.25cm]{geometry}
+% Pakete für deutschen Text (Umlaute) + Font
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{ngerman}
+\usepackage[ngerman]{babel} % Deutsche Anführungszeichen
+\usepackage{amsmath}
+\usepackage{amsfonts} % \mathbb
+\usepackage{relsize}
+\usepackage{csquotes} % \enquote
+\usepackage{paralist} % Beliebige Aufzählungszeichen
+\usepackage{tabularx} % Tolle Tabellen
+\usepackage{caption}
+\usepackage[labelformat=empty]{subcaption}
+% Deutsche Absätze: Kein Einrücken, aber Abstand
+\parskip=10pt
+\parindent=0pt
+\usepackage{tikz} % Graphen zeichnen
+\usetikzlibrary{arrows}
+\usetikzlibrary{positioning}
+\newcommand{\func}[1]{\mbox{\texttt{#1}}}
+% Dokument-Metadaten
+\title{Graphenalgorithmen: Blatt 3}
+\author{Lukas Kalbertodt, Elena Resch, Mirko Wagner}
+% ===== Body =================================================================
+\begin{document}
+\maketitle
+\section*{Aufgabe 8:}
+\begin{compactenum}[(a)]
+\item Angenommen $G = (V, E)$ sei ein ungerichteter Graph ohne Kreise, also ein Baum (oder Wald). Ein Baum ist immer automatisch bipartit, da man einfach alle Knoten mit geradem Abstand von der Wurzel in eine Partition einordnet und die mit ungeradem Abstand in die andere Partition (die Wahl der Wurzel ist hierbei irrelevant). Im Falle eines Waldes funktioniert das analog, indem man jeden Baum wie oben beschrieben einordnet.\\
+\enquote{$\rightarrow$}: Für jeden Kreis partitioniert man die Knoten, indem man sie dem Kreis entlang abwechselnd den unterschiedlichen Partitionen zuordnet. Bei geraden Kreisen verletzen wir so das bipartit-Kriterium nicht, weil nie zwei im Kreis benachbarte Knoten in der selben Partition sind. Bei ungeraden Kreisen würden zwei benachbarte Knoten in der selben Partition sein und es würde somit eine Kante zwischen zwei Knoten einer Partition existieren.\\
+\enquote{$\leftarrow$}: Wenn der Graph bipartit ist, kann er keine Kreise mit ungerade Länge enthalten, weil man die Knoten des Kreises, wie oben beschrieben, nicht den Partitionen zuordnen kann, ohne das Kriterium zu verletzen.\\
+\item Dumdidum...
+\item $\kappa
+\lambda
+\delta$
+\end{compactenum}
+
+\end{document}
+
+\kappa
+\lambda
+\delta
