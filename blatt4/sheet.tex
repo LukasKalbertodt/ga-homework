@@ -43,8 +43,10 @@ Insgesamt also braucht man $k$ Kanten, $k \geq 4, k$ gerade, um einen geschlosse
 \item Beweis durch Widerspruch:\\
 Sei $G=(V,E)$ ein gerichteter azyklischer Graph. Angenommen $G$ besitzt zwei verschiedene transitive Reduktionen $R_1$ und $R_2$. Betrachte eine Kante $k=(e,f) \in R_1, k \notin R_2$. \\
 z.z. Es existiert ein Weg von $e$ nach $f$ in $R_2$, der über einen dritten Knoten $v$ führt.\\
-Da $R_2$ eine transitive Reduktion ist, existiert ein dritter Knoten $v$, sodass gilt: $(e,v),(v,f)\in R_2$.\\
-z.z. Es existiert ein Weg von $e$ nach $v$ und einen Weg von $v$ nach $f$, die beide nicht die Kante $k$ enthalten.
+Bew: Da $R_2$ eine transitive Reduktion ist und $k \notin R_2$, existiert ein dritter Knoten $v$, sodass gilt: Der Weg von $e$ nach $f$ führt über $v$.\\
+z.z. Es existiert in $R_1$ ein Weg von $e$ nach $v$ und einen Weg von $v$ nach $f$, die beide nicht die Kante $k$ enthalten.
+\\
+Bew: 
 \\
 Widerspruch
 \\
