@@ -35,9 +35,19 @@
 \section*{Aufgabe 8:}
 \begin{compactenum}[(a)]
 \item Angenommen $G = (V, E)$ sei ein ungerichteter Graph ohne Kreise, also ein Baum (oder Wald). Ein Baum ist immer automatisch bipartit, da man einfach alle Knoten mit geradem Abstand von der Wurzel in eine Partition einordnet und die mit ungeradem Abstand in die andere Partition (die Wahl der Wurzel ist hierbei irrelevant). Im Falle eines Waldes funktioniert das analog, indem man jeden Baum wie oben beschrieben einordnet.\\
-\enquote{$\rightarrow$}: Für jeden Kreis partitioniert man die Knoten, indem man sie dem Kreis entlang abwechselnd den unterschiedlichen Partitionen zuordnet. Bei geraden Kreisen verletzen wir so das bipartit-Kriterium nicht, weil nie zwei im Kreis benachbarte Knoten in der selben Partition sind. Bei ungeraden Kreisen würden zwei benachbarte Knoten in der selben Partition sein und es würde somit eine Kante zwischen zwei Knoten einer Partition existieren.\\
-\enquote{$\leftarrow$}: Wenn der Graph bipartit ist, kann er keine Kreise mit ungerade Länge enthalten, weil man die Knoten des Kreises, wie oben beschrieben, nicht den Partitionen zuordnen kann, ohne das Kriterium zu verletzen.\\
-\item Dumdidum...\\
+\enquote{$\Rightarrow$}: Ein ungerichteter Graph $G =(V,E)$ ist bipartit. Daraus folgt, dass Kanten nur zwischen Knoten der Mengen $V_1$ und $V_2$ liegen. Sei ein Kreis der Länge $k$ in $G$ vorhanden und sei $V_1$ die Knotenmenge mit dem Startknoten, so braucht man $2$ Kanten, um wieder in $V_1$ zu landen. Für $k=2$ ist der Kantenzug in $G$ offen. Deswegen brauchen mindestens 2 weitere Kanten, um den minimalen Kantenzug zu schließen. Ist der Kantenzug noch nicht geschlossen, so gehören 2 weitere Kanten zum Kreis, um wieder in der Ursprungsmenge $V_1$ zu landen. Es wird solange wiederholt, bis der Startknoten erreicht wurde.
+Insgesamt also braucht man $k$ Kanten, $k \geq 4, k$ gerade, um einen geschlossenen Kantenzug zu erzeugen.\\
+\enquote{$\Leftarrow$}: Sei $G=(V,E)$ ein ungerichteter Graph. Seien in $G$ Kreise gerader Länge vorhanden. Für jeden Kreis in $G$ partitioniert man die Knoten, indem man sie dem Kreis entlang abwechselnd den unterschiedlichen Partitionen zuordnet. Bei geraden Kreisen verletzen wir so das bipartit-Kriterium nicht, weil nie zwei im Kreis benachbarte Knoten in der selben Partition sind. Bei ungeraden Kreisen würden zwei benachbarte Knoten in der selben Partition sein und es würde somit eine Kante zwischen zwei Knoten einer Partition existieren.\\
+
+%Wenn der Graph bipartit ist, kann er keine Kreise mit ungerade Länge enthalten, weil man die Knoten des Kreises, wie oben beschrieben, nicht den Partitionen zuordnen kann, ohne das Kriterium zu verletzen.\\
+\item Beweis durch Widerspruch:\\
+Sei $G=(V,E)$ ein gerichteter azyklischer Graph. Angenommen $G$ besitzt zwei verschiedene transitive Reduktionen $R_1$ und $R_2$. Betrachte eine Kante $k=(e,f) \in R_1, k \notin R_2$. \\
+z.z. Es existiert ein Weg von $e$ nach $f$ in $R_2$, der über einen dritten Knoten $v$ führt.\\
+Da $R_2$ eine transitive Reduktion ist, existiert ein dritter Knoten $v$, sodass gilt: $(e,v),(v,f)\in R_2$.\\
+z.z. Es existiert ein Weg von $e$ nach $v$ und einen Weg von $v$ nach $f$, die beide nicht die Kante $k$ enthalten.
+\\
+Widerspruch
+\\
 \item $\lambda(G) \le \delta(G)$: Man kann immer einfach alle Kanten des Knoten mit dem niedrigsten Grad entfernen, um diesen Knoten zu isolieren und den Graph in zwei Komponenten zu teilen.\\
 $\kappa(G) \le \lambda(G)$: Wenn wir $k$ Kanten entfernen können und den Graph so in zwei Komponenten teilen, können wir auch einfach einen der beiden Knoten an der Kante löschen. So wird die Kante implizit mit gelöscht und wir haben den selben Effekt. Also müssen wir maximal so viele Knoten wie Kanten entfernen, oft aber weniger, weil Knoten mehrere Kanten besitzen. Bei dieser Argumentation schließen wir vollständige Graphen aus, da dort $\kappa(G)=\lambda(G)=\delta(G)=|V|-1$. Dies bedeutet, dass man $|V|-1$ Knoten löschen müsste und somit nur noch einen Knoten überhat (sprich: Es ist unmöglich einen vollständigen Graphen durch Löschen von Knoten in zwei Komponenten aufzuteilen).
 
