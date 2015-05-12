@@ -1,71 +1,81 @@
 package blatt4;
 
-import java.util.Random;
+import java.util.Stack;
 
+/**
+ * class generates a random 3x3 field, which is filled with numbers 1,..., 8.
+ * Tries to find a solution for the generated problem.
+ * 
+ * @author Elena Resch
+ * @author Lukas Kalbertodt
+ * @author Mirko Wagner
+ * 
+ */
 public class main {
 
-	public static int RIGHT = 1;
-	public static int LEFT = -1;
-	public static int UP = 3;
-	public static int DOWN = -3;
+	/**
+	 * just for printing out the way to the solution
+	 */
+	static Stack<Field> stack;
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		int[][] field = generateField();
+		Field field = new Field();
 
-		printField(field);
+		System.out.println("start:\n" + field);
 
-	}
+		System.out
+				.println(".......................................................");
 
-	private static void beschraenkteTiefensuche(int[][] startfield) {
-
-	
-	}
-
-	private static int[][] generateField() {
-		int[] tmp = new int[9];
-		// create an empty field
-		for (int i = 0; i < tmp.length; i++) {
-			tmp[i] = -1;
+		boolean sol = beschraenkteTiefensuche(field, 40);
+		System.out.println("solution: " + sol);
+		if (!stack.isEmpty()) {
+			System.out.print(stack);
 		}
-		Random rand = new Random();
-		// fill it randomly with 8 numbers
-		for (int i = 0; i < tmp.length - 1; i++) {
-			int num = rand.nextInt(tmp.length);
-			if (tmp[num] == -1) {
-				tmp[num] = i + 1;
+	}
+
+	/**
+	 * makes a depth first search with the given start field, with specified
+	 * maximum tree depth. If no solutions are found within the depth, method
+	 * return false, as no solutions to be found
+	 * 
+	 * @param startfield
+	 *            Field with randomly generated number configuration
+	 * @param searchDepth
+	 *            maximum search depth in the tree
+	 * @return true if a solution is found, false if no solution is found within
+	 *         the given depth
+	 */
+	private static boolean beschraenkteTiefensuche(Field startfield,
+			int searchDepth) {
+		if (startfield.isEndfield()) { // startfield == endfield
+			return true;
+		}
+		stack = new Stack<Field>();
+		stack.push(startfield);
+
+		do {
+			Field actual, next;
+			// get the top element without removing it
+			actual = stack.peek();
+			// get the list of neighbors of actual
+			next = actual.nextNeighbor();
+			if (next == null) {
+				// System.out.println("pop:\n" + stack.pop());
+				stack.pop();
 			} else {
-				do {
-					num = rand.nextInt(tmp.length);
-				} while (tmp[num] != -1);
-				tmp[num] = i + 1;
-			}
-		}
-		// copy the input in a 2d-array
-		int[][] field = new int[3][3];
-		for (int i = 0; i < field.length; i++) {
-			for (int j = 0; j < field[i].length; j++) {
-				field[i][j] = tmp[j + i * 3];
-			}
-		}
-
-		return field;
-	}
-
-	private static void printField(int[][] field) {
-		System.out.print(" -------\n");
-		for (int i = 0; i < field.length; i++) {
-			System.out.print("| ");
-			for (int j = 0; j < field[i].length; j++) {
-				if (field[i][j] == -1) {
-					System.out.print("  ");
-				} else {
-					System.out.print(field[i][j] + " ");
+				if (next.isEndfield()) {
+					// System.out.println("push:\n" + next);
+					stack.push(next);
+					return true;
+				}
+				if (!stack.contains(next) && stack.size() < searchDepth) {
+					// System.out.println("push:\n" + next);
+					stack.push(next);
 				}
 			}
-			System.out.print("|\n");
-		}
-		System.out.println(" -------");
+		} while (!stack.empty());
+		// nothing found
+		return false;
 	}
 
 }
