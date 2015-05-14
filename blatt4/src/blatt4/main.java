@@ -19,18 +19,18 @@ public class main {
 	static Stack<Field> stack;
 
 	public static void main(String[] args) {
+		
 		Field field = new Field();
 
 		System.out.println("start:\n" + field);
-
 		System.out
 				.println(".......................................................");
 
 		boolean sol = beschraenkteTiefensuche(field, 40);
 		System.out.println("solution: " + sol);
-		if (!stack.isEmpty()) {
-			System.out.print(stack);
-		}
+//		if (!stack.isEmpty()) {
+//			System.out.print(stack);
+//		}
 	}
 
 	/**

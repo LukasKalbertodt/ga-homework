@@ -27,7 +27,7 @@
 \usetikzlibrary{positioning}
 \newcommand{\func}[1]{\mbox{\texttt{#1}}}
 % Dokument-Metadaten
-\title{Graphenalgorithmen: Blatt 3}
+\title{Graphenalgorithmen: Blatt 4}
 \author{Lukas Kalbertodt, Elena Resch, Mirko Wagner}
 % ===== Body =================================================================
 \begin{document}
@@ -98,6 +98,31 @@ $\kappa(G) \le \lambda(G)$: Wenn wir $k$ Kanten entfernen können und den Graph 
 		\> until isEmtpy($S'$);
 		\end{tabbing}
 	\end{minipage}
+	\item Sei $(i,j)$ eine beliebige Kante in $G$. O.B.d.A. sei nr[$i$] < nr[$j$]. Dann wurde der Knoten $i$ vor Knoten $j$ gefunden und abgearbeitet worden sein. Falls die Durchmusterung die Kante zuerst in der Richtung von $i$ nach $j$ sondiert, dann ist $j$ bis dahin noch nicht betrachtet worden. Somit wird ($i,j$) eine Baumkante. Falls die Durchmusterung die Kante ($i,j$) zuerst in Richtung von $j$ nach $i$ sondiert, dann ist ($i,j$) eine Rückwärtskante, da $i$ zu dem Zeitpunkt, zu dem die Kante erstmals sondiert wird, schon einmal betrachtet wurde.\\
+	Im Breitensuchbaum gilt für eine Kante ($i,j$) mit level[$i$] = level[$j$] oder level[$i$] = level[$j$] + 1, dass es sich um eine Querkante handelt, wobei es sich für ($i,j$) mit level[$i$] = level[$j$] + 1 auch um eine Baumkante handeln kann.
+\end{compactenum}
+\section*{Programmieraufgabe P2:}
+\begin{compactenum}[(c)]
+	\item Nicht alle Startkonfigurationen (von insgesamt 9! Möglichkeiten) haben eine Lösung, den z.B.\\
+	\begin{tabular}{|c|c|c|}
+		\hline
+		1 & 2 & 3\\
+		\hline
+		4 & 5 & 6\\
+		\hline
+		8 & 7 &\\
+		\hline
+	\end{tabular}
+	\\ist durch ein Vertauschen der Zahlen 7 und 8 entstanden und nicht durch eine Reihe von Verschiebungen von der Spielfeldzielkonfiguration:\\
+	\begin{tabular}{|c|c|c|}
+		\hline
+		1 & 2 & 3\\
+		\hline
+		4 & 5 & 6\\
+		\hline
+		7 & 8 &\\
+		\hline
+	\end{tabular}
 \end{compactenum}
 \end{document}
 

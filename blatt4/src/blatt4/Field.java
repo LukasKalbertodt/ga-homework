@@ -24,34 +24,20 @@ public class Field {
 	static final int EMPTY = -1; // number equivalent for the empty field
 
 	/**
-	 * class for a (x,y)-position in a 2d-array
-	 * 
-	 */
-	class Pos {
-		int x;
-		int y;
-
-		public Pos() {
-			x = 0;
-			y = 0;
-		}
-
-	}
-
-	/**
 	 * class variables
 	 */
 	private int[][] field; // 3x3 int-array
-	private Pos emptypos; // position of the empty field
 	private List<int[][]> neighbors;
 	private int neighborspos;
+	private int x; //x-pos of the empty field
+	private int y; //y-pos of the emtpy field
 
 	/**
 	 * C-tor generates a random 3x3 field with numbers 1,...,8
 	 */
 	public Field() {
 		this.field = generateField();
-		this.emptypos = getEmptyFieldPos();
+		setEmptyFieldPos();
 		this.neighbors = generateNeighbors();
 		this.neighborspos = 0;
 	}
@@ -62,13 +48,13 @@ public class Field {
 	 * @param field
 	 *            3x3 2d-int-array with numbers 1,..., 8
 	 */
-	private Field(int[][] field) {
-		// if (!checkField(field)) {
-		// throw new IllegalArgumentException(
-		// "field with wrong size and/or wrong arguments");
-		// }
+	public Field(int[][] field) {
+		if (!checkField(field)) {
+			throw new IllegalArgumentException(
+					"field with wrong size and/or wrong arguments");
+		 }
 		this.field = field;
-		this.emptypos = getEmptyFieldPos();
+		setEmptyFieldPos();
 		this.neighbors = generateNeighbors();
 		this.neighborspos = 0;
 	}
@@ -156,57 +142,57 @@ public class Field {
 	private int[][] getNeighbor(int direction) {
 		switch (direction) {
 		case RIGHT:
-			if (emptypos.y + 1 < SIZE) {
+			if (this.y + 1 < SIZE) {
 				int[][] n = new int[SIZE][SIZE];
 				for (int i = 0; i < SIZE; i++) {
 					for (int j = 0; j < SIZE; j++) {
 						n[i][j] = field[i][j];
 					}
 				}
-				n[emptypos.x][emptypos.y] = field[emptypos.x][emptypos.y + 1];
-				n[emptypos.x][emptypos.y + 1] = EMPTY;
+				n[this.x][this.y] = field[this.x][this.y + 1];
+				n[this.x][this.y + 1] = EMPTY;
 				return n;
 			} else {
 				return null;
 			}
 		case LEFT:
-			if (emptypos.y - 1 >= 0) {
+			if (this.y - 1 >= 0) {
 				int[][] n = new int[SIZE][SIZE];
 				for (int i = 0; i < SIZE; i++) {
 					for (int j = 0; j < SIZE; j++) {
 						n[i][j] = field[i][j];
 					}
 				}
-				n[emptypos.x][emptypos.y] = field[emptypos.x][emptypos.y - 1];
-				n[emptypos.x][emptypos.y - 1] = EMPTY;
+				n[this.x][this.y] = field[this.x][this.y - 1];
+				n[this.x][this.y - 1] = EMPTY;
 				return n;
 			} else {
 				return null;
 			}
 		case UP:
-			if (emptypos.x - 1 >= 0) {
+			if (this.x - 1 >= 0) {
 				int[][] n = new int[SIZE][SIZE];
 				for (int i = 0; i < SIZE; i++) {
 					for (int j = 0; j < SIZE; j++) {
 						n[i][j] = field[i][j];
 					}
 				}
-				n[emptypos.x][emptypos.y] = field[emptypos.x - 1][emptypos.y];
-				n[emptypos.x - 1][emptypos.y] = EMPTY;
+				n[this.x][this.y] = field[this.x - 1][this.y];
+				n[this.x - 1][this.y] = EMPTY;
 				return n;
 			} else {
 				return null;
 			}
 		case DOWN:
-			if (emptypos.x + 1 < SIZE) {
+			if (this.x + 1 < SIZE) {
 				int[][] n = new int[SIZE][SIZE];
 				for (int i = 0; i < SIZE; i++) {
 					for (int j = 0; j < SIZE; j++) {
 						n[i][j] = field[i][j];
 					}
 				}
-				n[emptypos.x][emptypos.y] = field[emptypos.x + 1][emptypos.y];
-				n[emptypos.x + 1][emptypos.y] = EMPTY;
+				n[this.x][this.y] = field[this.x + 1][this.y];
+				n[this.x + 1][this.y] = EMPTY;
 				return n;
 			} else {
 				return null;
@@ -269,7 +255,6 @@ public class Field {
 				if (i == (SIZE - 1) && j == (SIZE - 1)) {
 					return true;
 				} else {
-					// System.out.println(j + 1 + i * 3);
 					if (field[i][j] != (j + 1 + i * 3)) {
 						return false;
 					}
@@ -283,23 +268,19 @@ public class Field {
 	 * searches and returns the position of the emtpy field
 	 * @return x,y- pos
 	 */
-	private Pos getEmptyFieldPos() {
+	private void setEmptyFieldPos() {
 		int i, j = 0;
-
+		
 		// look for the position of the empty field
 		for (i = 0; i < SIZE; i++) {
 			for (j = 0; j < SIZE; j++) {
 				if (field[i][j] == EMPTY) {
-					Pos pos = new Pos();
-					pos.x = i;
-					pos.y = j;
-					// System.out.println("empty field pos: (" + i + ", " + j +
-					// ")" );
-					return pos;
+					this.x = i;
+					this.y = j;
+					return;
 				}
 			}
 		}
-		return null;
 	}
 
 	@Override
