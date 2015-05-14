@@ -52,11 +52,11 @@ $\kappa(G) \le \lambda(G)$: Wenn wir $k$ Kanten entfernen können und den Graph 
 \end{compactenum}
 \section*{Aufgabe 9:}
 \begin{compactenum}[(a)]
-	\item mithilfe des Lemmas 2.1 (Skript, S.33)\\
-	\begin{minipage}[l]{10cm}
+	\item mithilfe des Lemmas 2.1 (Skript, S.33):\\
+	\begin{minipage}[t]{0.5em}
 		\begin{tabbing}
-		xxxx\= xxxx\= xxxx\= xxxxx\= xxxx \kill
-		proc dfs($i$)\\
+		xx\= xx\= xx\= xx\= xx\= xx \kill
+		\textbf{proc dfs}($i$)\\
 		\> push($S,i$);\\
 		\> repeat\\
 		\>\> $i:=$ pop($S$);\\
@@ -66,7 +66,36 @@ $\kappa(G) \le \lambda(G)$: Wenn wir $k$ Kanten entfernen können und den Graph 
 		\>\>\> if nr[$j$] = 0 then\\
 		\>\>\>\> push($S,j$);\\
 		\>\>\>\> nr[$j$]:= -1;\\
-		\> until isEmpty($S$);
+		\>\>\> else if nr[$j$] = nr[$i$] + 1 then\\
+		\>\>\>\> print ($i,j$)  "Baumkante"\\
+		\>\>\> else if nr[$j$] > nr[$i$] + 1 then\\
+		\>\>\>\> print ($i,j$) "Vorwärtskante"\\
+		\>\>\> else if nr[$j$] < nr[$i$] then\\
+		\>\>\>\> if forfahre($j,i$) = true\\
+		\>\>\>\>\> print ($i,j$) "Rückwärtskante"\\
+		\>\>\>\> else\\
+		\>\>\>\>\> print ($i,j$) "Querkante"\\
+		\> until isEmpty($S$);\\[0.5em]
+		\end{tabbing}
+	\end{minipage}
+	\begin{minipage}[t]{0.5em}
+		\begin{tabbing}
+		xx\= xx\= xx\= xx\= xx\= xx \kill
+		//weitere Tiefensuche, ob ein Kreis entsteht, \\
+		//d.h. ob $i$ als Nachfolger von $j$ auftaucht \\
+		//oder nicht\\
+		\textbf{proc vorfahre}(j,i)\\
+		\> push($S',j$);\\
+		\> repeat\\
+		\>\> $tmp$ := pop($S'$);\\
+		\>\> markiere $tmp$ als besucht\\
+		\>\> for all Nachbarn $next$ von $tmp$ do\\
+		\>\>\> if $next$ noch nicht besucht then\\
+		\>\>\>\> if $next$ = $i$ then\\
+		\>\>\>\>\> return true;\\
+		\>\>\>\> else\\
+		\>\>\>\>\> push($S',next$);\\
+		\> until isEmtpy($S'$);
 		\end{tabbing}
 	\end{minipage}
 \end{compactenum}
