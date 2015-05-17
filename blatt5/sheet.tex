@@ -20,6 +20,8 @@
 \usepackage{longtable} % Tolle Tabellen
 \usepackage{caption}
 \usepackage[labelformat=empty]{subcaption}
+\usepackage{etoolbox}
+\usepackage{xifthen}
 
 % Deutsche Absätze: Kein Einrücken, aber Abstand
 \parskip=10pt
@@ -32,7 +34,7 @@
 \usepackage{tikz} % Graphen zeichnen
 \usetikzlibrary{arrows}
 \usetikzlibrary{positioning}
-\newcommand{\func}[1]{\mbox{\emph{#1}}}
+\newcommand{\func}[1]{\mbox{\texttt{#1}}}
 
 % Dokument-Metadaten
 \title{Graphenalgorithmen: Blatt 5}
@@ -47,6 +49,46 @@
 \tikzstyle{eNotSp} = [draw=black!25,-]    % edge not in spanning tree
 \tikzstyle{eNewSp} = [draw=red,very thick,-]    % edge new to spanning tree
 \tikzstyle{weight} = [draw=none,shape=circle, fill=white,inner sep=1pt,font=\scriptsize]
+\tikzstyle{vHeap} = [draw=black,shape=circle,inner sep=2pt] % vertex in heap
+\tikzstyle{eHeap} = [draw=black,thick,<-]  % edge in heap
+
+%%% Some commands for outputting stuff
+% To draw a heap. Argument looks like that: {(0,1)}/b/{a,4}/x,{(1,2)}/c/{a,2}/b
+% List of (position)/name/pred-cost/father ... When no father -> father=x
+% Call: \drawheap{{(0,1)}/b/{a,4}/x,{(1,2)}/c/{a,2}/b}
+\newcommand{\drawheap}[1] {
+    \newline
+    \begin{tikzpicture}[scale=1.4]
+        \foreach \pos /\name /\predcost /\father in {#1} {
+            \node[vHeap](\name) [align=center] at \pos{\small{$\name$}\\[-0.3cm] \tiny{\predcost} };
+            \ifthenelse{\NOT \equal{\father}{x}} {
+                \path[eHeap](\father) -> (\name);
+            } {};
+        }
+    \end{tikzpicture}
+}
+% To draw the graph. Nodes as first argument, edges as second argument.
+% Nodes: (pos)/name/style   (see below for example)
+% Edges: source/dest/cost/style   (see below for example)
+\newcommand{\drawgraph}[2] {
+    \newline
+    \begin{tikzpicture}[scale=1.4]
+        \foreach \pos /\name /\style in {#1}
+            \node[\style](\name) at \pos{$\name$};
+        \foreach \source /\dest /\weight /\style in {#2}
+            \path[\style] (\source) -- node[weight] {$\weight$} (\dest);
+    \end{tikzpicture}
+}
+
+% To print a list of heap operations
+\newcommand{\printheapops}[1]{
+    \newline \small \begin{itemize}
+        #1
+    \end{itemize}
+}
+
+% shortcut for seperation within the table between steps
+\newcommand{\stepsep}{\\ \multicolumn{3}{c}{\textcolor{lightgray}{\rule{8cm}{0.4pt}}} \\}
 
 % ===== Body =================================================================
 \begin{document}
@@ -56,71 +98,64 @@
 \section*{Aufgabe 10:}
 \emph{Hinweis}: Es wird angenommen, dass mit \enquote{Heap} ein \enquote{BinaryHeap} gemeint ist.\\[0.2cm]
 \emph{Legende für den Graphen}: Dick schwarz umkreiste Knoten sind im Spannbaum enthalten. Die dicke rote Kante wird in dem Schritt als neue Kante dem Spannbaum hinzugefügt. Blaue Kanten befinden sich bereits im Spannbaum.\\[0.2cm]
-\emph{Legende for den BinaryHeap}:
+\emph{Legende for den BinaryHeap}: Der dickere Buchstabe in jedem Knoten des Heaps steht für den Knoten im Graphen. In er zweiten Zeile steht zuerst der Predecessor und dann die Kosten.
 
-% shortcut for seperation within the table between steps
-\newcommand{\stepsep}{\\ \multicolumn{2}{c}{\textcolor{lightgray}{\rule{3.5cm}{0.4pt}}} \\}
 
-\begin{longtable}{p{0.45\textwidth} p{0.45\textwidth}}
-\begin{tikzpicture}[scale=1.4]
-    \foreach \pos /\name /\style in
+\begin{longtable}{p{0.4\textwidth} p{0.23\textwidth} p{0.29\textwidth}}
+\drawgraph
     {{(0,1)}/a/vInSp,{(1,2)}/b/vNotSp,{(1,0)}/c/vNotSp,{(2,1)}/d/vNotSp,{(3,2)}/e/vNotSp,{(3,0)}/f/vNotSp}
-        \node[\style](\name) at \pos{$\name$};
-    \foreach \source /\dest /\weight /\style in
     {a/b/4/eNotSp, a/c/2/eNewSp, b/c/5/eNotSp, b/d/9/eNotSp, b/e/6/eNotSp, c/d/8/eNotSp, c/f/7/eNotSp, d/e/3/eNotSp, d/f/10/eNotSp, e/f/9/eNotSp}
-        \path[\style] (\source) -- node[weight] {$\weight$} (\dest);
-\end{tikzpicture}
-& % -----------------------
+& \drawheap{{(1,2)}/c/{a,2}/x,{(0,1)}/b/{a,4}/c}
+& \printheapops{
+    \item \func{insert(b, a, 4)}
+    \item \func{insert(c, a, 2)}
+}
+
 \stepsep % ==================================
-\begin{tikzpicture}[scale=1.4]
-    \foreach \pos /\name /\style in
+\drawgraph
     {{(0,1)}/a/vInSp,{(1,2)}/b/vNotSp,{(1,0)}/c/vInSp,{(2,1)}/d/vNotSp,{(3,2)}/e/vNotSp,{(3,0)}/f/vNotSp}
-        \node[\style](\name) at \pos{$\name$};
-    \foreach \source /\dest /\weight /\style in
     {a/b/4/eNewSp, a/c/2/eInSp, b/c/5/eNotSp, b/d/9/eNotSp, b/e/6/eNotSp, c/d/8/eNotSp, c/f/7/eNotSp, d/e/3/eNotSp, d/f/10/eNotSp, e/f/9/eNotSp}
-        \path[\style] (\source) -- node[weight] {$\weight$} (\dest);
-\end{tikzpicture}
-& % -----------------------
+& \drawheap{{(1,2)}/b/{a,4}/x, {(0,1)}/d/{c,8}/b, {(2,1)}/f/{c,7}/b}
+& \printheapops{
+    \item \func{remove(c)}
+    \item \func{insert(d, c, 8)}
+    \item \func{insert(f, c, 7)}
+}
+
 \stepsep % ==================================
-\begin{tikzpicture}[scale=1.4]
-    \foreach \pos /\name /\style in
+\drawgraph
     {{(0,1)}/a/vInSp,{(1,2)}/b/vInSp,{(1,0)}/c/vInSp,{(2,1)}/d/vNotSp,{(3,2)}/e/vNotSp,{(3,0)}/f/vNotSp}
-        \node[\style](\name) at \pos{$\name$};
-    \foreach \source /\dest /\weight /\style in
     {a/b/4/eInSp, a/c/2/eInSp, b/c/5/eNotSp, b/d/9/eNotSp, b/e/6/eNewSp, c/d/8/eNotSp, c/f/7/eNotSp, d/e/3/eNotSp, d/f/10/eNotSp, e/f/9/eNotSp}
-        \path[\style] (\source) -- node[weight] {$\weight$} (\dest);
-\end{tikzpicture}
-& % -----------------------
+& \drawheap{{(1,2)}/e/{b,6}/x, {(0,1)}/d/{c,8}/b, {(2,1)}/f/{c,7}/b}
+& \printheapops{
+    \item \func{remove(b)}
+    \item \func{insert(e, b, 6)}
+}
 \stepsep % ==================================
-\begin{tikzpicture}[scale=1.4]
-    \foreach \pos /\name /\style in
+\drawgraph
     {{(0,1)}/a/vInSp,{(1,2)}/b/vInSp,{(1,0)}/c/vInSp,{(2,1)}/d/vNotSp,{(3,2)}/e/vInSp,{(3,0)}/f/vNotSp}
-        \node[\style](\name) at \pos{$\name$};
-    \foreach \source /\dest /\weight /\style in
     {a/b/4/eInSp, a/c/2/eInSp, b/c/5/eNotSp, b/d/9/eNotSp, b/e/6/eInSp, c/d/8/eNotSp, c/f/7/eNotSp, d/e/3/eNewSp, d/f/10/eNotSp, e/f/9/eNotSp}
-        \path[\style] (\source) -- node[weight] {$\weight$} (\dest);
-\end{tikzpicture}
-& % -----------------------
+& \drawheap{{(1,2)}/d/{e,3}/x, {(0,1)}/f/{c,7}/b}
+& \printheapops{
+    \item \func{remove(e)}
+    \item \func{update(d, e, 3)}
+}
 \stepsep % ==================================
-\begin{tikzpicture}[scale=1.4]
-    \foreach \pos /\name /\style in
+\drawgraph
     {{(0,1)}/a/vInSp,{(1,2)}/b/vInSp,{(1,0)}/c/vInSp,{(2,1)}/d/vInSp,{(3,2)}/e/vInSp,{(3,0)}/f/vNotSp}
-        \node[\style](\name) at \pos{$\name$};
-    \foreach \source /\dest /\weight /\style in
     {a/b/4/eInSp, a/c/2/eInSp, b/c/5/eNotSp, b/d/9/eNotSp, b/e/6/eInSp, c/d/8/eNotSp, c/f/7/eNewSp, d/e/3/eInSp, d/f/10/eNotSp, e/f/9/eNotSp}
-        \path[\style] (\source) -- node[weight] {$\weight$} (\dest);
-\end{tikzpicture}
-& % -----------------------
+& \drawheap{{(1,2)}/f/{c,7}/x}
+& \printheapops{
+    \item \func{remove(d)}
+}
 \stepsep % ==================================
-\begin{tikzpicture}[scale=1.4]
-    \foreach \pos /\name /\style in
+\drawgraph
     {{(0,1)}/a/vInSp,{(1,2)}/b/vInSp,{(1,0)}/c/vInSp,{(2,1)}/d/vInSp,{(3,2)}/e/vInSp,{(3,0)}/f/vInSp}
-        \node[\style](\name) at \pos{$\name$};
-    \foreach \source /\dest /\weight /\style in
     {a/b/4/eInSp, a/c/2/eInSp, b/c/5/eNotSp, b/d/9/eNotSp, b/e/6/eInSp, c/d/8/eNotSp, c/f/7/eInSp, d/e/3/eInSp, d/f/10/eNotSp, e/f/9/eNotSp}
-        \path[\style] (\source) -- node[weight] {$\weight$} (\dest);
-\end{tikzpicture}
-& % -----------------------
+&
+& \printheapops{
+    \item \func{remove(f)}
+}
 \end{longtable}
 
 \end{document}
