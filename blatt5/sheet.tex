@@ -168,7 +168,29 @@
         \item $c(e) > c(e^*)$: Wenn wir in $T$ die Kante $e$ durch $e*$ ersetzen würden, hätten wir wieder einen Spannbaum, aber mit geringeren Kosten. Weder $T$ noch $T^*$ waenr also minimale Spannbäume: Wiederspruch!
         \item $c(e) < c(e^*)$: Analog.
     \end{compactenum}
-    \hfill $\square$
+    \hfill $\square$\\
+
+    \item Die Behauptung ist falsch. Im folgenden trivialen Gegenbeispiel ist der Spannbaum eindeutig bestimmt, aber es gibt zwei gleiche Kantenkosten:\\
+    \begin{center}
+    \begin{tikzpicture}[-,auto,node distance=2cm, thick,node/.style={circle,draw,inner sep=0pt, minimum size=20pt}]
+        \node[node] (a) {};
+        \node[node] (b) [right of=a] {};
+        \node[node] (c) [right of=b] {};
+        \path[every node/.style={font=\sffamily\small}]
+            (a) edge [] node[] {7} (b)
+            (b) edge [] node[] {7} (c);
+    \end{tikzpicture}\\[0.5cm]
+    \end{center}
+
+    \item In allen Graphen, die in zwei Komponenten zerfallen, wenn man die teuerste Kante löscht, ist die teuerste Kante offentsichtlich auch Teil jedes Spannbaums. Minimalbeispiel:\\
+    \begin{center}
+    \begin{tikzpicture}[-,auto,node distance=2cm, thick,node/.style={circle,draw,inner sep=0pt, minimum size=20pt}]
+        \node[node] (a) {};
+        \node[node] (b) [right of=a] {};
+        \path[every node/.style={font=\sffamily\small}]
+            (a) edge [] node[] {7} (b);
+    \end{tikzpicture}
+    \end{center}
 
 \end{compactenum}
 \end{document}
