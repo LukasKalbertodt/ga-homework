@@ -330,6 +330,7 @@ public class GraphImpl implements Graph, RenderableGraph {
 		Map<Integer, Double> successors = this.m_adjacencylist.get(start);
 		successors.remove(end);
 		this.m_adjacencylist.set(start, successors);
+		
 		if (!this.m_directed) {
 			successors = this.m_adjacencylist.get(end);
 			successors.remove(start);
@@ -338,13 +339,20 @@ public class GraphImpl implements Graph, RenderableGraph {
 	}
 
 	/**
-	 * removes the vertex with the last number. If graph has no vertices nothing
-	 * happens
+	 * removes the vertex with the last number, and its incident edges. If graph
+	 * has no vertices nothing happens
 	 */
 	@Override
 	public void removeVertex() {
 		if (!this.m_adjacencylist.isEmpty()) {
-			this.m_adjacencylist.remove(--this.m_vertexCount);
+			// remove all edges incident to the last vertex
+			// remove all predecessors
+			List<Integer> pred = this.getPredecessors(this.m_vertexCount);
+			for (int i = 0; i < pred.size(); i++) {
+				this.removeEdge(pred.get(i), this.m_vertexCount);
+			}
+			//remove all successors and the vertex
+			this.m_adjacencylist.remove(--this.m_vertexCount); // an pos
 		}
 	}
 
