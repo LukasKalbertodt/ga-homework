@@ -11,12 +11,20 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Set;
 
+/**
+ * 
+ * @author Elena Resch
+ * @author Lukas Kalbertodt
+ * @author Mirko Wagner
+ *
+ */
 public class Prim {
 
 	/**
@@ -242,6 +250,7 @@ public class Prim {
 
 	/**
 	 * Method returns a minimum spanning tree of an undirected, weighted graph
+	 * and uses a heap
 	 * 
 	 * @param g
 	 *            instance of Graph and RenderableGraph
@@ -269,19 +278,18 @@ public class Prim {
 		int[] pred = new int[vertexcount]; // predecessors
 
 		// heap with specified comparator for weights
-		PriorityQueue<Edge> heap = new PriorityQueue<>(vertexcount
-				* vertexcount, new Comparator<Edge>() {
+		PriorityQueue<Edge> heap = new PriorityQueue<>(vertexcount,
+				new Comparator<Edge>() {
 
-			@Override
-			public int compare(Edge e1, Edge e2) {
-				if (e1.weight < e2.weight)
-					return -1;
-				if (e1.weight > e2.weight)
-					return 1;
-				return 0;
-			}
-
-		});
+					@Override
+					public int compare(Edge e1, Edge e2) {
+						if (e1.weight < e2.weight)
+							return -1;
+						if (e1.weight > e2.weight)
+							return 1;
+						return 0;
+					}
+				});
 
 		// all distances are positive infinity
 		for (int i = 0; i < vertexcount; i++) {
@@ -298,20 +306,15 @@ public class Prim {
 			heap.add(new Edge(0, j, d[j]));
 		}
 
-		System.out.println();
 		// while-loop
 		while (edges.size() != vertexcount - 1) {
 			// get the minimum
-			System.out.println("s: " + s);
-			System.out.println("heap: " + heap);
 			Edge minimum = heap.poll();
-			System.out.println("Minimum: " + minimum);
 			if (minimum == null) {
 				System.out.println("graph not connected.");
 				return null;
 			}
 			int i = minimum.node;
-			System.out.println("add: " + i);
 			s.add(i);
 			cost += minimum.weight;
 			edges.add(new Edge(pred[i], i, g.getWeight(pred[i], i)));
@@ -331,9 +334,7 @@ public class Prim {
 						heap.add(edge);
 					}
 				}
-
 			}
-			System.out.println();
 		}
 
 		GraphImpl mst = new GraphImpl(false, true);
@@ -346,13 +347,108 @@ public class Prim {
 		}
 		System.out.println("edges:" + edges);
 		System.out.println("cost: " + cost);
-		System.out.println();
 		return mst;
 	}
 
-	
-	
-	
+	public static RenderableGraph minimumSpanningTree2(RenderableGraph g) {
+		if (g == null)
+			return null;
+		if (!(g instanceof Graph))
+			return null;
+		if (g.getNodeCount() == 0)
+			return new GraphImpl(false, true); // return an empty graph
+		if (g.isDirected() || !g.isWeighted())
+			return null; // MST defined only for weighted undirected graphs
+
+		int vertexcount = g.getNodeCount();
+
+		// prims algorithm
+		double cost = 0.0; // current cost
+		List<Edge> edges = new ArrayList<Edge>(); // list of edges
+		Set<Integer> s = new HashSet<Integer>(); // Set of vertices
+		double[] d = new double[vertexcount]; // distances
+		int[] pred = new int[vertexcount]; // predecessors
+
+		List<Edge> sorted = new ArrayList<Edge>();
+		Comparator<Edge> comp = new Comparator<Edge>() { // comparator for the
+															// sorting-operation
+			@Override
+			public int compare(Edge e1, Edge e2) {
+				if (e1.weight < e2.weight)
+					return -1;
+				if (e1.weight > e2.weight)
+					return 1;
+				return 0;
+			}
+		};
+
+		// all distances are positive infinity
+		for (int i = 0; i < vertexcount; i++) {
+			d[i] = Double.MAX_VALUE;
+		}
+		s.add(0);
+
+		// add all neighbors of 0 into the heap
+		List<Integer> neighbors = ((Graph) g).getNeighbors(0);
+		for (int i = 0; i < neighbors.size(); i++) {
+			int j = neighbors.get(i);
+			pred[j] = 0;
+			d[j] = g.getWeight(0, j);
+			sorted.add(new Edge(0, j, d[j]));
+		}
+
+		// while-loop
+		while (edges.size() != vertexcount - 1) {
+			// get the minimum
+			Collections.sort(sorted, comp);
+			Edge minimum;
+			try {
+				minimum = sorted.get(0);
+				sorted.remove(0);
+			} catch (IndexOutOfBoundsException e) {
+				System.out.println("graph not connected.");
+				return null;
+			}
+			int i = minimum.node;
+			s.add(i);
+			cost += minimum.weight;
+			edges.add(new Edge(pred[i], i, g.getWeight(pred[i], i)));
+
+			// check the neighbors of i
+			List<Integer> n = ((Graph) g).getNeighbors(i);
+			for (int k = 0; k < n.size(); k++) {
+				int j = n.get(k);
+				if (!s.contains(j)) {
+					if (g.getWeight(i, j) < d[j]) {
+						d[j] = g.getWeight(i, j);
+						pred[j] = i;
+						Edge edge = new Edge(i, j, d[j]);
+
+						// both methods for updateHeap
+						sorted.remove(edge);
+						sorted.add(edge);
+					}
+				}
+			}
+		}
+
+		GraphImpl mst = new GraphImpl(false, true);
+		for (int i = 0; i < vertexcount; i++) {
+			mst.addVertex();
+		}
+		for (int i = 0; i < edges.size(); i++) {
+			Edge tmp = edges.get(i);
+			mst.addEdge(tmp.pred, tmp.node, tmp.weight);
+		}
+		System.out.println("edges:" + edges);
+		System.out.println("cost: " + cost);
+		return mst;
+	}
+
+	/**
+	 * main-function neads a *.gra-filename as a parameter
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		if (args.length != 1) {
 			System.out.println("java -jar Prim.jar <filename>");
@@ -360,14 +456,23 @@ public class Prim {
 		}
 		GraphImpl graph = readGraFile(args[0]);
 		if (graph != null) {
-			GraphImpl mst = (GraphImpl) minimumSpanningTree(graph);
 			String filename = graToPngString(args[0]);
 			try {
 				RenderGraph.renderGraph(graph, filename);
 				System.out.println(filename + " created.");
+				System.out.println("--------------------------------------");
+				System.out.println("mst with a heap: ");
+				GraphImpl mst = (GraphImpl) minimumSpanningTree(graph);
 				if (mst != null) {
 					RenderGraph.renderGraph(mst, "mst_" + filename);
 					System.out.println("mst_" + filename + " created.");
+				}
+				System.out.println("--------------------------------------");
+				System.out.println("mst with a list: ");
+				GraphImpl mst2 = (GraphImpl) minimumSpanningTree2(graph);
+				if(mst2 != null) {
+					RenderGraph.renderGraph(mst2, "mst2_" + filename);
+					System.out.println("mst2_" + filename + " created.");	
 				}
 			} catch (IOException e) {
 				System.out.println(filename + " could not be created.");

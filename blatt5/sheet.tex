@@ -193,4 +193,38 @@
     \end{center}
 
 \end{compactenum}
+\section*{Programmieraufgabe P3:}
+Die \textbf{PriorityQueue} enthält maximal $n = |V|$ Elemente. Da sie auf der Idee eines Heaps basiert, gilt in der von uns implementierten minimumSpanningTree()-Methode: 
+
+\begin{compactenum}[(1)]
+\item Alle Nachbarn vom Startknoten in den Heap einfügen: $O(n \cdot \log (n))$.
+\item while-Schleife: $O(n)$ 
+\begin{compactenum}[(a)]
+\item Minimum des Heaps und dessen Reparatur: $O(\log(n))$
+\item Nachbarn eines Knoten bestimmen: $O(1)$
+\item Durch alle Nachbarn durchlaufen: $O(n)$
+\item Wenn der Knoten nicht in $S$ ist, evtl. Kanten und Gewichte updaten: $O(\log(n))$
+\end{compactenum}
+\item MST mit $n$ Knoten und $n-1$ Kanten erstellen: $O(n)$
+\end{compactenum}
+Insgesamt also: $O(n\cdot \log(n)) + (n-1)\cdot O( \log(n) + O(n) \cdot O(\log (n))) + O(n) \Rightarrow O(n^2 \cdot \log (n))$.\\[1.0em]
+Die \textbf{Liste} enthält maximal $n = |V|$ Elemente. Die Laufzeiten der von uns implementierten minimumSpanningTree2()-Methode: 
+
+\begin{compactenum}[(1)]
+\item Alle Nachbarn vom Startknoten in den Heap einfügen: $O(n)$.
+\item while-Schleife: $O(n)$ 
+\begin{compactenum}[(a)]
+\item Sortieren der Liste aufsteigend nach Kosten \\
+	(mit dem besten Sortierfahren): $O(n\cdot \log(n))$\\
+	(mit dem schlechtesten Sortierverfahren): $O(n^2)$
+\item Nachbarn eines Knoten bestimmen: $O(1)$
+\item Durch alle Nachbarn durchlaufen: $O(n)$
+\item Wenn der Knoten nicht in $S$ ist, evtl. Kanten und Gewichte updaten: $O(n)$
+\end{compactenum}
+\item MST mit $n$ Knoten und $n-1$ Kanten erstellen: $O(n)$
+\end{compactenum}
+Insgesamt also:\\
+mit gutem Sortierverfahren: $O(n) + (n-1)\cdot(O( n\cdot \log(n)) + O(n) \cdot O(n)) + O(n) \Rightarrow O(n^3)$.\\
+mit schlechtem Sortierverfahren: $O(n) + (n-1)\cdot (O( n^2 )+ O(n) \cdot O(n)) + O(n) \Rightarrow O(n^3)$.
+
 \end{document}
