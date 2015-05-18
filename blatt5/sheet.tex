@@ -98,7 +98,7 @@
 \section*{Aufgabe 10:}
 \emph{Hinweis}: Es wird angenommen, dass mit \enquote{Heap} ein \enquote{BinaryHeap} gemeint ist.\\[0.2cm]
 \emph{Legende für den Graphen}: Dick schwarz umkreiste Knoten sind im Spannbaum enthalten. Die dicke rote Kante wird in dem Schritt als neue Kante dem Spannbaum hinzugefügt. Blaue Kanten befinden sich bereits im Spannbaum.\\[0.2cm]
-\emph{Legende for den BinaryHeap}: Der dickere Buchstabe in jedem Knoten des Heaps steht für den Knoten im Graphen. In er zweiten Zeile steht zuerst der Predecessor und dann die Kosten.
+\emph{Legende for den BinaryHeap}: Der dickere Buchstabe in jedem Knoten des Heaps steht für den Knoten im Graphen. In der zweiten Zeile steht zuerst der Predecessor und dann die Kosten.
 
 
 \begin{longtable}{p{0.4\textwidth} p{0.23\textwidth} p{0.29\textwidth}}
@@ -165,7 +165,7 @@
     Wir wählen nun eine Kante $e \in T \setminus T^*$ und löschen sie aus $T$. $T$ ist jetzt ein Wald mit zwei Komponenten/Bäumen. $T^*$ besitzt eine Kante $e^*$, die diese beiden Komponenten in $T$ verbindet. Nach Vorraussetzung ist $c(e) \ne c(e^*)$, somit können genau zwei Fälle auftreten:\\
 
     \begin{compactenum}[1.]
-        \item $c(e) > c(e^*)$: Wenn wir in $T$ die Kante $e$ durch $e*$ ersetzen würden, hätten wir wieder einen Spannbaum, aber mit geringeren Kosten. Weder $T$ noch $T^*$ waenr also minimale Spannbäume: Wiederspruch!
+        \item $c(e) > c(e^*)$: Wenn wir in $T$ die Kante $e$ durch $e*$ ersetzen würden, hätten wir wieder einen Spannbaum, aber mit geringeren Kosten. Weder $T$ noch $T^*$ wären also minimale Spannbäume: Wiederspruch!
         \item $c(e) < c(e^*)$: Analog.
     \end{compactenum}
     \hfill $\square$\\
