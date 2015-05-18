@@ -158,4 +158,17 @@
 }
 \end{longtable}
 
+\newpage
+\section*{Aufgabe 11:}
+\begin{compactenum}[(a)]
+    \item Seien alle Kantengewichte in $G$ paarweise unterschiedlich. Gegeben sei $T$, ein minimaler Spannbaum von $G$ mit dem Wert $v$. Angenommen es gibt einen weiteren Spannbaum $T^* \ne T$ von $G$ mit dem Wert $v^*$, wobei $v^* = v$ (also ist $T^*$ auch minimal).\\
+    Wir wählen nun eine Kante $e \in T \setminus T^*$ und löschen sie aus $T$. $T$ ist jetzt ein Wald mit zwei Komponenten/Bäumen. $T^*$ besitzt eine Kante $e^*$, die diese beiden Komponenten in $T$ verbindet. Nach Vorraussetzung ist $c(e) \ne c(e^*)$, somit können genau zwei Fälle auftreten:\\
+
+    \begin{compactenum}[1.]
+        \item $c(e) > c(e^*)$: Wenn wir in $T$ die Kante $e$ durch $e*$ ersetzen würden, hätten wir wieder einen Spannbaum, aber mit geringeren Kosten. Weder $T$ noch $T^*$ waenr also minimale Spannbäume: Wiederspruch!
+        \item $c(e) < c(e^*)$: Analog.
+    \end{compactenum}
+    \hfill $\square$
+
+\end{compactenum}
 \end{document}
