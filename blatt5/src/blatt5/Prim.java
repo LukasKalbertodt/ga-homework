@@ -350,6 +350,16 @@ public class Prim {
 		return mst;
 	}
 
+	/**
+	 * Method returns a minimum spanning tree of an undirected, weighted graph
+	 * and uses lists
+	 * 
+	 * @param g
+	 *            instance of Graph and RenderableGraph
+	 * @return minimum spanning tree of the given graph, null if given graph is
+	 *         null or is not an instance of Graph or if it is directed or not
+	 *         weighted
+	 */
 	public static RenderableGraph minimumSpanningTree2(RenderableGraph g) {
 		if (g == null)
 			return null;
@@ -362,7 +372,7 @@ public class Prim {
 
 		int vertexcount = g.getNodeCount();
 		Comparator<Edge> comp = new Comparator<Edge>() { // comparator for the
-			// sorting-operation
+															// sorting-operation
 			@Override
 			public int compare(Edge e1, Edge e2) {
 				if (e1.weight < e2.weight)
@@ -378,7 +388,7 @@ public class Prim {
 		List<Edge> edges = new ArrayList<Edge>(); // list of edges
 		List<Integer> s = new ArrayList<Integer>(); // Set of vertices
 		List<Integer> s_across = new ArrayList<Integer>();
-		List<Edge> sortededges = new ArrayList<Edge>();
+		List<Edge> sortedEdges = new ArrayList<Edge>();
 
 		// add vertices minus 0 to s_across
 		for (int i = 1; i < vertexcount; i++) {
@@ -389,7 +399,8 @@ public class Prim {
 		// while-loop
 		while (s.size() != vertexcount) {
 			// choose the cheapest edge {i,j} with i in S and j in S'
-			Edge min = getCheapestEdge(s, s_across, (Graph) g, comp);
+			Edge min = getCheapestEdge(s, s_across, (Graph) g, comp,
+					sortedEdges);
 			if (min != null) {
 				edges.add(min);
 				s.add(min.node);
@@ -415,40 +426,105 @@ public class Prim {
 		return mst;
 	}
 
+	/**
+	 * return the cheapest edge in Graph or null
+	 * 
+	 * @param s
+	 *            vertices which are already in mst
+	 * @param s_across
+	 *            vertices which are not yet considered
+	 * @param g
+	 *            instance of graph
+	 * @param comp
+	 *            comparator to sort the edges
+	 * @param edges
+	 *            list of already inserted edges to be considered
+	 * @return cheapest edge in graph or null if graph is not connected
+	 */
 	private static Edge getCheapestEdge(List<Integer> s,
-			List<Integer> s_across, Graph g, Comparator<Edge> comp) {
-		List<Edge> edges = new ArrayList<Edge>();
-		for (int i = 0; i < s.size(); i++) {
-			for (int j = 0; j < s_across.size(); j++) {
-				int pred = s.get(i);
-				int node = s_across.get(j);
-				if (g.hasEdge(pred, node)) {
-					edges.add(new Edge(pred, node, g
-							.getWeightOfEdge(pred, node)));
+			List<Integer> s_across, Graph g, Comparator<Edge> comp,
+			List<Edge> edges) {
+		// create a new list to get the edges to connect the already built
+		// subgraph with the rest of vertices of g
+		int pred = s.get(s.size() - 1);
+
+		for (int j = 0; j < s_across.size(); j++) {
+			int node = s_across.get(j);
+			if (g.hasEdge(pred, node)) {
+				Edge newEdge = new Edge(pred, node, g.getWeightOfEdge(pred, node));
+				int index;
+				if((index = edges.indexOf(newEdge)) == -1){
+					edges.add(newEdge);
+				}else {
+					Edge oldEdge = edges.get(index);
+					if(oldEdge.weight > newEdge.weight) {
+						edges.remove(index);
+						edges.add(newEdge);
+					}
 				}
+				
 			}
 		}
-		if (edges.isEmpty()) {
-			return null;
+		if (edges.isEmpty()) { // s not empty, s_across not empty, but no edges
+								// between the sets
+			return null; // => g not connected
 		}
-		 Collections.sort(edges, comp);
-		 return edges.get(0);
+		Collections.sort(edges, comp);
+		Edge min =edges.get(0);
+		edges.remove(0);
+		return min;
 	}
 
 	/**
-	 * main-function neads a *.gra-filename as a parameter
+	 * Creates a complete graph with n>= 1 vertices and computes its minimum
+	 * spanning tree while measuring time
 	 * 
-	 * @param args
+	 * @param vnumber
+	 *            number of vertices, vnumber>=1
 	 */
-	public static void main(String[] args) {
-		if (args.length != 1) {
-			System.out.println("java -jar Prim.jar <filename>");
-			return;
+	private static void checkCompleteGraphInstance(int vnumber) {
+
+		System.out.println("number of vertices: " + vnumber);
+		// create a bigger graph
+		double cost = 1.0;
+		GraphImpl g = new GraphImpl(false, true);
+		for (int i = 0; i < vnumber; i++) {
+			g.addVertex();
+		}
+		for (int i = 0; i < vnumber; i++) {
+			for (int j = i + 1; j < vnumber; j++) {
+				g.addEdge(i, j, cost);
+				cost += 1.0;
+			}
 		}
 		long end, start;
-		GraphImpl graph = readGraFile(args[0]);
+
+		System.out.println("mst with heap:");
+		start = System.currentTimeMillis();
+		minimumSpanningTree(g);
+		end = System.currentTimeMillis();
+		System.out.println("time: " + (end - start) / 1000.0 + " sec");
+		System.out.println("--------------------------------------");
+		System.out.println("mst with lists:");
+		start = System.currentTimeMillis();
+		minimumSpanningTree2(g);
+		end = System.currentTimeMillis();
+		System.out.println("time: " + (end - start) / 1000.0 + " sec");
+		System.out.println("--------------------------------------");
+	}
+
+	/**
+	 * reads the .gra-file, creates a graph and its minimum spanning tree
+	 * 
+	 * @param args
+	 *            filename *.gra
+	 */
+	private static void createMSTfromFile(String args) {
+		long end, start;
+		System.out.println("reading " + args + ".");
+		GraphImpl graph = readGraFile(args);
 		if (graph != null) {
-			String filename = graToPngString(args[0]);
+			String filename = graToPngString(args);
 			try {
 				RenderGraph.renderGraph(graph, filename);
 				System.out.println(filename + " created.");
@@ -479,5 +555,27 @@ public class Prim {
 		} else {
 			System.out.println("error in creating a graph");
 		}
+	}
+
+	/**
+	 * main-function neads a *.gra-filename as a parameter
+	 * 
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		if (args.length != 1) {
+			System.out.println("java -jar Prim.jar <filename>");
+			return;
+		}
+		
+//		checkCompleteGraphInstance(10);
+//		checkCompleteGraphInstance(50);
+//		checkCompleteGraphInstance(100);
+//		checkCompleteGraphInstance(500);
+//		checkCompleteGraphInstance(1000);
+//		checkCompleteGraphInstance(2000);
+
+		 createMSTfromFile(args[0]);
+
 	}
 }

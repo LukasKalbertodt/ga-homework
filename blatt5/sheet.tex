@@ -193,4 +193,30 @@ Kosten des MST: $c= 22$
     \end{center}
 
 \end{compactenum}
+\section*{Programmieraufgabe P3:}
+Für kleine Instanzen von Graphen sind in den implementierungen der Methoden keine bzw. kaum Unterschiede vorhanden. Werden jedoch die Instanzen größer, beispielsweise bei vollständigen Graphen mit $n \geq 20$, so werden die Unterschiede der Laufzeiten deutlich:
+
+\begin{minipage}[b]{0.3\textwidth}
+\begin{tabular}{c|c|c}
+ & \multicolumn{2}{c}{Laufzeit (sec)}\\
+$n$ & heap & lists\\
+\hline \hline
+10 & 0.003 & 0.004 \\
+\hline
+50 & 0.026 & 0.019 \\ 
+\hline
+100 & 0.034 & 0.035 \\
+\hline
+500 & 0.608 & 1.029 \\
+\hline
+1000 & 4.302 & 7.548\\
+\hline
+2000 & 32.1 & 60.485\\
+\hline
+\end{tabular}   
+\end{minipage}
+\begin{minipage}[b]{0.7\textwidth}
+Die Erklärung liegt in der Menge der Kanten. Ein Heap muss in jedem nächstbilligsten Knoten die neu dazugekommenen Kanten zum Heap zufügen oder diese updaten. Die von uns implementierte Methode mit den Listen übernimmt diese Idee, aber da Listenlaufzeiten langsamer sind, ist auch die Methode langsamer.
+\end{minipage}
+
 \end{document}
