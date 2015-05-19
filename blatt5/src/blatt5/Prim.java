@@ -23,7 +23,7 @@ import java.util.Set;
  * @author Elena Resch
  * @author Lukas Kalbertodt
  * @author Mirko Wagner
- *
+ * 
  */
 public class Prim {
 
@@ -361,17 +361,8 @@ public class Prim {
 			return null; // MST defined only for weighted undirected graphs
 
 		int vertexcount = g.getNodeCount();
-
-		// prims algorithm
-		double cost = 0.0; // current cost
-		List<Edge> edges = new ArrayList<Edge>(); // list of edges
-		Set<Integer> s = new HashSet<Integer>(); // Set of vertices
-		double[] d = new double[vertexcount]; // distances
-		int[] pred = new int[vertexcount]; // predecessors
-
-		List<Edge> sorted = new ArrayList<Edge>();
 		Comparator<Edge> comp = new Comparator<Edge>() { // comparator for the
-															// sorting-operation
+			// sorting-operation
 			@Override
 			public int compare(Edge e1, Edge e2) {
 				if (e1.weight < e2.weight)
@@ -382,56 +373,35 @@ public class Prim {
 			}
 		};
 
-		// all distances are positive infinity
-		for (int i = 0; i < vertexcount; i++) {
-			d[i] = Double.MAX_VALUE;
+		// prims algorithm without a heap
+		double cost = 0.0; // current cost
+		List<Edge> edges = new ArrayList<Edge>(); // list of edges
+		List<Integer> s = new ArrayList<Integer>(); // Set of vertices
+		List<Integer> s_across = new ArrayList<Integer>();
+		List<Edge> sortededges = new ArrayList<Edge>();
+
+		// add vertices minus 0 to s_across
+		for (int i = 1; i < vertexcount; i++) {
+			s_across.add(i);
 		}
 		s.add(0);
 
-		// add all neighbors of 0 into the heap
-		List<Integer> neighbors = ((Graph) g).getNeighbors(0);
-		for (int i = 0; i < neighbors.size(); i++) {
-			int j = neighbors.get(i);
-			pred[j] = 0;
-			d[j] = g.getWeight(0, j);
-			sorted.add(new Edge(0, j, d[j]));
-		}
-
 		// while-loop
-		while (edges.size() != vertexcount - 1) {
-			// get the minimum
-			Collections.sort(sorted, comp);
-			Edge minimum;
-			try {
-				minimum = sorted.get(0);
-				sorted.remove(0);
-			} catch (IndexOutOfBoundsException e) {
-				System.out.println("graph not connected.");
+		while (s.size() != vertexcount) {
+			// choose the cheapest edge {i,j} with i in S and j in S'
+			Edge min = getCheapestEdge(s, s_across, (Graph) g, comp);
+			if (min != null) {
+				edges.add(min);
+				s.add(min.node);
+				s_across.remove(new Integer(min.node));
+				cost += min.weight;
+			} else {
+				System.out.println("graph not connected");
 				return null;
 			}
-			int i = minimum.node;
-			s.add(i);
-			cost += minimum.weight;
-			edges.add(new Edge(pred[i], i, g.getWeight(pred[i], i)));
-
-			// check the neighbors of i
-			List<Integer> n = ((Graph) g).getNeighbors(i);
-			for (int k = 0; k < n.size(); k++) {
-				int j = n.get(k);
-				if (!s.contains(j)) {
-					if (g.getWeight(i, j) < d[j]) {
-						d[j] = g.getWeight(i, j);
-						pred[j] = i;
-						Edge edge = new Edge(i, j, d[j]);
-
-						// both methods for updateHeap
-						sorted.remove(edge);
-						sorted.add(edge);
-					}
-				}
-			}
 		}
 
+		// create the mst-graph
 		GraphImpl mst = new GraphImpl(false, true);
 		for (int i = 0; i < vertexcount; i++) {
 			mst.addVertex();
@@ -445,8 +415,29 @@ public class Prim {
 		return mst;
 	}
 
+	private static Edge getCheapestEdge(List<Integer> s,
+			List<Integer> s_across, Graph g, Comparator<Edge> comp) {
+		List<Edge> edges = new ArrayList<Edge>();
+		for (int i = 0; i < s.size(); i++) {
+			for (int j = 0; j < s_across.size(); j++) {
+				int pred = s.get(i);
+				int node = s_across.get(j);
+				if (g.hasEdge(pred, node)) {
+					edges.add(new Edge(pred, node, g
+							.getWeightOfEdge(pred, node)));
+				}
+			}
+		}
+		if (edges.isEmpty()) {
+			return null;
+		}
+		 Collections.sort(edges, comp);
+		 return edges.get(0);
+	}
+
 	/**
 	 * main-function neads a *.gra-filename as a parameter
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -454,6 +445,7 @@ public class Prim {
 			System.out.println("java -jar Prim.jar <filename>");
 			return;
 		}
+		long end, start;
 		GraphImpl graph = readGraFile(args[0]);
 		if (graph != null) {
 			String filename = graToPngString(args[0]);
@@ -462,17 +454,23 @@ public class Prim {
 				System.out.println(filename + " created.");
 				System.out.println("--------------------------------------");
 				System.out.println("mst with a heap: ");
+				start = System.currentTimeMillis();
 				GraphImpl mst = (GraphImpl) minimumSpanningTree(graph);
+				end = System.currentTimeMillis();
+				System.out.println("time: " + (end - start) / 1000.0 + " sec");
 				if (mst != null) {
 					RenderGraph.renderGraph(mst, "mst_" + filename);
 					System.out.println("mst_" + filename + " created.");
 				}
 				System.out.println("--------------------------------------");
 				System.out.println("mst with a list: ");
+				start = System.currentTimeMillis();
 				GraphImpl mst2 = (GraphImpl) minimumSpanningTree2(graph);
-				if(mst2 != null) {
+				end = System.currentTimeMillis();
+				System.out.println("time: " + (end - start) / 1000.0 + " sec");
+				if (mst2 != null) {
 					RenderGraph.renderGraph(mst2, "mst2_" + filename);
-					System.out.println("mst2_" + filename + " created.");	
+					System.out.println("mst2_" + filename + " created.");
 				}
 			} catch (IOException e) {
 				System.out.println(filename + " could not be created.");

@@ -124,7 +124,7 @@ public class GraphImpl implements Graph, RenderableGraph {
 	 */
 	@Override
 	public void addEdge(int start, int end) {
-		this.addEdge(start, end, 0.0);
+		this.addEdge(start, end, 1.0);
 
 	}
 
