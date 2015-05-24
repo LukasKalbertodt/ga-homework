@@ -1,0 +1,67 @@
+% Graphenalgorithmen
+% Lukas Kalbertodt
+% Mirco Wagner
+% Elena Resch
+% ===== Header ===============================================================
+\documentclass[11pt]{scrartcl} % europäische Artikel Klasse
+\usepackage[top=3cm, bottom=4.5cm, left=3.25cm, right=3.25cm]{geometry}
+% Pakete für deutschen Text (Umlaute) + Font
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{ngerman}
+\usepackage[ngerman]{babel} % Deutsche Anführungszeichen
+\usepackage{amsmath}
+\usepackage{amsfonts} % \mathbb
+\usepackage{relsize}
+\usepackage{csquotes} % \enquote
+\usepackage{paralist} % Beliebige Aufzählungszeichen
+\usepackage{tabularx} % Tolle Tabellen
+\usepackage{caption}
+\usepackage[labelformat=empty]{subcaption}
+
+\usepackage{tikz} % Graphen zeichnen
+\usetikzlibrary{arrows}
+\usetikzlibrary{positioning}
+\newcommand{\func}[1]{\mbox{\emph{#1}}}
+
+% Dokument-Metadaten
+\title{Graphenalgorithmen: Blatt 6}
+\author{Lukas Kalbertodt, Elena Resch, Mirco Wagner}
+
+% ===== Body =================================================================
+\begin{document}
+\maketitle
+
+
+\section*{Aufgabe 13:}
+\tikzstyle{edge} = [draw=black,thick]
+\tikzstyle{weight} = [shape=circle, fill=white,inner sep=1pt,font=\small]
+\begin{compactenum}[(a)]
+\item Der Kürzeste-Wege-Baum ist nicht eindeutig bestimmt. Die Kantenkosten sind zwar alle unterschiedlich, aber d.h. nicht, dass es nicht zwei Wege zum selben Knoten mit den selben Kosten geben kann. Beispiel:\\
+    \begin{center}
+    \begin{tikzpicture}[->,node distance=2.5cm,node/.style={circle,draw,inner sep=0pt, minimum size=20pt}]
+        \node[node] (a) {s};
+        \node[node] (b) [below left of=a] {};
+        \node[node] (c) [below right of=a] {};
+        \path[edge] (a) -- node[weight] {1} (b);
+        \path[edge] (a) -- node[weight] {4} (c);
+        \path[edge] (b) -- node[weight] {3} (c);
+    \end{tikzpicture}\\[0.5cm]
+    \end{center}
+
+\item Offentsichtlich ist erstmal jeder Kürzeste-Wege-Baum ein Spannbaum. Dieser Spannbaum ist aber nicht immer minimal. Im folgenden Beispiel sind die markierten Kanten zwar ein gültiger Kürzeste-Wege-Baum, aber kein minimaler Spannbaum:\\
+    \begin{center}
+    \begin{tikzpicture}[-,node distance=2.5cm,node/.style={circle,draw,inner sep=0pt, minimum size=20pt}]
+        \node[node] (a) {s};
+        \node[node] (b) [below left of=a] {};
+        \node[node] (c) [below right of=a] {};
+        \path[edge,ultra thick] (a) -- node[weight] {1} (b);
+        \path[edge,ultra thick] (a) -- node[weight] {4} (c);
+        \path[edge] (b) -- node[weight] {3} (c);
+    \end{tikzpicture}\\[0.5cm]
+    \end{center}
+\end{compactenum}
+\end{document}
+
+% \tikzstyle{weight} = [draw=none,shape=circle, fill=white,inner sep=1pt,font=\scriptsize]
