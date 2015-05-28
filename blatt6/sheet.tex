@@ -34,23 +34,21 @@
 \maketitle
 
 \section*{Aufgabe 12}
-\subsection*{a}
-\item Angenommen es gibt eine Weglaenge $d[i]$ die die Bellmannschen Gleichungen
-nicht erfuellt, d.h. es gibt ein $j$ fuer das gilt $d'[i]=d[j]+c_{ij}<d[i]$ und
-sei $k$ der Knoten, der auf dem Weg mit der Weglaenge §$d'[i]$ von $s$ zu $i$ vor
+\begin{compactenum}[(a)]
+\item Angenommen es gibt eine Weglänge $d[i]$ die die Bellmannschen Gleichungen nicht erfüllt, d.h. es gibt ein $j$ für das gilt $d'[i]=d[j]+c_{ij}<d[i]$ und
+sei $k$ der Knoten, der auf dem Weg mit der Weglänge $d'[i]$ von $s$ zu $i$ vor
 $i$ kam. Dann gilt $d'[i]=d[j]+c_{ji}<d[k]+c_{ki}=d'[i]$ womit $d[i]$ nicht die
-kuerzeste Weglaenge fuer $i$ ist, was der Vorraussetzung widerspricht.
+kürzeste Weglänge für $i$ ist, was der Vorraussetzung widerspricht.
 
-\subsection*{b}
-\item Angenommen es gibt einen Knoten $i$ fuer den es einen Weg mit der Weglaenge
-$d'[i]$ gibt, mit $d'[i]<d[i]$. Dann gibt es ein $j$ fuer das gilt
+\item Angenommen es gibt einen Knoten $i$ für den es einen Weg mit der Weglänge
+$d'[i]$ gibt, mit $d'[i]<d[i]$. Dann gibt es ein $j$ für das gilt
 $d[j]+c_{ij}=d'[i]<d[i]=\min_{(i,j)\in E}{d[i]+c_{ij}}$, was der Vorraussetzung,
-dass alle Markierungen die Bellmannschen Gleichungen erfuellen, widerspricht.
+dass alle Markierungen die Bellmannschen Gleichungen erfüllen, widerspricht.
 \newline
-Wenn $G$ Kreise mit Kosten 0 enthaelt, gilt die Aussage immernoch, jedoch ist
+Wenn $G$ Kreise mit Kosten 0 enthält, gilt die Aussage immernoch, jedoch ist
 eine optimale Markierung nun in jedem Fall nicht mehr eindeutig.
 
-
+\end{compactenum}
 \section*{Aufgabe 13:}
 \tikzstyle{edge} = [draw=black,thick]
 \tikzstyle{weight} = [shape=circle, fill=white,inner sep=1pt,font=\small]
