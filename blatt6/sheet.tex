@@ -27,11 +27,28 @@
 
 % Dokument-Metadaten
 \title{Graphenalgorithmen: Blatt 6}
-\author{Lukas Kalbertodt, Elena Resch, Mirco Wagner}
+\author{Lukas Kalbertodt, Elena Resch, Mirko Wagner}
 
 % ===== Body =================================================================
 \begin{document}
 \maketitle
+
+\section*{Aufgabe 12}
+\subsection*{a}
+\item Angenommen es gibt eine Weglaenge $d[i]$ die die Bellmannschen Gleichungen
+nicht erfuellt, d.h. es gibt ein $j$ fuer das gilt $d'[i]=d[j]+c_{ij}<d[i]$ und
+sei $k$ der Knoten, der auf dem Weg mit der Weglaenge §$d'[i]$ von $s$ zu $i$ vor
+$i$ kam. Dann gilt $d'[i]=d[j]+c_{ji}<d[k]+c_{ki}=d'[i]$ womit $d[i]$ nicht die
+kuerzeste Weglaenge fuer $i$ ist, was der Vorraussetzung widerspricht.
+
+\subsection*{b}
+\item Angenommen es gibt einen Knoten $i$ fuer den es einen Weg mit der Weglaenge
+$d'[i]$ gibt, mit $d'[i]<d[i]$. Dann gibt es ein $j$ fuer das gilt
+$d[j]+c_{ij}=d'[i]<d[i]=\min_{(i,j)\in E}{d[i]+c_{ij}}$, was der Vorraussetzung,
+dass alle Markierungen die Bellmannschen Gleichungen erfuellen, widerspricht.
+\newline
+Wenn $G$ Kreise mit Kosten 0 enthaelt, gilt die Aussage immernoch, jedoch ist
+eine optimale Markierung nun in jedem Fall nicht mehr eindeutig.
 
 
 \section*{Aufgabe 13:}
