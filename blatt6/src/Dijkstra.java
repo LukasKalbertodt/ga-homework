@@ -1,5 +1,4 @@
 
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,6 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Set;
+
 import renderGraph.RenderGraph;
 import P1.Graph;
 import P1.GraphImpl;
@@ -241,7 +241,6 @@ public class Dijkstra {
 		filename[filename.length - 1 - i++] = 'g';
 		filename[filename.length - 1 - i++] = 'n';
 		filename[filename.length - 1 - i++] = 'p';
-		// grafile.replace(".gra", ".png");
 		StringBuffer name = new StringBuffer();
 		name.append(filename);
 		return name.toString();
@@ -258,120 +257,6 @@ public class Dijkstra {
 	}
 
 	
-	/**
-	 * implementation of dijkstra algorithm for the single-source shortest path
-	 * problem
-	 * 
-	 * @param g
-	 *            directed and weighted graph
-	 * @param start
-	 *            vertex to be started from
-	 * @return "reduced" graph to be rendered
-	 */
-	private static GraphImpl dijkstra(GraphImpl g, int start) {
-		if (g == null) {
-			print("g is null");
-			return null;
-		}
-		if (!(g instanceof Graph)) {
-			print("g is not instance of Graph");
-			return null;
-		}
-		if (g.getNodeCount() == 0) {
-			print("g has no nodes");
-			return new GraphImpl(true, true);
-		}
-		if (start >= g.getNodeCount()) {
-			print("start node not in g");
-			return null;
-		}
-
-		int vertexcnt = g.getNodeCount();
-
-		Set<Integer> s = new HashSet<Integer>(); // set of vertices
-		double[] d = new double[vertexcnt]; // distances
-		int[] pred = new int[vertexcnt]; // predecessors
-		List<Edge> edges = new ArrayList<Edge>(); // list of edges to create
-													// graph
-		// heap with specified comparator for weights
-		PriorityQueue<Edge> heap = new PriorityQueue<>(vertexcnt,
-				new Comparator<Edge>() {
-
-					@Override
-					public int compare(Edge e1, Edge e2) {
-						if (e1.weight < e2.weight)
-							return -1;
-						if (e1.weight > e2.weight)
-							return 1;
-						return 0;
-					}
-				});
-
-		// init distances to infinity
-		for (int i = 0; i < vertexcnt; i++) {
-			d[i] = Double.MAX_VALUE;
-		}
-
-		// start of dijkstra
-		s.add(start);
-		d[start] = 0;
-		List<Integer> neighbors = g.getSuccessors(start);
-		// add all neighbors to the heap
-		for (int i = 0; i < neighbors.size(); i++) {
-			int n = neighbors.get(i);
-			d[n] = g.getWeight(start, n);
-			pred[n] = start;
-			heap.add(new Edge(0, n, d[n]));
-		}
-
-		// while-loop
-		while (s.size() != vertexcnt) {
-			// get a node that has the minimal distance to the currently built
-			// tree
-			Edge minimum = heap.poll();
-			if (minimum == null) {
-				print("graph not connected.");
-				return null;
-			}
-			int i = minimum.node;
-			s.add(i);
-			d[i] = minimum.weight;
-			edges.add(new Edge(pred[i], i, g.getWeight(pred[i], i)));
-
-			// update the successors from i
-			List<Integer> n = g.getSuccessors(i);
-			for (int k = 0; k < n.size(); k++) {
-				int j = n.get(k);
-				if (!s.contains(j)) {
-					double c_ij = g.getWeight(i, j);
-					if (d[j] > (d[i] + c_ij)) {
-						d[j] = d[i] + c_ij;
-						pred[j] = i;
-						Edge edge = new Edge(i, j, d[j]);
-						// both methods for updateHeap
-						heap.remove(edge);
-						heap.add(edge);
-					}
-				}
-			}
-		}
-
-		// create the graph
-		GraphImpl dijkstra = new GraphImpl(true, true);
-		for (int i = 0; i < vertexcnt; i++) {
-			dijkstra.addVertex();
-		}
-		for (int i = 0; i < edges.size(); i++) {
-			Edge tmp = edges.get(i);
-			dijkstra.addEdge(tmp.pred, tmp.node,
-					g.getWeight(tmp.pred, tmp.node));
-		}
-
-		// print all paths
-		printPaths(pred, d, start);
-		return dijkstra;
-	}
-
 	/**
 	 * helper function to print all possible path
 	 * 
@@ -435,6 +320,120 @@ public class Dijkstra {
 			print("error in creating the graph.");
 		}
 		print("Program exit.....");
+	}
+
+	/**
+	 * implementation of dijkstra algorithm for the single-source shortest path
+	 * problem
+	 * 
+	 * @param g
+	 *            directed and weighted graph
+	 * @param start
+	 *            vertex to be started from
+	 * @return "reduced" graph to be rendered
+	 */
+	private static GraphImpl dijkstra(GraphImpl g, int start) {
+		if (g == null) {
+			print("g is null");
+			return null;
+		}
+		if (!(g instanceof Graph)) {
+			print("g is not instance of Graph");
+			return null;
+		}
+		if (g.getNodeCount() == 0) {
+			print("g has no nodes");
+			return new GraphImpl(true, true);
+		}
+		if (start >= g.getNodeCount()) {
+			print("start node not in g");
+			return null;
+		}
+	
+		int vertexcnt = g.getNodeCount();
+	
+		Set<Integer> s = new HashSet<Integer>(); // set of vertices
+		double[] d = new double[vertexcnt]; // distances
+		int[] pred = new int[vertexcnt]; // predecessors
+		List<Edge> edges = new ArrayList<Edge>(); // list of edges to create
+													// graph
+		// heap with specified comparator for weights
+		PriorityQueue<Edge> heap = new PriorityQueue<>(vertexcnt,
+				new Comparator<Edge>() {
+	
+					@Override
+					public int compare(Edge e1, Edge e2) {
+						if (e1.weight < e2.weight)
+							return -1;
+						if (e1.weight > e2.weight)
+							return 1;
+						return 0;
+					}
+				});
+	
+		// init distances to infinity
+		for (int i = 0; i < vertexcnt; i++) {
+			d[i] = Double.MAX_VALUE;
+		}
+	
+		// start of dijkstra
+		s.add(start);
+		d[start] = 0;
+		List<Integer> neighbors = g.getSuccessors(start);
+		// add all neighbors to the heap
+		for (int i = 0; i < neighbors.size(); i++) {
+			int n = neighbors.get(i);
+			d[n] = g.getWeight(start, n);
+			pred[n] = start;
+			heap.add(new Edge(0, n, d[n]));
+		}
+	
+		// while-loop
+		while (s.size() != vertexcnt) {
+			// get a node that has the minimal distance to the currently built
+			// tree
+			Edge minimum = heap.poll();
+			if (minimum == null) {
+				print("graph not connected.");
+				return null;
+			}
+			int i = minimum.node;
+			s.add(i);
+			d[i] = minimum.weight;
+			edges.add(new Edge(pred[i], i, g.getWeight(pred[i], i)));
+	
+			// update the successors from i
+			List<Integer> n = g.getSuccessors(i);
+			for (int k = 0; k < n.size(); k++) {
+				int j = n.get(k);
+				if (!s.contains(j)) {
+					double c_ij = g.getWeight(i, j);
+					if (d[j] > (d[i] + c_ij)) {
+						d[j] = d[i] + c_ij;
+						pred[j] = i;
+						Edge edge = new Edge(i, j, d[j]);
+						// both methods for updateHeap
+						heap.remove(edge);
+						heap.add(edge);
+					}
+				}
+			}
+		}
+	
+		// create the graph
+		GraphImpl dijkstra = new GraphImpl(true, true);
+		for (int i = 0; i < vertexcnt; i++) {
+			dijkstra.addVertex();
+		}
+		for (int i = 0; i < edges.size(); i++) {
+			Edge tmp = edges.get(i);
+			dijkstra.addEdge(tmp.pred, tmp.node,
+					g.getWeight(tmp.pred, tmp.node));
+		}
+	
+		// print all paths
+		printPaths(pred, d, start);
+		return dijkstra;
 	}
 
 	/**
