@@ -33,6 +33,17 @@
 \begin{document}
 \maketitle
 
+\section{Aufgabe 12:}
+\begin{compactenum}[(a)]
+\item Die erste Gleichung $d[s] = 0$ gilt offentsichtlich für $d[\cdot]$. Um zu zeigen, dass die zweite Gleichung auch gelten muss, betrachten wir diese beiden Fälle:\\
+\[d[j] < \underset{(i,j)\in E}{\text{min}} \{d[i]+c_{ij}\}\]
+Dieser Fall ist nicht möglich, weil man sonst günstiger zu $j$ kommen würde, als es möglich ist. Ich kann nur über Nachbarn von $j$ zu $j$ gelangen und kann mir dort nur den mit den minimalen Kosten aussuchen. Günstiger geht es nicht.
+
+\[d[j] > \underset{(i,j)\in E}{\text{min}} \{d[i]+c_{ij}\}$\]
+Dieser Fall ist möglich, widerspricht aber der Vorrausetzung: Wenn $d[j]$ größer als das Minimum der Nachbarwege ist, könnte ich mit dem minimalen Nachbarweg die Kosten $d[j]$ verringern. Somit waren $d[\cdot]$ nicht die kürzesten Weglängen.
+
+
+\end{compactenum}
 
 \section*{Aufgabe 13:}
 \tikzstyle{edge} = [draw=black,thick]
