@@ -27,24 +27,41 @@
 
 % Dokument-Metadaten
 \title{Graphenalgorithmen: Blatt 6}
-\author{Lukas Kalbertodt, Elena Resch, Mirco Wagner}
+\author{Lukas Kalbertodt, Elena Resch, Mirko Wagner}
 
 % ===== Body =================================================================
 \begin{document}
 \maketitle
 
-\section{Aufgabe 12:}
+\section*{Aufgabe 12}
+\begin{compactenum}[(a)]
+\item Angenommen es gibt eine Weglänge $d[i]$ die die Bellmannschen Gleichungen nicht erfüllt, d.h. es gibt ein $j$ für das gilt $d'[i]=d[j]+c_{ij}<d[i]$ und
+sei $k$ der Knoten, der auf dem Weg mit der Weglänge $d'[i]$ von $s$ zu $i$ vor
+$i$ kam. Dann gilt $d'[i]=d[j]+c_{ji}<d[k]+c_{ki}=d'[i]$ womit $d[i]$ nicht die
+kürzeste Weglänge für $i$ ist, was der Vorraussetzung widerspricht.
+
+\item Angenommen es gibt einen Knoten $i$ für den es einen Weg mit der Weglänge
+$d'[i]$ gibt, mit $d'[i]<d[i]$. Dann gibt es ein $j$ für das gilt
+$d[j]+c_{ij}=d'[i]<d[i]=\min_{(i,j)\in E}{d[i]+c_{ij}}$, was der Vorraussetzung,
+dass alle Markierungen die Bellmannschen Gleichungen erfüllen, widerspricht.
+\newline
+Wenn $G$ Kreise mit Kosten 0 enthält, gilt die Aussage immernoch, jedoch ist
+eine optimale Markierung nun in jedem Fall nicht mehr eindeutig.
+\end{compactenum}
+
+\section*{Aufgabe 12 (Alternative Lösung):}
 \begin{compactenum}[(a)]
 \item Die erste Gleichung $d[s] = 0$ gilt offentsichtlich für $d[\cdot]$. Um zu zeigen, dass die zweite Gleichung auch gelten muss, betrachten wir diese beiden Fälle:\\
 \[d[j] < \underset{(i,j)\in E}{\text{min}} \{d[i]+c_{ij}\}\]
 Dieser Fall ist nicht möglich, weil man sonst günstiger zu $j$ kommen würde, als es möglich ist. Ich kann nur über Nachbarn von $j$ zu $j$ gelangen und kann mir dort nur den mit den minimalen Kosten aussuchen. Günstiger geht es nicht.
 
-\[d[j] > \underset{(i,j)\in E}{\text{min}} \{d[i]+c_{ij}\}$\]
+\[d[j] > \underset{(i,j)\in E}{\text{min}} \{d[i]+c_{ij}\}\]
 Dieser Fall ist möglich, widerspricht aber der Vorrausetzung: Wenn $d[j]$ größer als das Minimum der Nachbarwege ist, könnte ich mit dem minimalen Nachbarweg die Kosten $d[j]$ verringern. Somit waren $d[\cdot]$ nicht die kürzesten Weglängen.
 
 
 \end{compactenum}
 
+\newpage
 \section*{Aufgabe 13:}
 \tikzstyle{edge} = [draw=black,thick]
 \tikzstyle{weight} = [shape=circle, fill=white,inner sep=1pt,font=\small]

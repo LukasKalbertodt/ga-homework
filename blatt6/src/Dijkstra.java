@@ -1,4 +1,4 @@
-package blatt6;
+
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -11,7 +11,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Set;
-
 import renderGraph.RenderGraph;
 import P1.Graph;
 import P1.GraphImpl;
@@ -23,7 +22,8 @@ import P1.GraphImpl;
  * @author Mirko Wagner
  * 
  */
-public class Dijksta {
+
+public class Dijkstra {
 
 	/**
 	 * internal representation of an edge, most important is the overwritten
@@ -445,6 +445,7 @@ public class Dijksta {
 	public static void main(String[] args) {
 		if (args.length != 1) {
 			print("java -jar Dijkstra.jar <filename>");
+			return;
 		}
 		createDijkstraFromFile(args[0]);
 	}
