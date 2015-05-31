@@ -26,7 +26,7 @@
 \newcommand{\func}[1]{\mbox{\emph{#1}}}
 
 % Dokument-Metadaten
-\title{Graphenalgorithmen: Blatt ???}
+\title{Graphenalgorithmen: Blatt 7}
 \author{Lukas Kalbertodt, Elena Resch, Mirko Wagner}
 
 % ===== Body =================================================================
@@ -34,6 +34,13 @@
 \maketitle
 
 
-\section*{Aufgabe 1:}
+\section*{Aufgabe 14:}
+
+Im Algorithmus von Dijkstra wird für jede ausgehende Kante eines Knoten folgendes ausgeführt (vgl. Script Abbildung 4.2, Zeile 7):
+\[d[j] = \text{min}\{d[j], d[i] + c_{ij}\}\]
+Um die Wege maximaler Kapazitäten rauszufinden, wird dieses Update geändert in:
+\[d[j] = \text{max}\{d[j], \text{min}\{d[i], c_{ij}\}\}\]
+Außerdem müssen wir bei Bestimmung des nächsten Knotens (vgl. Script Abbildung 4.2, Zeile 4) nicht den Knoten mit minimalem $d[i]$ wählen, sondern mit dem maximalen $d[i]$. So garantieren wir, dass wenn ein Knoten gewählt wird, sein Weg-Wert schon maximal ist und sich nicht mehr verändern wird.
+
 
 \end{document}
