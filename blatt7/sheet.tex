@@ -20,9 +20,14 @@
 \usepackage{caption}
 \usepackage[labelformat=empty]{subcaption}
 
+% Deutsche Absätze: Kein Einrücken, aber Abstand
+\parskip=8pt
+\parindent=0pt
+
 \usepackage{tikz} % Graphen zeichnen
 \usetikzlibrary{arrows}
 \usetikzlibrary{positioning}
+\usetikzlibrary{decorations.pathmorphing}
 \newcommand{\func}[1]{\mbox{\emph{#1}}}
 
 % Dokument-Metadaten
@@ -38,9 +43,54 @@
 
 Im Algorithmus von Dijkstra wird für jede ausgehende Kante eines Knoten folgendes ausgeführt (vgl. Script Abbildung 4.2, Zeile 7):
 \[d[j] = \text{min}\{d[j], d[i] + c_{ij}\}\]
-Um die Wege maximaler Kapazitäten rauszufinden, wird dieses Update geändert in:
+Um die Wege maximaler Kapazitäten herauszufinden, wird dieses Update geändert in:
 \[d[j] = \text{max}\{d[j], \text{min}\{d[i], c_{ij}\}\}\]
 Außerdem müssen wir bei Bestimmung des nächsten Knotens (vgl. Script Abbildung 4.2, Zeile 4) nicht den Knoten mit minimalem $d[i]$ wählen, sondern mit dem maximalen $d[i]$. So garantieren wir, dass wenn ein Knoten gewählt wird, sein Weg-Wert schon maximal ist und sich nicht mehr verändern wird.
+
+\section*{Aufgabe 15:}
+\emph{Annahme:} Der Graph enthält keine negativen Kreise.
+
+Die Laufzeit beider Update-Algorithmen ist mindestens $\Omega (n^2)$, weil im Worst-Case $\Theta (n^2)$ Werte in $d$ geändert werden. Ein Worst-Case Beispiel: Sei $G'$ ein Graph mit Kantenzusammenhangszahl $\lambda(G') = 1$. Die beiden Teilkomponenten $S$ und $\overline{S}$ von $G'$ seien stark zusammenhängend und enthalten beide $\Theta (n)$ Knoten. Sei $e$ die kritische Kante, die von $S$ nach $\overline{S}$ führt. Es gibt nun Wege von allen Knoten in $S$ zu allen Knoten in $\overline{S}$. Also $\Theta (n^2)$ Wege und Einträge in $d$. Wenn sich die Kosten von $e$ ändern, ändern sich auch die Wege-Kosten von allen $\Theta (n^2)$ Wegen.
+
+\newpage
+Folgende Abbildung dient lediglich zur Veranschaulichung:
+\definecolor{darkblue}{rgb}{0,0,0.4}
+\tikzstyle{wiggle} = [draw=black,decorate, decoration={snake,amplitude=1.5,segment length=15}]
+\begin{center}
+    \begin{tikzpicture}[->,auto,node distance=2.5cm,node/.style={circle,draw,inner sep=0pt, minimum size=20pt}]
+        \node[node] (v) at (5,0) {v};
+        \node[node] (u) at (5,2) {u};
+        \node[node] (s) at (0,1) {s};
+        \node[node] (t) at (10,1) {t};
+        \path[wiggle] (s) -- (v);
+        \path[wiggle] (s) -- (u);
+        \path[wiggle] (v) -- (t);
+        \path[wiggle] (u) -- (t);
+        \path[draw=black, ultra thick] (u) -- node {$v'_{uv}$} (v);
+        \path[] (s) edge [draw=darkblue!75,decorate, decoration={random steps,amplitude=3,segment length=7},thick,bend angle=40,bend right] (t);
+    \end{tikzpicture}\\[0.5cm]
+\end{center}
+
+\begin{compactenum}[(a)]g
+\item Für jedes Knotenpaar $(s,t)$ sind die neuen minimalen Kosten ($d'$):
+\begin{align}
+    d'[s,t] = \text{min}\{d[s,t],\; d[s,u] + c'_{uv} + d[v,t]\}
+\end{align}
+Wir führen dieses Update für jedes Knotenpaar in beliebiger Reihenfolge aus. Laufzeit liegt in $\mathcal O(n^2)$. Beweis, dass $d'$ korrekt ist:\\[0.3cm]
+Es ist offensichtlich, dass die Gleichung $d'[s,t] = \text{min}\{d[s,t],\; d'[s,u] + c'_{uv} + d'[v,t]\}$ gilt (der Unterschied zu Gleichung (1) ist, dass auf der rechten Seite $d'$ statt $d$ genutzt wird). Im Folgenden wird gezeigt, dass es ausreicht die alten kürzesten-Wege-Kosten $d$ zu nutzen. Beobachtung: $d'[\cdot,\cdot] \le d[\cdot,\cdot]$.\\
+Angenommen es würde einen Unterschied machen, ob man $d$ oder $d'$ nutzt, d.h.
+\begin{align}
+    d'[s,u] + c'_{uv} + d'[v,t] &\ne d[s,u] + c'_{uv} + d[v,t]\\
+    d'[s,u] + d'[v,t] &\ne d[s,u] + d[v,t]
+\end{align}
+Damit der kürzeste Pfad $P_a$ von $s$ nach $u$ günstiger wird ($d'[s,u] < d'[s,u]$), müsste er die Kante $(u,v)$ enthalten. Wäre dies der Fall, wäre $u$ schon vorher in $P_a$ vorhanden, was der Annahme widerspricht, $P_a$ sei der kürzeste Pfad von $s$ nach $u$. Somit ist $d'[s,u] = d'[s,u]$. Mit der selben Begründung kann man zeigen, dass $d'[v,t] = d'[v,t]$.\\[0.3cm]
+Damit ist Gleichung (3) unwahr und die Annahme, die kürzeste-Wege Berechnung sei dadurch beeinflusst, ob man $d$ oder $d'$ nutzt, widerlegt.\\
+
+\item In diesem Fall muss man alle kürzesten Weglängen $d[i,j]$ neu berechnen. Man könnte lediglich feststellen, ob die Kante $c_{uv}$ vorher in dem kürzesten Weg enthalten war. Falls das bei keinem Weg der Fall ist, brauch man nichts neu zu berechnen. Falls das aber der Fall ist, kann nicht (mit wenig Aufwand) den nächstbesten Weg finden.
+
+
+
+\end{compactenum}
 
 
 \end{document}
