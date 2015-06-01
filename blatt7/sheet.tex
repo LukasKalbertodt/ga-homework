@@ -50,7 +50,7 @@ Außerdem müssen wir bei Bestimmung des nächsten Knotens (vgl. Script Abbildun
 \section*{Aufgabe 15:}
 \emph{Annahme:} Der Graph enthält keine negativen Kreise.
 
-Die Laufzeit beider Update-Algorithmen ist mindestens $\Omega (n^2)$, weil im Worst-Case $\Theta (n^2)$ Werte in $d$ geändert werden. Ein Worst-Case Beispiel: Sei $G'$ ein Graph mit Kantenzusammenhangszahl $\lambda(G') = 1$. Die beiden Teilkomponenten $S$ und $\overline{S}$ von $G'$ seien stark zusammenhängend und enthalten beide $\Theta (n)$ Knoten. Sei $e$ die kritische Kante, die von $S$ nach $\overline{S}$ führt. Es gibt nun Wege von allen Knoten in $S$ zu allen Knoten in $\overline{S}$. Also $\Theta (n^2)$ Wege und Einträge in $d$. Wenn sich die Kosten von $e$ ändern, ändern sich auch die Wege-Kosten von allen $\Theta (n^2)$ Wegen.
+Die Laufzeit beider Update-Algorithmen ist mindestens $\Omega (n^2)$, weil im Worst-Case $\Theta (n^2)$ Werte in $d$ geändert werden. Ein Worst-Case Beispiel: Sei $G'$ ein Graph mit Kantenzusammenhangszahl $\lambda(G') = 1$. Die beiden Teilkomponenten $S$ und $\overline{S}$ von $G'$ seien -- für sich genommen -- stark zusammenhängend und enthalten beide $\Theta (n)$ Knoten. Sei $e$ die kritische Kante, die von $S$ nach $\overline{S}$ führt. Es gibt nun Wege von allen Knoten in $S$ zu allen Knoten in $\overline{S}$, also $(n^2/4) \in \Theta (n^2)$ Einträge in $d$. Wenn sich die Kosten von $e$ ändern, ändern sich auch die Kosten von allen $\Theta (n^2)$ Wegen.
 
 \newpage
 Folgende Abbildung dient lediglich zur Veranschaulichung:
@@ -71,22 +71,22 @@ Folgende Abbildung dient lediglich zur Veranschaulichung:
     \end{tikzpicture}\\[0.5cm]
 \end{center}
 
-\begin{compactenum}[(a)]g
+\begin{compactenum}[(a)]
 \item Für jedes Knotenpaar $(s,t)$ sind die neuen minimalen Kosten ($d'$):
 \begin{align}
     d'[s,t] = \text{min}\{d[s,t],\; d[s,u] + c'_{uv} + d[v,t]\}
 \end{align}
-Wir führen dieses Update für jedes Knotenpaar in beliebiger Reihenfolge aus. Laufzeit liegt in $\mathcal O(n^2)$. Beweis, dass $d'$ korrekt ist:\\[0.3cm]
-Es ist offensichtlich, dass die Gleichung $d'[s,t] = \text{min}\{d[s,t],\; d'[s,u] + c'_{uv} + d'[v,t]\}$ gilt (der Unterschied zu Gleichung (1) ist, dass auf der rechten Seite $d'$ statt $d$ genutzt wird). Im Folgenden wird gezeigt, dass es ausreicht die alten kürzesten-Wege-Kosten $d$ zu nutzen. Beobachtung: $d'[\cdot,\cdot] \le d[\cdot,\cdot]$.\\
+Wir führen dieses Update für jedes Knotenpaar ($n^2$) in beliebiger Reihenfolge aus. Da ein Update konstante Laufzeit hat, liegt die Gesamtlaufzeit in $\mathcal O(n^2)$. Im Weiteren wird bewiesen, dass $d'$ korrekt ist:\\[0.3cm]
+Es ist offensichtlich, dass die Gleichung $d'[s,t] = \text{min}\{d[s,t],\; d'[s,u] + c'_{uv} + d'[v,t]\}$ gilt (der Unterschied zu Gleichung (1) ist, dass auf der rechten Seite $d'$ statt $d$ genutzt wird). Im Folgenden wird gezeigt, dass es ausreicht die alten kürzesten-Wege-Kosten $d$ zu nutzen. \emph{Beobachtung}: $d'[\cdot,\cdot] \le d[\cdot,\cdot]$.\\
 Angenommen es würde einen Unterschied machen, ob man $d$ oder $d'$ nutzt, d.h.
 \begin{align}
     d'[s,u] + c'_{uv} + d'[v,t] &\ne d[s,u] + c'_{uv} + d[v,t]\\
     d'[s,u] + d'[v,t] &\ne d[s,u] + d[v,t]
 \end{align}
-Damit der kürzeste Pfad $P_a$ von $s$ nach $u$ günstiger wird ($d'[s,u] < d'[s,u]$), müsste er die Kante $(u,v)$ enthalten. Wäre dies der Fall, wäre $u$ schon vorher in $P_a$ vorhanden, was der Annahme widerspricht, $P_a$ sei der kürzeste Pfad von $s$ nach $u$. Somit ist $d'[s,u] = d'[s,u]$. Mit der selben Begründung kann man zeigen, dass $d'[v,t] = d'[v,t]$.\\[0.3cm]
-Damit ist Gleichung (3) unwahr und die Annahme, die kürzeste-Wege Berechnung sei dadurch beeinflusst, ob man $d$ oder $d'$ nutzt, widerlegt.\\
+Damit der kürzeste Pfad $P_a$ von $s$ nach $u$ günstiger wird ($d'[s,u] < d'[s,u]$), müsste er die Kante $(u,v)$ enthalten. Wäre dies der Fall, wäre $u$ schon vorher in $P_a$ vorhanden, was der Annahme widerspricht, $P_a$ sei der kürzeste Pfad von $s$ nach $u$. Somit ist $d'[s,u] = d[s,u]$. Mit der selben Begründung kann man zeigen, dass $d'[v,t] = d[v,t]$.\\[0.3cm]
+Damit ist Gleichung (3) unwahr und die Annahme, die kürzeste-Wege Berechnung sei dadurch beeinflusst, ob man $d$ oder $d'$ nutzt, widerlegt.\hfill $\square$\\
 
-\item In diesem Fall muss man alle kürzesten Weglängen $d[i,j]$ neu berechnen. Man könnte lediglich feststellen, ob die Kante $c_{uv}$ vorher in dem kürzesten Weg enthalten war. Falls das bei keinem Weg der Fall ist, brauch man nichts neu zu berechnen. Falls das aber der Fall ist, kann nicht (mit wenig Aufwand) den nächstbesten Weg finden.
+\item In diesem Fall muss man alle kürzesten Weglängen $d[i,j]$ neu berechnen. Man könnte lediglich feststellen, ob die Kante $c_{uv}$ in dem kürzesten Weg enthalten war. Falls die bei keinem Weg der Fall ist, brauch man nichts neu zu berechnen. Falls das aber der Fall ist, kann nicht (mit wenig Aufwand) den \enquote{nächstbesten} Weg finden.
 
 
 
