@@ -536,6 +536,7 @@ public class BellmannFord_Floyd {
 	public static void main(String[] args) {
 		if (args.length != 1) {
 			println("Usage: java -jar BellmannFord_Floyd.jar <filename>");
+			return;
 		}
 		startAlgorithms(args[0]);
 		// println("  v |      Floyd     |  Bellmann-Ford");
