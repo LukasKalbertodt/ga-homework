@@ -91,6 +91,29 @@ Damit ist Gleichung (3) unwahr und die Annahme, die kürzeste-Wege Berechnung se
 
 
 \end{compactenum}
+\section*{Programmieraufgabe P5}
+\begin{minipage}[h]{0.4\textwidth}
+\begin{tabular}{c|r|r}
+ & \multicolumn{2}{c}{Laufzeit (sec)}\\
+$n$ & Floyd & Bellmann-Ford\\
+\hline \hline
+10 & 0.001 & 0.050\\
+\hline
+50 & 0.028 & 2.159 \\
+\hline
+100 & 0.008 & 90.457 \\
+\hline
+150 & 0.039 & 836.231 \\
+\hline
+250 & 0.092 & abgebrochen\\
+& & \scriptsize{(nach \underline{sehr} langem}\\
+& & \scriptsize{Warten)}\\
+\hline
+\end{tabular}
+\end{minipage}
+\begin{minipage}[h]{0.6\textwidth}
+Durch das Erstellen größerer Graphen mit $n$ Knoten und $m=\binom{n}{2}=\frac{n(n-1)}{2}=O(n^2)$ Kanten werden die Laufzeitunterschiede deutlich. 
 
-
+Floyds Algorithmus in seiner Laufzeit von $O(n^3)$ zeigt eine bessere Performance als Bellmann-Ford-Algorithmus mit $O(n^2m)=O(n^4)$. 
+\end{minipage}
 \end{document}
