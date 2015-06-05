@@ -1,0 +1,109 @@
+% Graphenalgorithmen
+% Lukas Kalbertodt
+% Mirko Wagner
+% Elena Resch
+% ===== Header ===============================================================
+\documentclass[11pt]{scrartcl} % europäische Artikel Klasse
+\usepackage[top=3cm, bottom=4.5cm, left=3cm, right=3cm]{geometry}
+% Pakete für deutschen Text (Umlaute) + Font
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{ngerman}
+\usepackage[ngerman]{babel} % Deutsche Anführungszeichen
+\usepackage{amsmath}
+\usepackage{amsfonts} % \mathbb
+\usepackage{relsize}
+\usepackage{csquotes} % \enquote
+\usepackage{paralist} % Beliebige Aufzählungszeichen
+\usepackage{tabularx} % Tolle Tabellen
+\usepackage{caption}
+\usepackage{wasysym}
+\usepackage[labelformat=empty]{subcaption}
+
+% Deutsche Absätze: Kein Einrücken, aber Abstand
+\parskip=8pt
+\parindent=0pt
+
+\usepackage{tikz} % Graphen zeichnen
+\usetikzlibrary{arrows}
+\usetikzlibrary{positioning}
+\usetikzlibrary{decorations.pathmorphing}
+\newcommand{\func}[1]{\mbox{\emph{#1}}}
+
+% Dokument-Metadaten
+\title{Graphenalgorithmen: Blatt 7}
+\author{Lukas Kalbertodt, Elena Resch, Mirko Wagner}
+
+% ===== Body =================================================================
+\begin{document}
+\maketitle
+
+
+
+\section*{Aufgabe 17:}
+\begin{compactenum}[(a)]
+\definecolor{darkgreen}{rgb}{0,0.3,0}
+\definecolor{darkred}{rgb}{0.7,0,0}
+\tikzstyle{stPrefer} = [draw=darkgreen,ultra thick,bend angle=15, bend right]
+\tikzstyle{stOk} = [draw=black,thick,bend angle=15, bend right]
+\tikzstyle{stNotOk} = [draw=darkred]
+
+\item \begin{minipage}[t][][t]{0.65\textwidth}
+Es ist nicht immer eine stabile Zuordnung möglich. Im folgenden Beispiel ist die Schülerin \enquote{Susi} sehr unbeliebt \frownie{}. Die drei anderen Schüler präferieren sich im Kreis, wobei eine starke Präferenz in eine Richtung, eine mittelstarke Präferenz in der anderen Richtung besteht. Egal welche zwei der drei männlichen Schüler zugeordnet werden, es passiert immer das selbe: Einer der beiden Schüler würde lieber mit seiner starken Präferenz zugeordnet werden und diese starke Präferenz ist sowieso froh, nicht mit \enquote{Susi} in ein Zimmer zu müssen.
+\end{minipage}
+\begin{minipage}[t][][c]{0.35\textwidth}
+\begin{center}
+    \begin{tikzpicture}[->,auto,node/.style={circle,draw,inner sep=0pt, minimum size=38pt}]
+        \node[node] (Torben) at (0,0) {Torben};
+        \node[node] (Sören) at (3,0) {Sören};
+        \node[node] (Susi) at (0,3) {Susi};
+        \node[node] (Willi) at (3,3) {Willi};
+        \path[] (Torben) edge[stPrefer] (Sören)  edge[stOk] (Willi)  edge[stNotOk] (Susi);
+        \path[] (Sören)  edge[stPrefer] (Willi)  edge[stOk] (Torben)   edge[stNotOk] (Susi);
+        \path[] (Willi)  edge[stPrefer] (Torben)   edge[stOk] (Sören) edge[stNotOk] (Susi);
+        % \path[] (Susi)   edge[stPrefer] (Willi) edge[stOk] (Sören)  edge[stNotOk] (Torben);
+    \end{tikzpicture}\\[0.5cm]
+\end{center}
+\end{minipage}\\[0.5cm]
+In der Grafik rechts oben steht eine dicke, grüne Kante für \enquote{starke Präferenz}, eine mitteldicke Kante für \enquote{mittelstarke Präferenz} und eine dünne, rote Kante für \enquote{Abneigung}. Die Präferenzen von Susi wurden nicht eingezeichnet, weil sie für dieses Beispiel irrelevant sind. Im Folgenden werden alle drei möglichen Zuordnungen betrachtet. Dabei sind die durchgezogenen Kanten Teil des Matchings. Die gestrichelte Kante ist ein Paar von Schülern, die sich gegenseitig ihrem Zimmerpartner vorziehen.\\[0.3cm]
+\begin{tabular}{p{0.3\textwidth} p{0.3\textwidth} p{0.3\textwidth}}
+\begin{center}
+    \begin{tikzpicture}[-,auto,node/.style={circle,draw,inner sep=0pt, minimum size=38pt}]
+        \node[node] (Torben) at (0,0) {Torben};
+        \node[node] (Sören) at (2.5,0) {Sören};
+        \node[node] (Susi) at (0,2.5) {Susi};
+        \node[node] (Willi) at (2.5,2.5) {Willi};
+        \path[draw=black, thick] (Torben) -- (Sören);
+        \path[draw=black, thick] (Susi) -- (Willi);
+        \path[draw=black, thick, dashed] (Sören) -- (Willi);
+    \end{tikzpicture}
+\end{center} &
+\begin{center}
+    \begin{tikzpicture}[-,auto,node/.style={circle,draw,inner sep=0pt, minimum size=38pt}]
+        \node[node] (Torben) at (0,0) {Torben};
+        \node[node] (Sören) at (2.5,0) {Sören};
+        \node[node] (Susi) at (0,2.5) {Susi};
+        \node[node] (Willi) at (2.5,2.5) {Willi};
+        \path[draw=black, thick] (Torben) -- (Susi);
+        \path[draw=black, thick] (Sören) -- (Willi);
+        \path[draw=black, thick, dashed] (Torben) -- (Willi);
+    \end{tikzpicture}
+\end{center} &
+\begin{center}
+    \begin{tikzpicture}[-,auto,node/.style={circle,draw,inner sep=0pt, minimum size=38pt}]
+        \node[node] (Torben) at (0,0) {Torben};
+        \node[node] (Sören) at (2.5,0) {Sören};
+        \node[node] (Susi) at (0,2.5) {Susi};
+        \node[node] (Willi) at (2.5,2.5) {Willi};
+        \path[draw=black, thick] (Susi) -- (Sören);
+        \path[draw=black, thick] (Torben) -- (Willi);
+        \path[draw=black, thick, dashed] (Sören) -- (Torben);
+    \end{tikzpicture}
+\end{center}
+\end{tabular}
+
+\end{compactenum}
+
+
+\end{document}
