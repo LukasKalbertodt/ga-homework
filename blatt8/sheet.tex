@@ -44,214 +44,111 @@
 % shortcut for seperation within the table between steps
 \newcommand{\stepsep}{\\ \multicolumn{2}{c}{\textcolor{lightgray}{\rule{8cm}{0.4pt}}} \\}
 
+%styles
+\tikzstyle{v} = [circle, fill=white, draw,minimum size=7pt]
+\tikzstyle{gerade} = [circle, fill=white, draw,minimum size=7pt, label=left:g]
+\tikzstyle{ungerade} = [circle,fill=white, draw,minimum size=7pt, label=left:u]
+\tikzstyle{vnit} = [circle, draw=black!50,fill=white,minimum size=7pt, dashed]
+\tikzstyle{vum} = [circle, draw=red,fill=white,minimum size=7pt,
+label=left:u]
+\tikzstyle{vgm} = [circle, draw=red,fill=white,minimum size=7pt,
+label=left:g]
+\tikzstyle{vm} = [circle, draw=red,fill=white,minimum size=7pt]
+
+\tikzstyle{enit} =[-, draw=black!50, dashed]
+\tikzstyle{e} = [-,draw=black!75]
+\tikzstyle{matched} =[-, thick, draw=red]
+\tikzstyle{emnit} =[-, thick, draw=red, dashed]
+
+\newcommand{\makeTree}[2]{
+  \foreach \pos/\name/\style in {#1} 
+    \node [\style] (\name) at \pos {$\name$};
+  \foreach \start/\style/\end in {#2} 
+    \draw [\style] (\start) -- (\end);
+}
+
+\newcommand{\elem}[2]{
+  \lbrace {#1},{#2} \rbrace
+}
+
+
+
 \begin{longtable}{p{0.5\textwidth} p{0.5\textwidth}}
+\begin{tikzpicture}[scale=0.4, inner sep=1.0mm]
+  \makeTree
+    {{(2,3)}/1/gerade, {(0,0)}/7/ungerade, {(4,0)}/8/vnit,{(-2,-3)}/3/vnit, {(2,-3)}/4/vnit}
+    {1/ungerade/7, 1/enit/8,7/enit/3,7/enit/4}
 
-$M=\lbrace \lbrace 1,7 \rbrace \rbrace$\\
-\begin{tikzpicture}[scale=0.4, inner sep=1.0mm,
-    notMarked/.style={circle, draw,thin,minimum size=7pt, label},
-    matched/.style={draw=black!75,ultra thick},
-    notmatched/.style={draw=black!50, thin}]
-    \node (1) at (2,3)[notMarked]{1};
-    \node (7) at (0,0)[notMarked, label=left:frei,color=blue]{7};
-    \node (8) at (4,0)[notMarked]{8};
-    \draw [-] (1) to (7)[notmatched];
-    \draw [-] (1) to (8) [notmatched];
+    \end{tikzpicture}
+& 
+\begin{tikzpicture}[scale=0.5, inner sep=1.0mm]
+  \makeTree
+    {{(0,1)}/1/v, {(2,1)}/2/v, {(4,1)}/3/v, {(6,1)}/4/v,{(8,1)}/5/v, {(1,4)}/6/v, {(3,4)}/7/v, {(5,4)}/8/v, {(7,4)}/9/v}
+    {1/matched/7, 1/e/8, 2/e/6, 2/e/8, 3/e/7, 3/e/8, 3/e/9,4/e/7,4/e/8,5/e/8,5/e/9}
 \end{tikzpicture}
-&
-\begin{tikzpicture}[scale=0.5, inner sep=1.0mm,
-    notMarked/.style={circle, draw,thin,minimum size=7pt, label},
-    matched/.style={draw=red!75,ultra thick},
-    notmatched/.style={draw=black!50, thin}]
-  \node (1) at (0,1) [notMarked]{1};
-  \node (2) at (2,1) [notMarked]{2};
-  \node (3) at (4,1) [notMarked]{3};
-  \node (4) at (6,1) [notMarked]{4};
-  \node (5) at (8,1) [notMarked]{5};
-  \node (6) at (1,4) [notMarked]{6};
-  \node (7) at (3,4) [notMarked]{7};
-  \node (8) at (5,4) [notMarked]{8};
-  \node (9) at (7,4) [notMarked]{9};
-  \draw [-] (1) to (7)[matched];
-  \draw [-] (1) to (8)[notmatched];
-  \draw [-] (2) to (6)[notmatched];
-  \draw [-] (2) to (8)[notmatched];
-  \draw [-] (3) to (7)[notmatched];
-  \draw [-] (3) to (8)[notmatched];
-  \draw [-] (3) to (9)[notmatched];
-  \draw [-] (4) to (7)[notmatched];
-  \draw [-] (4) to (8)[notmatched];
-  \draw [-] (5) to (8)[notmatched];
-  \draw [-] (5) to (9)[notmatched];
-\end{tikzpicture}
+\\
+$\Rightarrow M= \lbrace \elem{1}{7}\rbrace$
 \stepsep%-------------------------------------------------------------
+\begin{tikzpicture}[scale=0.4, inner sep=1.0mm]
+  \makeTree
+    {{(2,3)}/2/gerade, {(0,0)}/6/ungerade, {(4,0)}/8/vnit}
+    {2/ungerade/6, 2/enit/8}
 
-$M=
-\lbrace \lbrace 2,6 \rbrace ,\lbrace 1,7 \rbrace \rbrace
-$\\
-\begin{tikzpicture}[scale=0.4, inner sep=1.0mm,
-    notMarked/.style={circle, draw,thin,minimum size=7pt,label},
-    notmatched/.style={draw=black!50, thin}]
-    \node (2) at (2,3)[notMarked]{2};
-    \node (6) at (0,0)[notMarked, label=left:frei, color=blue]{6};
-    \node (8) at (4,0)[notMarked]{8};
-    \draw [-] (2) to (6)[notmatched];
-    \draw [-] (2) to (8) [notmatched];
+    \end{tikzpicture}
+& 
+\begin{tikzpicture}[scale=0.5, inner sep=1.0mm]
+  \makeTree
+    {{(0,1)}/1/v, {(2,1)}/2/v, {(4,1)}/3/v, {(6,1)}/4/v,{(8,1)}/5/v, {(1,4)}/6/v, {(3,4)}/7/v, {(5,4)}/8/v, {(7,4)}/9/v}
+    {1/matched/7, 1/e/8, 2/matched/6, 2/e/8, 3/e/7, 3/e/8, 3/e/9,4/e/7,4/e/8,5/e/8,5/e/9}
 \end{tikzpicture}
-&
-\begin{tikzpicture}[scale=0.5, inner sep=1.0mm,
-    notMarked/.style={circle, draw,thin,minimum size=7pt, label},
-    matched/.style={draw=red!75,ultra thick},
-    notmatched/.style={draw=black!50, thin}]
-  \node (1) at (0,1) [notMarked ]{1};
-  \node (2) at (2,1) [notMarked]{2};
-  \node (3) at (4,1) [notMarked]{3};
-  \node (4) at (6,1) [notMarked]{4};
-  \node (5) at (8,1) [notMarked]{5};
-  \node (6) at (1,4) [notMarked]{6};
-  \node (7) at (3,4) [notMarked]{7};
-  \node (8) at (5,4) [notMarked]{8};
-  \node (9) at (7,4) [notMarked]{9};
-  \draw [-] (1) to (7)[matched];
-  \draw [-] (1) to (8)[notmatched];
-  \draw [-] (2) to (6)[matched];
-  \draw [-] (2) to (8)[notmatched];
-  \draw [-] (3) to (7)[notmatched];
-  \draw [-] (3) to (8)[notmatched];
-  \draw [-] (3) to (9)[notmatched];
-  \draw [-] (4) to (7)[notmatched];
-  \draw [-] (4) to (8)[notmatched];
-  \draw [-] (5) to (8)[notmatched];
-  \draw [-] (5) to (9)[notmatched];
-\end{tikzpicture}
-\stepsep
-$M=
-\lbrace \lbrace 2,6 \rbrace ,\lbrace 1,7 \rbrace, \lbrace 3,8 \rbrace \rbrace
-$\\
-\begin{tikzpicture}[scale=0.4, inner sep=1.0mm,
-    notMarked/.style={circle, draw,thin,minimum size=7pt, label},
-    marked/.style={circle, draw,thick,minimum size=7pt, label},
-    notmatched/.style={draw=black!50, thin}]
-    \node (3) at (4,6)[notMarked]{3};
-    \node (7) at (0,3)[marked, color=red,label=left:u]{7};
-    \node (8) at (4,3)[notMarked, color=blue, label=left:frei]{8};
-    \node (9) at (8,3)[notMarked]{9};
-    \draw [-] (3) to (7)[notmatched];
-    \draw [-] (3) to (8) [notmatched];
-    \draw [-] (3) to (9) [notmatched];
-   
-\end{tikzpicture}
-&
-\begin{tikzpicture}[scale=0.5, inner sep=1.0mm,
-    notMarked/.style={circle, draw,thin,minimum size=7pt, label},
-    marked/.style={circle, draw,thick,minimum size=7pt, label},
-    matched/.style={draw=red!75,ultra thick},
-    notmatched/.style={draw=black!50, thin}]
-  \node (1) at (0,1) [notMarked]{1};
-  \node (2) at (2,1) [notMarked]{2};
-  \node (3) at (4,1) [notMarked]{3};
-  \node (4) at (6,1) [notMarked]{4};
-  \node (5) at (8,1) [notMarked]{5};
-  \node (6) at (1,4) [notMarked]{6};
-  \node (7) at (3,4) [notMarked]{7};
-  \node (8) at (5,4) [notMarked]{8};
-  \node (9) at (7,4) [notMarked]{9};
-  \draw [-] (1) to (7)[matched];
-  \draw [-] (1) to (8)[notmatched];
-  \draw [-] (2) to (6)[matched];
-  \draw [-] (2) to (8)[notmatched];
-  \draw [-] (3) to (7)[notmatched];
-  \draw [-] (3) to (8)[matched];
-  \draw [-] (3) to (9)[notmatched];
-  \draw [-] (4) to (7)[notmatched];
-  \draw [-] (4) to (8)[notmatched];
-  \draw [-] (5) to (8)[notmatched];
-  \draw [-] (5) to (9)[notmatched];
-\end{tikzpicture}
+\\
+$\Rightarrow M= \lbrace \elem{1}{7}, \elem{2}{6} \rbrace$
 \stepsep%-------------------------------------------------------------
-$M=
-\lbrace \lbrace 2,6 \rbrace ,\lbrace 1,7 \rbrace, \lbrace 3,8 \rbrace \rbrace
-$\\
-\begin{tikzpicture}[scale=0.4, inner sep=1.0mm,
-    notMarked/.style={circle, draw,thin,minimum size=7pt, label},
-    marked/.style={circle, draw,thick,minimum size=7pt, label},
-    matched/.style={draw=black!75,ultra thick},
-    notmatched/.style={draw=black!50, thin}]
-    \node (4) at (3,6)[notMarked]{4};
-    \node (7) at (1,3)[marked, color=red,label=left:u]{7};
-    \node (8) at (5,3)[marked, color=red,label=left:u]{8};
-    \draw [-] (4) to (7)[notmatched];
-    \draw [-] (4) to (8) [notmatched];
+\begin{tikzpicture}[scale=0.4, inner sep=1.0mm]
+  \makeTree
+    {{(2,3)}/3/gerade, {(0,0)}/7/vum, {(4,0)}/8/ungerade, {(-3,-3)}/1/vm, {(0,-3)}/4/vnit, {(3,-3)}/2/vnit, {(6,-3)}/5/vnit}
+    {3/e/7, 3/e/8, 7/emnit/1, 8/enit/4, 8/vnit/2, 8/vnit/5}
+
+    \end{tikzpicture}
+& 
+\begin{tikzpicture}[scale=0.5, inner sep=1.0mm]
+  \makeTree
+    {{(0,1)}/1/v, {(2,1)}/2/v, {(4,1)}/3/v, {(6,1)}/4/v,{(8,1)}/5/v, {(1,4)}/6/v, {(3,4)}/7/v, {(5,4)}/8/v, {(7,4)}/9/v}
+    {1/matched/7, 1/e/8, 2/matched/6, 2/e/8, 3/e/7, 3/matched/8, 3/e/9,4/e/7,4/e/8,5/e/8,5/e/9}
 \end{tikzpicture}
-&
-\begin{tikzpicture}[scale=0.5, inner sep=1.0mm,
-    notMarked/.style={circle, draw,thin,minimum size=7pt, label},
-    marked/.style={circle, draw,thick,minimum size=7pt, label},
-    matched/.style={draw=red!75,ultra thick},
-    notmatched/.style={draw=black!50, thin}]
-  \node (1) at (0,1) [notMarked]{1};
-  \node (2) at (2,1) [notMarked]{2};
-  \node (3) at (4,1) [notMarked]{3};
-  \node (4) at (6,1) [notMarked]{4};
-  \node (5) at (8,1) [notMarked]{5};
-  \node (6) at (1,4) [notMarked]{6};
-  \node (7) at (3,4) [notMarked]{7};
-  \node (8) at (5,4) [notMarked]{8};
-  \node (9) at (7,4) [notMarked]{9};
-  \draw [-] (1) to (7)[matched];
-  \draw [-] (1) to (8)[notmatched];
-  \draw [-] (2) to (6)[matched];
-  \draw [-] (2) to (8)[notmatched];
-  \draw [-] (3) to (7)[notmatched];
-  \draw [-] (3) to (8)[matched];
-  \draw [-] (3) to (9)[notmatched];
-  %\draw [-] (4) to (7)[notmatched];
-  %\draw [-] (4) to (8)[notmatched];
-  \draw [-] (5) to (8)[notmatched];
-  \draw [-] (5) to (9)[notmatched];
-\end{tikzpicture}
+\\
+$\Rightarrow M= \lbrace \elem{1}{7}, \elem{2}{6}, \elem{3}{8} \rbrace$
 \stepsep%-------------------------------------------------------------
-$M=
-\lbrace \lbrace 2,6 \rbrace ,\lbrace 1,7 \rbrace, \lbrace 3,8 \rbrace ,\lbrace 5,9 \rbrace \rbrace
-$\\
-\begin{tikzpicture}[scale=0.4, inner sep=1.0mm,
-    notMarked/.style={circle, draw,thin,minimum size=7pt, label},
-    marked/.style={circle, draw,thick,minimum size=7pt, label},
-    matched/.style={draw=black!75,ultra thick},
-    notmatched/.style={draw=black!50, thin}]
-    \node (5) at (3,6)[notMarked]{5};
-    \node (8) at (1,3)[marked, color=red, label=left:u ]{8};
-    \node (9) at (5,3)[notMarked, color=blue, label=left:frei]{9};
-    \draw [-] (5) to (8)[notmatched];
-    \draw [-] (5) to (9) [notmatched];
+\begin{tikzpicture}[scale=0.4, inner sep=1.0mm]
+  \makeTree
+    {{(2,3)}/4/gerade,{(0,0)}/7/vum, {(4,0)}/8/vum, {(-3,-3)}/1/vgm, {(3,-3)}/3/vgm,{(3,-9)}/5/vnit, {(3,-6)}/9/ungerade}
+    {4/e/7, 4/e/8, 7/matched/1, 8/matched/3, 9/e/3, 5/vnit/9}
+
+    \end{tikzpicture}
+& 
+\begin{tikzpicture}[scale=0.5, inner sep=1.0mm]
+  \makeTree
+    {{(0,1)}/1/v, {(2,1)}/2/v, {(4,1)}/3/v, {(6,1)}/4/v,{(8,1)}/5/v, {(1,4)}/6/v, {(3,4)}/7/v, {(5,4)}/8/v, {(7,4)}/9/v}
+    {1/matched/7, 1/e/8, 2/matched/6, 2/e/8, 3/e/7, 3/e/8, 3/matched/9,4/e/7,4/matched/8,5/e/8,5/e/9}
 \end{tikzpicture}
-&
-\begin{tikzpicture}[scale=0.5, inner sep=1.0mm,
-    notMarked/.style={circle, draw,thin,minimum size=7pt, label},
-    matched/.style={draw=black!75,ultra thick},
-    notmatched/.style={draw=black!50, thin}]
-  \node (1) at (0,1) [notMarked]{1};
-  \node (2) at (2,1) [notMarked]{2};
-  \node (3) at (4,1) [notMarked]{3};
-  \node (4) at (6,1) [notMarked]{4};
-  \node (5) at (8,1) [notMarked]{5};
-  \node (6) at (1,4) [notMarked]{6};
-  \node (7) at (3,4) [notMarked]{7};
-  \node (8) at (5,4) [notMarked]{8};
-  \node (9) at (7,4) [notMarked]{9};
-  \draw [-] (1) to (7)[matched, color=red];
-  \draw [-] (1) to (8)[notmatched];
-  \draw [-] (2) to (6)[matched, color=red];
-  \draw [-] (2) to (8)[notmatched];
-  \draw [-] (3) to (7)[notmatched];
-  \draw [-] (3) to (8)[matched,color=red];
-  \draw [-] (3) to (9)[notmatched];
-  %\draw [-] (4) to (7)[notmatched];
-  %\draw [-] (4) to (8)[notmatched];
-  \draw [-] (5) to (8)[notmatched];
-  \draw [-] (5) to (9)[matched,color=red];
-\end{tikzpicture}
+\\
+$\Rightarrow M= \lbrace \elem{1}{7}, \elem{2}{6}, \elem{4}{8}, \elem{3}{9} \rbrace$
 \stepsep%-------------------------------------------------------------
 
+\begin{tikzpicture}[scale=0.4, inner sep=1.0mm]
+  \makeTree
+    {{(2,3)}/5/gerade,{(0,0)}/8/vum, {(4,0)}/9/vum, {(-1,-3)}/4/vgm, {(3,-3)}/3/vgm,{(-1,-9)}/7/vgm, {(0,-6)}/1/vum}
+    {5/e/8, 5/e/9, 8/matched/4, 9/matched/3, 4/e/1, 1/matched/7}
+    \end{tikzpicture}
+& 
+\begin{tikzpicture}[scale=0.5, inner sep=1.0mm]
+  \makeTree
+    {{(0,1)}/1/v, {(2,1)}/2/v, {(4,1)}/3/v, {(6,1)}/4/v,{(8,1)}/5/v, {(1,4)}/6/v, {(3,4)}/7/v, {(5,4)}/8/v, {(7,4)}/9/v}
+    {1/matched/7, 1/e/8, 2/matched/6, 2/e/8, 3/e/7, 3/e/8, 3/matched/9,4/e/7,4/matched/8,5/e/8,5/e/9}
+\end{tikzpicture}
+\\
+$\Rightarrow M= \lbrace \elem{1}{7}, \elem{2}{6}, \elem{4}{8}, \elem{3}{9} \rbrace$
+\stepsep%-------------------------------------------------------------
 \end{longtable}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Aufgabe 17:}
