@@ -1,0 +1,56 @@
+% Graphenalgorithmen
+% Lukas Kalbertodt
+% Mirko Wagner
+% Elena Resch
+% ===== Header ===============================================================
+\documentclass[11pt]{scrartcl} % europäische Artikel Klasse
+\usepackage[top=3cm, bottom=4.5cm, left=3cm, right=3cm]{geometry}
+% Pakete für deutschen Text (Umlaute) + Font
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{ngerman}
+\usepackage[ngerman]{babel} % Deutsche Anführungszeichen
+\usepackage{amsmath}
+\usepackage{amsfonts} % \mathbb
+\usepackage{relsize}
+\usepackage{csquotes} % \enquote
+\usepackage{paralist} % Beliebige Aufzählungszeichen
+\usepackage{tabularx} % Tolle Tabellen
+\usepackage{caption}
+\usepackage{wasysym}
+\usepackage[labelformat=empty]{subcaption}
+\usepackage{longtable}
+
+% Deutsche Absätze: Kein Einrücken, aber Abstand
+\parskip=10pt
+\parindent=0pt
+
+\usepackage{tikz} % Graphen zeichnen
+\usetikzlibrary{arrows}
+\usetikzlibrary{positioning}
+\usetikzlibrary{decorations.pathmorphing}
+\newcommand{\func}[1]{\mbox{\emph{#1}}}
+
+% Dokument-Metadaten
+\title{Graphenalgorithmen: Blatt 9}
+\author{Lukas Kalbertodt, Elena Resch, Mirko Wagner}
+
+% ===== Body =================================================================
+\begin{document}
+\maketitle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Aufgabe 19:}
+In dieser Aufgabe bezeichnet $e^*$ den Knoten in $L(G)$, der der Kante $e$ in $G$ entspricht.
+
+\begin{compactenum}[(a)]
+\item Ein Graph ist genau dann \emph{eulersch}, wenn er zusammenhängend ist und jeder Knoten einen geraden Grad besitzt. Man sieht einfach: $L(G)$ ist zusammenhängend, wenn $G$ zusammenhängend ist. Es bleibt also nur noch zu zeigen, dass alle Knoten von $L(G)$ einen geraden Grad haben, wenn alle Knoten im Originalgraphen $G$ einen geraden Grad haben.\\
+Der Grad eines Knoten $e^*$ in $L(G)$, ist genau die Summe der Grade beider Knoten, die $e$ in $G$ verbindet minus $2$. Wenn also die beiden Grade der Knoten gerade sind, ist deren Summe immer noch gerade -- ebenso nach der Subtraktion von $2$.\\
+Die Umkehrung gilt nicht, da die Hälfte einer geraden Zahl nicht zwangsweise gerade ist.\\
+
+\item Wenn $G$ eulerisch ist, gibt einen Zyklus, der alle Kanten einmal abläuft. In $L(G)$ entspricht jeder Knoten einer Kante. Weiterhin gilt folgendes: Wenn man in $G$ eine Kante $e_a$ besucht hat und danach eine Kante $e_b$ besuchen \emph{kann} ($e_a$ und $e_b$ haben also einen Endpunkt am selben Knoten), so \emph{kann} man in $L(G)$ nachdem man $e_a^*$ besucht hat, auch den Knoten $e_b^*$ besuchen (eine Kante in $L(G)$ verbindet diese beiden). Dies geht direkt aus der Definition von $L(G)$ hervor. Die Umkehrung gilt ebenfalls.
+
+\end{compactenum}
+
+
+\end{document}
