@@ -33,7 +33,7 @@
 \newcommand{\func}[1]{\mbox{\emph{#1}}}
 
 % Dokument-Metadaten
-\title{Graphenalgorithmen: Blatt 7}
+\title{Graphenalgorithmen: Blatt 8}
 \author{Lukas Kalbertodt, Elena Resch, Mirko Wagner}
 
 % ===== Body =================================================================
@@ -61,9 +61,9 @@ label=left:g]
 \tikzstyle{emnit} =[-, thick, draw=red, dashed]
 
 \newcommand{\makeTree}[2]{
-  \foreach \pos/\name/\style in {#1} 
+  \foreach \pos/\name/\style in {#1}
     \node [\style] (\name) at \pos {$\name$};
-  \foreach \start/\style/\end in {#2} 
+  \foreach \start/\style/\end in {#2}
     \draw [\style] (\start) -- (\end);
 }
 
@@ -80,7 +80,7 @@ label=left:g]
     {1/ungerade/7, 1/enit/8,7/enit/3,7/enit/4}
 
     \end{tikzpicture}
-& 
+&
 \begin{tikzpicture}[scale=0.5, inner sep=1.0mm]
   \makeTree
     {{(0,1)}/1/v, {(2,1)}/2/v, {(4,1)}/3/v, {(6,1)}/4/v,{(8,1)}/5/v, {(1,4)}/6/v, {(3,4)}/7/v, {(5,4)}/8/v, {(7,4)}/9/v}
@@ -95,7 +95,7 @@ $\Rightarrow M= \lbrace \elem{1}{7}\rbrace$
     {2/ungerade/6, 2/enit/8}
 
     \end{tikzpicture}
-& 
+&
 \begin{tikzpicture}[scale=0.5, inner sep=1.0mm]
   \makeTree
     {{(0,1)}/1/v, {(2,1)}/2/v, {(4,1)}/3/v, {(6,1)}/4/v,{(8,1)}/5/v, {(1,4)}/6/v, {(3,4)}/7/v, {(5,4)}/8/v, {(7,4)}/9/v}
@@ -110,7 +110,7 @@ $\Rightarrow M= \lbrace \elem{1}{7}, \elem{2}{6} \rbrace$
     {3/e/7, 3/e/8, 7/emnit/1, 8/enit/4, 8/vnit/2, 8/vnit/5}
 
     \end{tikzpicture}
-& 
+&
 \begin{tikzpicture}[scale=0.5, inner sep=1.0mm]
   \makeTree
     {{(0,1)}/1/v, {(2,1)}/2/v, {(4,1)}/3/v, {(6,1)}/4/v,{(8,1)}/5/v, {(1,4)}/6/v, {(3,4)}/7/v, {(5,4)}/8/v, {(7,4)}/9/v}
@@ -125,7 +125,7 @@ $\Rightarrow M= \lbrace \elem{1}{7}, \elem{2}{6}, \elem{3}{8} \rbrace$
     {4/e/7, 4/e/8, 7/matched/1, 8/matched/3, 9/e/3, 5/vnit/9}
 
     \end{tikzpicture}
-& 
+&
 \begin{tikzpicture}[scale=0.5, inner sep=1.0mm]
   \makeTree
     {{(0,1)}/1/v, {(2,1)}/2/v, {(4,1)}/3/v, {(6,1)}/4/v,{(8,1)}/5/v, {(1,4)}/6/v, {(3,4)}/7/v, {(5,4)}/8/v, {(7,4)}/9/v}
@@ -140,7 +140,7 @@ $\Rightarrow M= \lbrace \elem{1}{7}, \elem{2}{6}, \elem{4}{8}, \elem{3}{9} \rbra
     {{(2,3)}/5/gerade,{(0,0)}/8/vum, {(4,0)}/9/vum, {(-1,-3)}/4/vgm, {(3,-3)}/3/vgm,{(-1,-9)}/7/vgm, {(0,-6)}/1/vum}
     {5/e/8, 5/e/9, 8/matched/4, 9/matched/3, 4/e/1, 1/matched/7}
     \end{tikzpicture}
-& 
+&
 \begin{tikzpicture}[scale=0.5, inner sep=1.0mm]
   \makeTree
     {{(0,1)}/1/v, {(2,1)}/2/v, {(4,1)}/3/v, {(6,1)}/4/v,{(8,1)}/5/v, {(1,4)}/6/v, {(3,4)}/7/v, {(5,4)}/8/v, {(7,4)}/9/v}
@@ -151,6 +151,7 @@ $\Rightarrow M= \lbrace \elem{1}{7}, \elem{2}{6}, \elem{4}{8}, \elem{3}{9} \rbra
 \stepsep%-------------------------------------------------------------
 \end{longtable}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
 \section*{Aufgabe 17:}
 \begin{compactenum}[(a)]
 \definecolor{darkgreen}{rgb}{0,0.3,0}
