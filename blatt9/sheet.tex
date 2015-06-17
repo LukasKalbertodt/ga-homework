@@ -32,6 +32,33 @@
 \usetikzlibrary{positioning}
 \usetikzlibrary{decorations.pathmorphing}
 \newcommand{\func}[1]{\mbox{\emph{#1}}}
+\newcommand{\addEdge}[1]{
+    \foreach \start/\end/\style in {#1}
+        \draw [\style] (\start) to (\end);
+}
+\newcommand{\addlabel}[1]{
+    \foreach \start/\end/\style/\labelstart/\labelend/\posstart/\posend in {#1}
+        \draw [\style] (\start) node [label={[label distance=10pt]\posstart:\labelstart}] {} to (\end) node [label={[label distance=10pt]\posend:\labelend}] {};
+}
+\tikzstyle{red} = [draw=red, thick]
+\tikzstyle{conred} = [draw=red, dashed]
+\tikzstyle{conblue} = [draw=blue, dashed]
+\tikzstyle{blue} = [draw=blue, thick]
+\newcommand{\drawBluePath}[1]{
+    \foreach \start/\middle/\end in {#1}{
+        \draw [blue](\start) to (\middle);
+        \draw [blue, dashed] (\middle) to (\end);
+    }
+
+}
+
+\newcommand{\drawRedPath}[1]{
+    \foreach \start/\end/\pos in {#1}{
+        \draw [red](\start) to (\end);
+        \node [label={[label distance=10pt]\pos:o}] at (\start) {};
+    }
+}
+
 
 % Dokument-Metadaten
 \title{Graphenalgorithmen: Blatt 9}
@@ -249,5 +276,232 @@ Die Umkehrung gilt nicht, da die Hälfte einer geraden Zahl nicht zwangsweise ge
 
 \end{compactenum}
 
+\section*{Aufgabe 20:}
+\begin{compactenum}[(a)]
+\item Modellierung und Problemstellung:\\
+
+\textbf{Schritt 1: Erstelle für jeden Würfel einen Graph}\\
+Die 4 Knoten sind die 4 Farben (r=rot, g=gelb,b=blau,w=weiß). 3 Kanten werden gezogen, wenn sich die Farben gegenüber liegen (Schlingen erlaubt). Es entstehen Graphen $G_1=(V_1,E_1),G_2=(V_2,E_2),G_3=(V_3,E_3),G_4=(V_4,E_4)$ mit $V_i=\lbrace r_i,g_i,b_i,w_i \rbrace, i=1,\dots, 4$.
+\newline
+
+\textbf{Schritt 2: Zusammenführen der Graphen}  \\
+Es gilt jeder Knoten des einen Teilgraphen ist verbunden mit jedem Knoten des anderen Teilgraphen (in den Beispielen unten nicht eingezeichnet).
+\newline
+
+\textbf{Problemstellung:} \\
+
+\begin{minipage}[h]{0.25\textwidth}
+\begin{tikzpicture}[node distance=0.5cm]
+    \node[node] (ri) {$r_i$};    
+    \node[node, right=of ri] (rj) {$r_j$};
+    \node[node, below left=of ri] (gk) {$g_k$};
+    \node[node, below=of gk] (gl) {$g_l$};
+    \node[node, below right=of gl] (br) {$b_r$};
+    \node[node, right=of br] (bs) {$b_s$};
+    \node[node, above right=of bs] (wx) {$w_x$};
+    \node[node, above=of wx] (wy) {$w_y$};
+
+    \addEdge{ri/rj/edge, gk/gl/edge, wy/wx/edge,br/bs/edge}
+\end{tikzpicture}
+\end{minipage}
+\begin{minipage}[h]{0.75\textwidth}
+    Für die Kantenteilmenge $E_{vh}$ (vorne-hinten) gilt: Es ist ein Matching mit 4 Kanten $\lbrace \lbrace r_i,r_j \rbrace,\lbrace g_k,g_l\rbrace,\lbrace b_r,b_s \rbrace ,\lbrace w_x,w_y\rbrace \rbrace$, $i,j,k,l,r,s,x,y =1,\dots,4$, wobei die Indizes der Knoten einer Kante auch gleich sein können (Schlinge).
+
+    \begin{tikzpicture}[every loop/.style={}]
+        \node[node] (r) {$r_i$};
+        \node[node, right=of r] (g) {$g_j$};
+        \node[node, right=of g] (b) {$b_k$};
+        \node[node, right=of b] (w) {$w_l$};
+        \path[-] (r) edge [loop] ();
+        \path[-] (g) edge [loop] ();
+        \path[-] (b) edge [loop] ();
+        \path[-] (w) edge [loop] ();
+    \end{tikzpicture}
+
+\end{minipage}
+\newline
+
+\textbf{Schritt 3: Auswählen der Kanten}
+\begin{compactenum}[(i)]
+\item Wähle beim Teilgraphen $G_1=(V_1,E_1)$ die Kante $e_1=\lbrace u_1,v_1 \rbrace$, mit $deg(u_1)$ ungerade, aus und markiere $u_1$ als vorderen und $v_1$ als hinteren Knoten. (Für einen Knoten $u$ mit einer Schlinge gilt: $deg(u)$ ungerade.)
+\begin{compactenum}[1.]
+    \item Fall: $u_1\neq v_1$\\
+    Wähle im nächsten Graphen einen Knoten v
+\end{compactenum}
+
+
+\end{compactenum}
+\item (i) Erstellen der Graphen:\\
+\begin{minipage}[t]{0.25\textwidth}
+\tikzset{every loop/.style={min distance=15pt,in=120,out=60}}
+\begin{tikzpicture}
+\node [node] (r) at (0,0) {$r_1$} edge [loop above] ();
+\node [node] (g) at (2,0) {$g_1$};
+\node [node] (b) at (0,-2) {$b_1$};
+\node [node] (w) at (2,-2) {$w_1$};
+
+\draw [-] (r) -- (g);
+\draw [-] (w) -- (b);
+\end{tikzpicture}
+\end{minipage}
+\begin{minipage}[t]{0.25\textwidth}
+\tikzset{every loop/.style={min distance=15pt,in=120,out=60}}
+\begin{tikzpicture}
+\node [node] (r) at (0,0) {$r_2$};
+\node [node] (g) at (2,0) {$g_2$};
+\node [node] (b) at (0,-2) {$b_2$};
+\node [node] (w) at (2,-2) {$w_2$};
+
+\draw [-] (r) -- (w);
+\draw [-] (w) -- (g);
+\draw [-] (b) -- (r);
+\end{tikzpicture}
+\end{minipage}
+\begin{minipage}[t]{0.25\textwidth}
+\tikzset{every loop/.style={min distance=15pt,in=120,out=60}}
+\begin{tikzpicture}
+\node [node] (r) at (0,0) {$r_3$};
+\node [node] (g) at (2,0) {$g_3$};
+\node [node] (b) at (0,-2) {$b_3$};
+\node [node] (w) at (2,-2) {$w_3$};
+
+\draw [-] (b) -- (w);
+\draw [-] (r) -- (g);
+\draw [-] (g) -- (w);
+\end{tikzpicture}
+\end{minipage}
+\begin{minipage}[t]{0.2\textwidth}
+\tikzset{every loop/.style={min distance=15pt,in=120,out=60}}
+\begin{tikzpicture}
+\node [node] (r) at (0,0) {$r_4$};
+\node [node] (g) at (2,0) {$g_4$} edge [loop above] ();
+\node [node] (b) at (0,-2) {$b_4$};
+\node [node] (w) at (2,-2) {$w_4$};
+
+\draw [-] (r) -- (b);
+\draw [-] (w) -- (b);
+\end{tikzpicture}
+\end{minipage}
+
+Zusammenführen der Graphen und Auswählen der Kanten:
+
+\begin{tikzpicture}[node distance=1.0cm]
+
+    \node[node] (r1) {$r_1$};
+    \node[node, left=of r1] (g1) {$g_1$};
+    \node[node, left=of g1] (b1) {$b_1$};
+    \node[node, left=of b1] (w1) {$w_1$};
+
+    \node[node, below left=of w1] (g2) {$g_2$};
+    \node[node, below=of g2] (w2) {$w_2$};
+    \node[node, below=of w2] (r2) {$r_2$};
+    \node[node, below=of r2] (b2) {$b_2$};
+    
+    \node[node, below right=of b2] (r3) {$r_3$};
+    \node[node, right=of r3] (g3) {$g_3$};
+    \node[node, right=of g3] (w3) {$w_3$};
+    \node[node, right=of w3] (b3) {$b_3$};
+
+    \node[node, above right=of b3] (r4) {$r_4$};
+    \node[node, above=of r4] (b4) {$b_4$};
+    \node[node, above=of b4] (w4) {$w_4$};
+    \node[node, above=of w4] (g4) {$g_4$};
+    
+    \path[-] (r1) edge [loop] node {} (r1);
+    \path[-] (g4) edge [loop] node {} (g4);
+
+    \addEdge{r1/g1/edge, b1/w1/edge, r2/b2/edge, r2/w2/edge,
+             w2/g2/edge, r3/g3/edge, b3/w3/edge, g3/w3/edge,
+             r4/b4/edge, b4/w4/edge}
+    
+    \drawBluePath{g1/r1/r4, r4/b4/b3, b3/w3/w2, w2/g2/g1}
+    
+    \drawRedPath{g4/g4/0, r3/g3/270, b2/r2/180, w1/b1/90}
+    
+\end{tikzpicture}
+
+(ii) Erstellen der Graphen:\\
+\begin{minipage}[t]{0.25\textwidth}
+\tikzset{every loop/.style={min distance=15pt,in=120,out=60}}
+\begin{tikzpicture}[node distance=1.0cm]
+\node [node] (r) {$r_1$};
+\node [node, right=of r] (g) {$g_1$};
+\node [node, below=of r] (b) {$b_1$};
+\node [node, below=of g] (w) {$w_1$};
+\addEdge{r/w/edge,r/g/edge,b/g/edge}
+\end{tikzpicture}
+\end{minipage}
+\begin{minipage}[t]{0.25\textwidth}
+\tikzset{every loop/.style={min distance=15pt,in=120,out=60}}
+\begin{tikzpicture}[node distance=1.0cm]
+\node [node] (r) {$r_2$};
+\node [node, right=of r] (g) {$g_2$};
+\node [node, below=of r] (b) {$b_2$};
+\node [node, below=of g] (w) {$w_2$};
+\addEdge{g/b/edge,r/w/edge,r/g/edge}
+\end{tikzpicture}
+\end{minipage}
+\begin{minipage}[t]{0.25\textwidth}
+\tikzset{every loop/.style={min distance=15pt,in=120,out=60}}
+\begin{tikzpicture}[node distance=1.0cm]
+\node [node] (r) {$r_3$};
+\node [node, right=of r] (g) {$g_3$};
+\node [node, below=of r] (b) {$b_3$};
+\node [node, below=of g] (w) {$w_3$};
+\addEdge{r/g/edge,b/w/edge}
+\path[-] (w) edge [loop] node {} (w);
+\end{tikzpicture}
+\end{minipage}
+\begin{minipage}[t]{0.25\textwidth}
+\tikzset{every loop/.style={min distance=15pt,in=120,out=60}}
+\begin{tikzpicture}[node distance=1.0cm]
+\node [node] (r) {$r_4$};
+\node [node, below=of r] (g) {$g_4$};
+\node [node, right=of r] (b) {$b_4$};
+\node [node, right=of g] (w) {$w_4$};
+\addEdge{b/r/edge,g/w/edge}
+\path[-] (b) edge [loop] (b);
+\end{tikzpicture}
+\end{minipage}
+
+Zusammenführen der Graphen und auswählen der Kanten:
+
+\begin{tikzpicture}[node distance=1.0cm, every loop/.style={}]
+
+    \node[node] (r1) {$r_1$};
+    \node[node, right=of r1] (g1) {$g_1$};
+    \node[node, right=of g1] (b1) {$b_1$};
+    \node[node, left=of r1] (w1) {$w_1$};
+
+    \node[node, below left=of w1] (w2) {$w_2$};
+    \node[node, below=of w2] (r2) {$r_2$};
+    \node[node, below=of r2] (g2) {$g_2$};
+    \node[node, below=of g2] (b2) {$b_2$};
+    
+    \node[node, below right=of b2] (r3) {$r_3$};
+    \node[node, right=of r3] (g3) {$g_3$};
+    \node[node, right=of g3] (w3) {$w_3$};
+    \node[node, right=of w3] (b3) {$b_3$};
+
+    \node[node, above right=of b3] (r4) {$r_4$};
+    \node[node, above=of r4] (b4) {$b_4$};
+    \node[node, above=of b4] (w4) {$w_4$};
+    \node[node, above=of w4] (g4) {$g_4$};
+    
+    \addEdge{r1/w1/edge, b1/g1/edge, r1/g1/edge,
+             r2/w2/edge, b2/g2/edge, r2/g2/edge,
+             r3/g3/edge, b3/w3/edge,
+             r4/b4/edge, g4/w4/edge}
+    \path[-] (w3) edge [loop below, blue] (w3);
+    \path[-] (b4) edge [loop right, blue] (b4);
+
+    \addlabel{}
+    \drawBluePath{w1/r1/r2, r2/w2/w1}
+    \drawRedPath{g1/b1/90, b2/g2/180, r3/g3/270, w4/g4/0}
+\end{tikzpicture}
+
+
+
+\end{compactenum}
 
 \end{document}
