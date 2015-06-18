@@ -285,10 +285,10 @@ Die 4 Knoten sind die 4 Farben (r=rot, g=gelb,b=blau,w=weiß). 3 Kanten werden g
 \newline
 
 \textbf{Schritt 2: Zusammenführen der Graphen}  \\
-Es gilt jeder Knoten des einen Teilgraphen ist verbunden mit jedem Knoten des anderen Teilgraphen (in den Beispielen unten nicht eingezeichnet).
-\newline
+Es gilt jeder Knoten des einen Teilgraphen ist verbunden mit jedem Knoten des anderen Teilgraphen (in den Beispielen unten nicht eingezeichnet), wir bezeichnen diese Kantenmenge als $E'$. Damit gilt: $G=(V,E), V=V_1 \cup V_2\cup V_3\cup V_4, E=E_1 \cup E_2 \cup E_3 \cup E_4 \cup E'$.
 
-\textbf{Problemstellung:} \\
+\newpage
+\textbf{Problemstellung:} 
 
 \begin{minipage}[h]{0.25\textwidth}
 \begin{tikzpicture}[node distance=0.5cm]
@@ -300,37 +300,22 @@ Es gilt jeder Knoten des einen Teilgraphen ist verbunden mit jedem Knoten des an
     \node[node, right=of br] (bs) {$b_s$};
     \node[node, above right=of bs] (wx) {$w_x$};
     \node[node, above=of wx] (wy) {$w_y$};
-
     \addEdge{ri/rj/edge, gk/gl/edge, wy/wx/edge,br/bs/edge}
 \end{tikzpicture}
 \end{minipage}
 \begin{minipage}[h]{0.75\textwidth}
     Für die Kantenteilmenge $E_{vh}$ (vorne-hinten) gilt: Es ist ein Matching mit 4 Kanten $\lbrace \lbrace r_i,r_j \rbrace,\lbrace g_k,g_l\rbrace,\lbrace b_r,b_s \rbrace ,\lbrace w_x,w_y\rbrace \rbrace$, $i,j,k,l,r,s,x,y =1,\dots,4$, wobei die Indizes der Knoten einer Kante auch gleich sein können (Schlinge).
-
     \begin{tikzpicture}[every loop/.style={}]
-        \node[node] (r) {$r_i$};
-        \node[node, right=of r] (g) {$g_j$};
-        \node[node, right=of g] (b) {$b_k$};
-        \node[node, right=of b] (w) {$w_l$};
-        \path[-] (r) edge [loop] ();
-        \path[-] (g) edge [loop] ();
-        \path[-] (b) edge [loop] ();
-        \path[-] (w) edge [loop] ();
+        \node[node] (r) {$r_i$};  
+        \path[-] (r) edge [loop right] ();
     \end{tikzpicture}
-
 \end{minipage}
+
+Für $E_{hv}$ gilt: Für die Kanten aus $E_{hv}$, die keine Schlingen sind, existieren weitere Kanten in $E$, sodass ein Zykel entsteht mit alternierend Matching und Nicht-Matching-Kante. Eine Schlinge ist ein Zykel.
+
+Für die Kantenmenge $E_{ou}$ (oben-unten) gilt: Sie entsteht, indem die Kanten mit den bisher nicht indizierten Knoten betrachtet und solche 4 Knoten mit der Markierung "o" (oben) versehen werden, die sich paarweise in der Färbung unterscheiden.
 \newline
 
-\textbf{Schritt 3: Auswählen der Kanten}
-\begin{compactenum}[(i)]
-\item Wähle beim Teilgraphen $G_1=(V_1,E_1)$ die Kante $e_1=\lbrace u_1,v_1 \rbrace$, mit $deg(u_1)$ ungerade, aus und markiere $u_1$ als vorderen und $v_1$ als hinteren Knoten. (Für einen Knoten $u$ mit einer Schlinge gilt: $deg(u)$ ungerade.)
-\begin{compactenum}[1.]
-    \item Fall: $u_1\neq v_1$\\
-    Wähle im nächsten Graphen einen Knoten v
-\end{compactenum}
-
-
-\end{compactenum}
 \item (i) Erstellen der Graphen:\\
 \begin{minipage}[t]{0.25\textwidth}
 \tikzset{every loop/.style={min distance=15pt,in=120,out=60}}
