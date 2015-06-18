@@ -37,8 +37,10 @@
         \draw [\style] (\start) to (\end);
 }
 \newcommand{\addlabel}[1]{
-    \foreach \start/\end/\style/\labelstart/\labelend/\posstart/\posend in {#1}
-        \draw [\style] (\start) node [label={[label distance=10pt]\posstart:\labelstart}] {} to (\end) node [label={[label distance=10pt]\posend:\labelend}] {};
+    \foreach \start/\end/\pos in {#1}{
+        \node at (\start) [label={[label distance=10pt]\pos:v}] {};
+        \node at (\end) [label={[label distance=10pt]\pos:h}] {};
+    }
 }
 \tikzstyle{red} = [draw=red, thick]
 \tikzstyle{conred} = [draw=red, dashed]
@@ -290,7 +292,7 @@ Es gilt jeder Knoten des einen Teilgraphen ist verbunden mit jedem Knoten des an
 \newpage
 \textbf{Problemstellung:} 
 
-\begin{minipage}[h]{0.25\textwidth}
+\begin{minipage}[h]{0.3\textwidth}
 \begin{tikzpicture}[node distance=0.5cm]
     \node[node] (ri) {$r_i$};    
     \node[node, right=of ri] (rj) {$r_j$};
@@ -303,17 +305,19 @@ Es gilt jeder Knoten des einen Teilgraphen ist verbunden mit jedem Knoten des an
     \addEdge{ri/rj/edge, gk/gl/edge, wy/wx/edge,br/bs/edge}
 \end{tikzpicture}
 \end{minipage}
-\begin{minipage}[h]{0.75\textwidth}
+\begin{minipage}[h]{0.70\textwidth}
     Für die Kantenteilmenge $E_{vh}$ (vorne-hinten) gilt: Es ist ein Matching mit 4 Kanten $\lbrace \lbrace r_i,r_j \rbrace,\lbrace g_k,g_l\rbrace,\lbrace b_r,b_s \rbrace ,\lbrace w_x,w_y\rbrace \rbrace$, $i,j,k,l,r,s,x,y =1,\dots,4$, wobei die Indizes der Knoten einer Kante auch gleich sein können (Schlinge).
     \begin{tikzpicture}[every loop/.style={}]
         \node[node] (r) {$r_i$};  
         \path[-] (r) edge [loop right] ();
     \end{tikzpicture}
 \end{minipage}
+\newline
 
-Für $E_{hv}$ gilt: Für die Kanten aus $E_{hv}$, die keine Schlingen sind, existieren weitere Kanten in $E$, sodass ein Zykel entsteht mit alternierend Matching und Nicht-Matching-Kante. Eine Schlinge ist ein Zykel.
+Für $E_{hv}$ gilt: Für die Kanten aus $E_{hv}$, die keine Schlingen sind, existieren weitere Kanten in $E$, sodass ein Zykel entsteht mit alternierend Matching und Nicht-Matching-Kante, und der alternierenden Markierung der Knoten mit "v" und "h" (vorne, hinten). Eine Schlinge ist ein Zykel und erhält beide Markierungen.
+\newline
 
-Für die Kantenmenge $E_{ou}$ (oben-unten) gilt: Sie entsteht, indem die Kanten mit den bisher nicht indizierten Knoten betrachtet und solche 4 Knoten mit der Markierung "o" (oben) versehen werden, die sich paarweise in der Färbung unterscheiden.
+Für die Kantenmenge $E_{ou}$ (oben-unten) gilt: Sie entsteht, indem die Kanten aus $E_i, i= 1,\dots,4$ mit den bisher nicht indizierten Knoten durch $E_{vh}$ betrachtet und solche 4 Knoten mit der Markierung "o" (oben) versehen werden, die sich paarweise in der Färbung unterscheiden.
 \newline
 
 \item (i) Erstellen der Graphen:\\
@@ -344,7 +348,7 @@ Für die Kantenmenge $E_{ou}$ (oben-unten) gilt: Sie entsteht, indem die Kanten 
 \end{minipage}
 \begin{minipage}[t]{0.25\textwidth}
 \tikzset{every loop/.style={min distance=15pt,in=120,out=60}}
-\begin{tikzpicture}
+\begin{tikzpicture}[node distance=0.7cm]
 \node [node] (r) at (0,0) {$r_3$};
 \node [node] (g) at (2,0) {$g_3$};
 \node [node] (b) at (0,-2) {$b_3$};
@@ -357,7 +361,7 @@ Für die Kantenmenge $E_{ou}$ (oben-unten) gilt: Sie entsteht, indem die Kanten 
 \end{minipage}
 \begin{minipage}[t]{0.2\textwidth}
 \tikzset{every loop/.style={min distance=15pt,in=120,out=60}}
-\begin{tikzpicture}
+\begin{tikzpicture}[node distance=0.7cm]
 \node [node] (r) at (0,0) {$r_4$};
 \node [node] (g) at (2,0) {$g_4$} edge [loop above] ();
 \node [node] (b) at (0,-2) {$b_4$};
@@ -370,7 +374,7 @@ Für die Kantenmenge $E_{ou}$ (oben-unten) gilt: Sie entsteht, indem die Kanten 
 
 Zusammenführen der Graphen und Auswählen der Kanten:
 
-\begin{tikzpicture}[node distance=1.0cm]
+\begin{tikzpicture}[node distance=0.7cm]
 
     \node[node] (r1) {$r_1$};
     \node[node, left=of r1] (g1) {$g_1$};
@@ -403,12 +407,13 @@ Zusammenführen der Graphen und Auswählen der Kanten:
     
     \drawRedPath{g4/g4/0, r3/g3/270, b2/r2/180, w1/b1/90}
     
+    \addlabel{r4/b4/0, b3/w3/270, w2/g2/180, g1/r1/90}
 \end{tikzpicture}
 
 (ii) Erstellen der Graphen:\\
 \begin{minipage}[t]{0.25\textwidth}
 \tikzset{every loop/.style={min distance=15pt,in=120,out=60}}
-\begin{tikzpicture}[node distance=1.0cm]
+\begin{tikzpicture}[node distance=0.7cm]
 \node [node] (r) {$r_1$};
 \node [node, right=of r] (g) {$g_1$};
 \node [node, below=of r] (b) {$b_1$};
@@ -418,7 +423,7 @@ Zusammenführen der Graphen und Auswählen der Kanten:
 \end{minipage}
 \begin{minipage}[t]{0.25\textwidth}
 \tikzset{every loop/.style={min distance=15pt,in=120,out=60}}
-\begin{tikzpicture}[node distance=1.0cm]
+\begin{tikzpicture}[node distance=0.7cm]
 \node [node] (r) {$r_2$};
 \node [node, right=of r] (g) {$g_2$};
 \node [node, below=of r] (b) {$b_2$};
@@ -428,7 +433,7 @@ Zusammenführen der Graphen und Auswählen der Kanten:
 \end{minipage}
 \begin{minipage}[t]{0.25\textwidth}
 \tikzset{every loop/.style={min distance=15pt,in=120,out=60}}
-\begin{tikzpicture}[node distance=1.0cm]
+\begin{tikzpicture}[node distance=0.7cm]
 \node [node] (r) {$r_3$};
 \node [node, right=of r] (g) {$g_3$};
 \node [node, below=of r] (b) {$b_3$};
@@ -439,7 +444,7 @@ Zusammenführen der Graphen und Auswählen der Kanten:
 \end{minipage}
 \begin{minipage}[t]{0.25\textwidth}
 \tikzset{every loop/.style={min distance=15pt,in=120,out=60}}
-\begin{tikzpicture}[node distance=1.0cm]
+\begin{tikzpicture}[node distance=0.7cm]
 \node [node] (r) {$r_4$};
 \node [node, below=of r] (g) {$g_4$};
 \node [node, right=of r] (b) {$b_4$};
@@ -451,7 +456,7 @@ Zusammenführen der Graphen und Auswählen der Kanten:
 
 Zusammenführen der Graphen und auswählen der Kanten:
 
-\begin{tikzpicture}[node distance=1.0cm, every loop/.style={}]
+\begin{tikzpicture}[node distance=0.7cm, every loop/.style={}]
 
     \node[node] (r1) {$r_1$};
     \node[node, right=of r1] (g1) {$g_1$};
@@ -479,8 +484,13 @@ Zusammenführen der Graphen und auswählen der Kanten:
              r4/b4/edge, g4/w4/edge}
     \path[-] (w3) edge [loop below, blue] (w3);
     \path[-] (b4) edge [loop right, blue] (b4);
+    
+    \node [label={[label distance=10pt]10:v}] at (b4){};
+    \node [label={[label distance=10pt]350:h}] at (b4){};
+    \node [label={[label distance=10pt]260:v}] at (w3){};
+    \node [label={[label distance=10pt]280:h}] at (w3){};
 
-    \addlabel{}
+    \addlabel{w1/r1/90, r2/w2/180}
     \drawBluePath{w1/r1/r2, r2/w2/w1}
     \drawRedPath{g1/b1/90, b2/g2/180, r3/g3/270, w4/g4/0}
 \end{tikzpicture}
