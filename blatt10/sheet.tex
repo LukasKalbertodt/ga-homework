@@ -20,7 +20,7 @@
 \usepackage{caption}
 \usepackage{wasysym}
 \usepackage[labelformat=empty]{subcaption}
-\usepackage{longtable}
+%\usepackage{longtabular}
 \usepackage{wrapfig}
 
 % Deutsche Absätze: Kein Einrücken, aber Abstand
@@ -31,7 +31,15 @@
 \usetikzlibrary{arrows}
 \usetikzlibrary{positioning}
 \usetikzlibrary{decorations.pathmorphing}
+\newcommand{\func}[1]{\mbox{\emph{#1}}}
+\tikzstyle{node} = [circle,draw,inner sep=0pt, minimum size=15pt,font=\scriptsize]
+\tikzstyle{edge} =[draw]
+\tikzstyle{weight} = [shape=circle, fill=white,inner sep=1pt,font=\scriptsize]
 
+\newcommand{\addEdge}[1]{
+    \foreach \start/\end/\weight in {#1}
+        \path [edge] (\start) -- node[weight]{\weight} (\end);
+}
 
 % Dokument-Metadaten
 \title{Graphenalgorithmen: Blatt 10}
@@ -41,4 +49,219 @@
 \begin{document}
 \maketitle
  
+\section*{Aufgabe 22:}
+\begin{compactenum}[(a)]
+\item Startet man die Nearest-Neighbor-Heuristik mit dem Knoten B, so erhält man die optimale Tour B,K,A,D,W,F mit den Kosten $c=617$:
+
+\begin{tikzpicture}[node distance=1.5cm]
+    \node [node] (B) {B};
+    \node [node, right of=B] (K) {K};
+    \node [node, below right of=K] (A) {A};
+    \node [node, below left of=A] (D) {D};
+    \node [node, left of=D] (W){W};
+    \node [node, above left of=W] (F) {F};
+    \addEdge{B/K/27, K/A/70/, A/D/80, D/W/29, W/F/236, F/B/125}
+\end{tikzpicture}
+\item Farthest-Insertion-Heuristik:\\
+\begin{tabular}{c|c|c|c|c|c}
+$\Rightarrow$&
+\begin{tikzpicture}[node distance=1.5cm]
+    \node [node] (A) {A};
+\end{tikzpicture}
+&$\Rightarrow$&
+\begin{tikzpicture}[node distance=1.5cm]
+    \node [node] (A) {A};
+    \node [node, below of=A] (F) {F};
+    \addEdge{A/F/259}
+\end{tikzpicture}
+&$\Rightarrow$&
+\begin{tikzpicture}[node distance=1.5cm]
+    \node [node] (A) {A};
+    \node [node, below of=A] (F) {F};
+    \node [node, right of=F] (W) {W};
+    \addEdge{A/F/259, F/W/236, A/W/121}
+\end{tikzpicture}
+\\
+\hline
+$\Rightarrow$&
+\begin{tikzpicture}[node distance=1.5cm]
+    \node [node] (A) {A};
+    \node [node, below of=A] (F) {F};
+    \node [node, right of=F] (W) {W};
+    \node [node, right of=A] (D) {D};
+    \addEdge{A/D/80, D/W/29, F/W/236, A/F/259}
+\end{tikzpicture}
+&$\Rightarrow$&
+\begin{tikzpicture}[node distance=1.5cm]
+    \node [node] (A) {A};
+    \node [node, right of=A] (D) {D};
+    \node [node, below of=A] (K) {K};
+    \node [node, below of=K] (F) {F};
+    \node [node, below of=D] (W) {W};
+    \addEdge{A/D/80, D/W/29, F/W/236, A/K/70, K/F/189}
+\end{tikzpicture}
+&$\Rightarrow$&
+\begin{tikzpicture}[node distance=1.5cm]
+    \node [node] (A) {A};
+    \node [node, right of=A] (D) {D};
+    \node [node, below of=A] (K) {K};
+    \node [node, below of=D] (W) {W};
+    \node [node, below of=W] (F) {F};
+    \node [node, below of=K] (B) {B};
+    \addEdge{A/D/80, D/W/29, F/W/236, A/K/70, K/B/27, B/F/175}
+\end{tikzpicture}
+\end{tabular}
+
+Kosten der Tour: $c=617$. Optimale Tour: $c=617$.
+\item Cheapest-Insertion-Heuristik:\\
+\begin{tabular}{c|c|c|c|c|c}
+$\Rightarrow$&
+\begin{tikzpicture}[node distance=1.5cm]
+    \node [node] (A) {A};
+\end{tikzpicture}
+&$\Rightarrow$&
+\begin{tikzpicture}[node distance=1.5cm]
+    \node [node] (A) {A};
+    \node [node, below of=A] (K) {K};
+    \addEdge{A/K/70}
+\end{tikzpicture}
+&$\Rightarrow$&
+\begin{tikzpicture}[node distance=1.5cm]
+    \node [node] (A) {A};
+    \node [node, below of=A] (K) {K};
+    \node [node, right of=A] (B) {B};
+    \addEdge{A/K/70, K/B/27, A/B/91}
+\end{tikzpicture}
+\\
+\hline
+$\Rightarrow$&
+\begin{tikzpicture}[node distance=1.5cm]
+    \node [node] (A) {A};
+    \node [node, right of=A] (B) {B};
+    \node [node, below of=B] (K) {K};
+    \node [node, below of=A] (D) {D};
+    \addEdge{A/D/80,D/K/47, K/B/27, A/B/91}
+\end{tikzpicture}
+&$\Rightarrow$&
+\begin{tikzpicture}[node distance=1.5cm]
+    \node [node] (A) {A};
+    \node [node, right of=A] (B) {B};
+    \node [node, below of=B] (K) {K};
+    \node [node, below of=A] (D) {D};
+    \node [node, below of=D] (W) {W};
+    \addEdge{A/D/80, D/W/29, W/K/55, K/B/27, A/B/91}
+\end{tikzpicture}
+&$\Rightarrow$&
+\begin{tikzpicture}[node distance=1.5cm]
+    \node [node] (A) {A};
+    \node [node, right of=A] (B) {B};
+    \node [node, below of=B] (F) {F};
+    \node [node, below of=F] (K) {K};
+    \node [node, below of=A] (D) {D};
+    \node [node, below of=D] (W) {W};
+    \addEdge{A/D/80, D/W/29, W/K/55, K/F/189, F/B/175, A/B/91}
+\end{tikzpicture}
+\end{tabular}
+
+Kosten der Tour: $c=619$. Optimale Tour: $c=617$.
+\item $\pi=(A,D,W,K,F,B)$ lokal optimal mit $c=619$, denn für alle folgenden Nachbarn\\
+\begin{tabular}{c|c}
+\begin{tikzpicture}[node distance=1.5cm]
+    \node [node] (A) {A};
+    \node [node, right of=A] (D) {D};
+    \node [node, below right of=D] (W){W};
+    \node [node, below left of=W] (K) {K};
+    \node [node, left of=K] (F){F};
+    \node [node, above left of=F] (B){B};
+    \addEdge{D/W/29, W/K/55, K/F/189, B/A/91, A/F/259, B/D/77}
+\end{tikzpicture}
+$c=700$&
+\begin{tikzpicture}[node distance=1.5cm]
+    \node [node] (A) {A};
+    \node [node, right of=A] (D) {D};
+    \node [node, below right of=D] (W){W};
+    \node [node, below of=W] (K) {K};
+    \node [node, below left of=A] (B){B};
+    \node [node, below right of=B] (F){F};
+    \addEdge{D/W/29, W/K/55, F/B/175, B/A/91, A/K/70, F/D/232}
+\end{tikzpicture}
+$c=652$\\
+\hline
+\begin{tikzpicture}[node distance=1.5cm]
+    \node [node] (A) {A};
+    \node [node, right of=A] (D) {D};
+    \node [node, below right of=D] (W){W};
+    \node [node, below left of=W] (K) {K};
+    \node [node, left of=K] (F){F};
+    \node [node, above left of=F] (B){B};
+    \addEdge{D/W/29, K/F/189, F/B/175, B/A/91, A/W/121, K/D/47}
+\end{tikzpicture}
+$c=652$&
+\begin{tikzpicture}[node distance=1.5cm]
+    \node [node] (A) {A};
+    \node [node, right of=A] (D) {D};
+    \node [node, below right of=D] (W){W};
+    \node [node, below left of=W] (K) {K};
+    \node [node, left of=K] (F){F};
+    \node [node, above left of=F] (B){B};
+    \addEdge{A/D/80, W/K/55, K/F/189, F/B/175, A/W/121, B/D/77}
+\end{tikzpicture}
+$c=697$\\
+\hline
+\begin{tikzpicture}[node distance=1.5cm]
+    \node [node] (A) {A};
+    \node [node, right of=A] (D) {D};
+    \node [node, below of=D] (W){W};
+    \node [node, below left of=W] (K) {K};
+    \node [node, left of=K] (F){F};
+    \node [node, above left of=F] (B){B};
+    \addEdge{A/D/80, W/K/55, K/F/189, B/A/91, D/F/232, B/W/84}
+\end{tikzpicture}
+$c=731$&
+\begin{tikzpicture}[node distance=1.5cm]
+    \node [node] (A) {A};
+    \node [node, right of=A] (D) {D};
+    \node [node, below right of=D] (W){W};
+    \node [node, below left of=W] (K) {K};
+    \node [node, left of=K] (F){F};
+    \node [node, above left of=F] (B){B};
+    \addEdge{A/D/80, W/K/55, F/B/175, B/A/91, D/K/47, W/F/236}
+\end{tikzpicture}
+$c=684$\\
+\hline
+\begin{tikzpicture}[node distance=1.5cm]
+    \node [node] (A) {A};
+    \node [node, right of=A] (D) {D};
+    \node [node, below of=D] (W){W};
+    \node [node, below left of=W] (K) {K};
+    \node [node, left of=K] (F){F};
+    \node [node, above left of=F] (B){B};
+    \addEdge{A/D/80, D/W/29, K/F/189, F/B/175, A/K/70, B/W/84}
+\end{tikzpicture}
+$c=627$&
+\begin{tikzpicture}[node distance=1.5cm]
+    \node [node] (A) {A};
+    \node [node, right of=A] (D) {D};
+    \node [node, below right of=D] (W){W};
+    \node [node, below left of=W] (K) {K};
+    \node [node, left of=K] (F){F};
+    \node [node, above left of=F] (B){B};
+    \addEdge{A/D/80, D/W/29, K/F/189, B/A/91, W/F/236, B/K/27}
+\end{tikzpicture}
+$c=652$\\
+\hline
+\begin{tikzpicture}[node distance=1.5cm]
+    \node [node] (A) {A};
+    \node [node, right of=A] (D) {D};
+    \node [node, below right of=D] (W){W};
+    \node [node, below left of=W] (K) {K};
+    \node [node, left of=K] (F){F};
+    \node [node, above left of=F] (B){B};
+    \addEdge{A/D/80, D/W/29, W/K/55, F/B/175, A/F/259, B/K/27}
+\end{tikzpicture}
+$c=625$
+\end{tabular}
+
+sind die Kosten für $\pi$ optimal.
+\end{compactenum}
 \end{document}
